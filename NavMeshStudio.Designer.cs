@@ -94,6 +94,7 @@
             Controls.Add(ribbon);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = ribbon;
+            MinimumSize = new Size(570, 290);
             Name = "NavMeshStudio";
             Text = "NavMesh Studio";
             ribbon.ResumeLayout(false);

@@ -41,6 +41,8 @@
             navMeshCollisionEditingGroupBox = new GroupBox();
             navMeshCollisionEditingListView = new ListView();
             splitContainer2 = new SplitContainer();
+            splitContainer3 = new SplitContainer();
+            splitContainer4 = new SplitContainer();
             ribbon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -51,6 +53,12 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
             splitContainer2.Panel1.SuspendLayout();
             splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer3).BeginInit();
+            splitContainer3.Panel1.SuspendLayout();
+            splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer4).BeginInit();
+            splitContainer4.Panel1.SuspendLayout();
+            splitContainer4.SuspendLayout();
             SuspendLayout();
             // 
             // ribbon
@@ -122,8 +130,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(navMeshCollisionEditingGroupBox);
-            splitContainer1.Size = new Size(631, 991);
-            splitContainer1.SplitterDistance = 495;
+            splitContainer1.Size = new Size(510, 708);
+            splitContainer1.SplitterDistance = 354;
             splitContainer1.TabIndex = 4;
             // 
             // sceneGraphGroupBox
@@ -132,7 +140,7 @@
             sceneGraphGroupBox.Dock = DockStyle.Fill;
             sceneGraphGroupBox.Location = new Point(0, 0);
             sceneGraphGroupBox.Name = "sceneGraphGroupBox";
-            sceneGraphGroupBox.Size = new Size(631, 495);
+            sceneGraphGroupBox.Size = new Size(510, 354);
             sceneGraphGroupBox.TabIndex = 0;
             sceneGraphGroupBox.TabStop = false;
             sceneGraphGroupBox.Text = "Scene Graph";
@@ -142,7 +150,7 @@
             sceneGraphTreeView.Dock = DockStyle.Fill;
             sceneGraphTreeView.Location = new Point(3, 19);
             sceneGraphTreeView.Name = "sceneGraphTreeView";
-            sceneGraphTreeView.Size = new Size(625, 473);
+            sceneGraphTreeView.Size = new Size(504, 332);
             sceneGraphTreeView.TabIndex = 0;
             // 
             // navMeshCollisionEditingGroupBox
@@ -151,7 +159,7 @@
             navMeshCollisionEditingGroupBox.Dock = DockStyle.Fill;
             navMeshCollisionEditingGroupBox.Location = new Point(0, 0);
             navMeshCollisionEditingGroupBox.Name = "navMeshCollisionEditingGroupBox";
-            navMeshCollisionEditingGroupBox.Size = new Size(631, 492);
+            navMeshCollisionEditingGroupBox.Size = new Size(510, 350);
             navMeshCollisionEditingGroupBox.TabIndex = 5;
             navMeshCollisionEditingGroupBox.TabStop = false;
             navMeshCollisionEditingGroupBox.Text = "NavMesh/Collision Editing";
@@ -161,28 +169,56 @@
             navMeshCollisionEditingListView.Dock = DockStyle.Fill;
             navMeshCollisionEditingListView.Location = new Point(3, 19);
             navMeshCollisionEditingListView.Name = "navMeshCollisionEditingListView";
-            navMeshCollisionEditingListView.Size = new Size(625, 470);
+            navMeshCollisionEditingListView.Size = new Size(504, 328);
             navMeshCollisionEditingListView.TabIndex = 0;
             navMeshCollisionEditingListView.UseCompatibleStateImageBehavior = false;
             // 
             // splitContainer2
             // 
-            splitContainer2.Location = new Point(6, 46);
+            splitContainer2.Dock = DockStyle.Fill;
+            splitContainer2.Location = new Point(0, 0);
             splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
             // 
             splitContainer2.Panel1.Controls.Add(splitContainer1);
-            splitContainer2.Size = new Size(1894, 991);
-            splitContainer2.SplitterDistance = 631;
+            splitContainer2.Size = new Size(1530, 708);
+            splitContainer2.SplitterDistance = 510;
             splitContainer2.TabIndex = 5;
+            // 
+            // splitContainer3
+            // 
+            splitContainer3.Dock = DockStyle.Fill;
+            splitContainer3.Location = new Point(0, 0);
+            splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            splitContainer3.Panel1.Controls.Add(splitContainer2);
+            splitContainer3.Size = new Size(1891, 708);
+            splitContainer3.SplitterDistance = 1530;
+            splitContainer3.TabIndex = 6;
+            // 
+            // splitContainer4
+            // 
+            splitContainer4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            splitContainer4.Location = new Point(6, 46);
+            splitContainer4.Name = "splitContainer4";
+            splitContainer4.Orientation = Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            splitContainer4.Panel1.Controls.Add(splitContainer3);
+            splitContainer4.Size = new Size(1891, 988);
+            splitContainer4.SplitterDistance = 708;
+            splitContainer4.TabIndex = 7;
             // 
             // NavMeshStudio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
-            Controls.Add(splitContainer2);
+            Controls.Add(splitContainer4);
             Controls.Add(toolStrip1);
             Controls.Add(versionLabel);
             Controls.Add(copyrightInfoLabel);
@@ -203,6 +239,12 @@
             splitContainer2.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
             splitContainer2.ResumeLayout(false);
+            splitContainer3.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
+            splitContainer3.ResumeLayout(false);
+            splitContainer4.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer4).EndInit();
+            splitContainer4.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -221,5 +263,7 @@
         private TreeView sceneGraphTreeView;
         private ListView navMeshCollisionEditingListView;
         private SplitContainer splitContainer2;
+        private SplitContainer splitContainer3;
+        private SplitContainer splitContainer4;
     }
 }

@@ -20,7 +20,7 @@ public class FileIO
     {
         string filePath = ShowOpenFileDialog(dialogFilter);
         T? fileData = GetFileData<T>(filePath);
-        return fileData == null ? null : new StudioFile<T>(filePath, fileData);
+        return fileData == null ? null : new StudioFile<T>(filePath, Path.GetFileName(filePath), fileData);
     }
 
     public static bool OpenNvaFile()

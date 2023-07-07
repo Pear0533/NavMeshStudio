@@ -67,3 +67,4 @@ D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\Nav
 D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\runtimes\win7-arm\native\libuv.dll
 D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\runtimes\win7-x64\native\libuv.dll
 D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\runtimes\win7-x86\native\libuv.dll
+D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\obj\Debug\net7.0-windows\NavMeshStudio.Properties.Resources.resources

@@ -32,9 +32,12 @@
             menuRibbon = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
+            exportJSONToolStripMenuItem = new ToolStripMenuItem();
             copyrightInfoLabel = new Label();
             versionLabel = new Label();
             toolStrip1 = new ToolStrip();
+            openIconButton = new ToolStripButton();
+            exportJsonIconButton = new ToolStripButton();
             splitContainer1 = new SplitContainer();
             sceneGraphGroupBox = new GroupBox();
             sceneGraphTreeView = new TreeView();
@@ -49,8 +52,9 @@
             consoleGroupBox = new GroupBox();
             consoleTextBox = new RichTextBox();
             statusRibbon = new StatusStrip();
-            toolStripStatusLabel1 = new ToolStripStatusLabel();
+            statusLabel = new ToolStripStatusLabel();
             menuRibbon.SuspendLayout();
+            toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -86,7 +90,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, exportJSONToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
@@ -94,8 +98,14 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(183, 22);
             openToolStripMenuItem.Text = "Open (Ctrl+O)";
+            // 
+            // exportJSONToolStripMenuItem
+            // 
+            exportJSONToolStripMenuItem.Name = "exportJSONToolStripMenuItem";
+            exportJSONToolStripMenuItem.Size = new Size(183, 22);
+            exportJSONToolStripMenuItem.Text = "Export JSON (Ctrl+E)";
             // 
             // copyrightInfoLabel
             // 
@@ -123,11 +133,32 @@
             // 
             // toolStrip1
             // 
+            toolStrip1.ImageScalingSize = new Size(18, 18);
+            toolStrip1.Items.AddRange(new ToolStripItem[] { openIconButton, exportJsonIconButton });
             toolStrip1.Location = new Point(0, 24);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1904, 25);
             toolStrip1.TabIndex = 3;
             toolStrip1.Text = "toolStrip1";
+            // 
+            // openIconButton
+            // 
+            openIconButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            openIconButton.Image = Properties.Resources.open;
+            openIconButton.ImageTransparentColor = Color.Magenta;
+            openIconButton.Name = "openIconButton";
+            openIconButton.Size = new Size(23, 22);
+            openIconButton.Text = "Open";
+            openIconButton.ToolTipText = "Open";
+            // 
+            // exportJsonIconButton
+            // 
+            exportJsonIconButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            exportJsonIconButton.Image = Properties.Resources.exportjson;
+            exportJsonIconButton.ImageTransparentColor = Color.Magenta;
+            exportJsonIconButton.Name = "exportJsonIconButton";
+            exportJsonIconButton.Size = new Size(23, 22);
+            exportJsonIconButton.Text = "Export JSON";
             // 
             // splitContainer1
             // 
@@ -291,7 +322,7 @@
             // 
             // statusRibbon
             // 
-            statusRibbon.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
+            statusRibbon.Items.AddRange(new ToolStripItem[] { statusLabel });
             statusRibbon.Location = new Point(0, 1019);
             statusRibbon.Name = "statusRibbon";
             statusRibbon.Size = new Size(1904, 22);
@@ -300,9 +331,9 @@
             // 
             // toolStripStatusLabel1
             // 
-            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(39, 17);
-            toolStripStatusLabel1.Text = "Ready";
+            statusLabel.Name = "statusLabel";
+            statusLabel.Size = new Size(39, 17);
+            statusLabel.Text = "Ready";
             // 
             // NavMeshStudio
             // 
@@ -316,12 +347,15 @@
             Controls.Add(copyrightInfoLabel);
             Controls.Add(menuRibbon);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            KeyPreview = true;
             MainMenuStrip = menuRibbon;
             MinimumSize = new Size(570, 290);
             Name = "NavMeshStudio";
             Text = "NavMesh Studio";
             menuRibbon.ResumeLayout(false);
             menuRibbon.PerformLayout();
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
@@ -370,6 +404,9 @@
         private RichTextBox consoleTextBox;
         private GroupBox viewerGroupBox;
         private StatusStrip statusRibbon;
-        private ToolStripStatusLabel toolStripStatusLabel1;
+        public ToolStripStatusLabel statusLabel;
+        public ToolStripButton openIconButton;
+        public ToolStripMenuItem exportJSONToolStripMenuItem;
+        public ToolStripButton exportJsonIconButton;
     }
 }

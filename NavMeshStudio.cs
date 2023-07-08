@@ -7,6 +7,7 @@ public partial class NavMeshStudio : Form
     public NavMeshStudio()
     {
         InitializeComponent();
+        CenterToScreen();
         RegisterCharacterEncodings();
         this.RegisterDefaultEvents();
         this.SetVersionString();

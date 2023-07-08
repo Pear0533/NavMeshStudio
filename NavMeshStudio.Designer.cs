@@ -53,6 +53,7 @@
             consoleTextBox = new RichTextBox();
             statusRibbon = new StatusStrip();
             statusLabel = new ToolStripStatusLabel();
+            panel1 = new Panel();
             menuRibbon.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -76,6 +77,7 @@
             splitContainer4.SuspendLayout();
             consoleGroupBox.SuspendLayout();
             statusRibbon.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // menuRibbon
@@ -84,7 +86,7 @@
             menuRibbon.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuRibbon.Location = new Point(0, 0);
             menuRibbon.Name = "menuRibbon";
-            menuRibbon.Size = new Size(1904, 24);
+            menuRibbon.Size = new Size(1064, 24);
             menuRibbon.TabIndex = 0;
             menuRibbon.Text = "menuStrip1";
             // 
@@ -113,7 +115,7 @@
             copyrightInfoLabel.AutoSize = true;
             copyrightInfoLabel.BackColor = SystemColors.Control;
             copyrightInfoLabel.ForeColor = Color.DimGray;
-            copyrightInfoLabel.Location = new Point(1726, 4);
+            copyrightInfoLabel.Location = new Point(886, 4);
             copyrightInfoLabel.Name = "copyrightInfoLabel";
             copyrightInfoLabel.Size = new Size(174, 15);
             copyrightInfoLabel.TabIndex = 1;
@@ -125,7 +127,7 @@
             versionLabel.AutoSize = true;
             versionLabel.BackColor = SystemColors.Control;
             versionLabel.ForeColor = Color.DimGray;
-            versionLabel.Location = new Point(1653, 4);
+            versionLabel.Location = new Point(813, 4);
             versionLabel.Name = "versionLabel";
             versionLabel.Size = new Size(48, 15);
             versionLabel.TabIndex = 2;
@@ -137,7 +139,7 @@
             toolStrip1.Items.AddRange(new ToolStripItem[] { openIconButton, exportJsonIconButton });
             toolStrip1.Location = new Point(0, 24);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1904, 25);
+            toolStrip1.Size = new Size(1064, 25);
             toolStrip1.TabIndex = 3;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -174,8 +176,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(navMeshCollisionEditingGroupBox);
-            splitContainer1.Size = new Size(510, 695);
-            splitContainer1.SplitterDistance = 347;
+            splitContainer1.Size = new Size(282, 432);
+            splitContainer1.SplitterDistance = 215;
             splitContainer1.TabIndex = 4;
             // 
             // sceneGraphGroupBox
@@ -184,7 +186,7 @@
             sceneGraphGroupBox.Dock = DockStyle.Fill;
             sceneGraphGroupBox.Location = new Point(0, 0);
             sceneGraphGroupBox.Name = "sceneGraphGroupBox";
-            sceneGraphGroupBox.Size = new Size(510, 347);
+            sceneGraphGroupBox.Size = new Size(282, 215);
             sceneGraphGroupBox.TabIndex = 0;
             sceneGraphGroupBox.TabStop = false;
             sceneGraphGroupBox.Text = "Scene Graph";
@@ -194,7 +196,7 @@
             sceneGraphTreeView.Dock = DockStyle.Fill;
             sceneGraphTreeView.Location = new Point(3, 19);
             sceneGraphTreeView.Name = "sceneGraphTreeView";
-            sceneGraphTreeView.Size = new Size(504, 325);
+            sceneGraphTreeView.Size = new Size(276, 193);
             sceneGraphTreeView.TabIndex = 0;
             // 
             // navMeshCollisionEditingGroupBox
@@ -203,7 +205,7 @@
             navMeshCollisionEditingGroupBox.Dock = DockStyle.Fill;
             navMeshCollisionEditingGroupBox.Location = new Point(0, 0);
             navMeshCollisionEditingGroupBox.Name = "navMeshCollisionEditingGroupBox";
-            navMeshCollisionEditingGroupBox.Size = new Size(510, 344);
+            navMeshCollisionEditingGroupBox.Size = new Size(282, 213);
             navMeshCollisionEditingGroupBox.TabIndex = 5;
             navMeshCollisionEditingGroupBox.TabStop = false;
             navMeshCollisionEditingGroupBox.Text = "NavMesh/Collision Editing";
@@ -213,7 +215,7 @@
             navMeshCollisionEditingListView.Dock = DockStyle.Fill;
             navMeshCollisionEditingListView.Location = new Point(3, 19);
             navMeshCollisionEditingListView.Name = "navMeshCollisionEditingListView";
-            navMeshCollisionEditingListView.Size = new Size(504, 322);
+            navMeshCollisionEditingListView.Size = new Size(276, 191);
             navMeshCollisionEditingListView.TabIndex = 0;
             navMeshCollisionEditingListView.UseCompatibleStateImageBehavior = false;
             // 
@@ -230,8 +232,8 @@
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(viewerGroupBox);
-            splitContainer2.Size = new Size(1530, 695);
-            splitContainer2.SplitterDistance = 510;
+            splitContainer2.Size = new Size(849, 432);
+            splitContainer2.SplitterDistance = 282;
             splitContainer2.TabIndex = 5;
             // 
             // viewerGroupBox
@@ -239,7 +241,7 @@
             viewerGroupBox.Dock = DockStyle.Fill;
             viewerGroupBox.Location = new Point(0, 0);
             viewerGroupBox.Name = "viewerGroupBox";
-            viewerGroupBox.Size = new Size(1016, 695);
+            viewerGroupBox.Size = new Size(563, 432);
             viewerGroupBox.TabIndex = 0;
             viewerGroupBox.TabStop = false;
             viewerGroupBox.Text = "Viewer";
@@ -257,8 +259,8 @@
             // splitContainer3.Panel2
             // 
             splitContainer3.Panel2.Controls.Add(attributesGroupBox);
-            splitContainer3.Size = new Size(1891, 695);
-            splitContainer3.SplitterDistance = 1530;
+            splitContainer3.Size = new Size(1051, 432);
+            splitContainer3.SplitterDistance = 849;
             splitContainer3.TabIndex = 6;
             // 
             // attributesGroupBox
@@ -267,7 +269,7 @@
             attributesGroupBox.Dock = DockStyle.Fill;
             attributesGroupBox.Location = new Point(0, 0);
             attributesGroupBox.Name = "attributesGroupBox";
-            attributesGroupBox.Size = new Size(357, 695);
+            attributesGroupBox.Size = new Size(198, 432);
             attributesGroupBox.TabIndex = 0;
             attributesGroupBox.TabStop = false;
             attributesGroupBox.Text = "Attributes";
@@ -277,14 +279,14 @@
             attributesListView.Dock = DockStyle.Fill;
             attributesListView.Location = new Point(3, 19);
             attributesListView.Name = "attributesListView";
-            attributesListView.Size = new Size(351, 673);
+            attributesListView.Size = new Size(192, 410);
             attributesListView.TabIndex = 0;
             attributesListView.UseCompatibleStateImageBehavior = false;
             // 
             // splitContainer4
             // 
             splitContainer4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            splitContainer4.Location = new Point(6, 46);
+            splitContainer4.Location = new Point(6, 52);
             splitContainer4.Name = "splitContainer4";
             splitContainer4.Orientation = Orientation.Horizontal;
             // 
@@ -295,51 +297,61 @@
             // splitContainer4.Panel2
             // 
             splitContainer4.Panel2.Controls.Add(consoleGroupBox);
-            splitContainer4.Size = new Size(1891, 970);
-            splitContainer4.SplitterDistance = 695;
+            splitContainer4.Size = new Size(1051, 604);
+            splitContainer4.SplitterDistance = 432;
             splitContainer4.TabIndex = 7;
             // 
             // consoleGroupBox
             // 
-            consoleGroupBox.Controls.Add(consoleTextBox);
+            consoleGroupBox.Controls.Add(panel1);
             consoleGroupBox.Dock = DockStyle.Fill;
             consoleGroupBox.Location = new Point(0, 0);
             consoleGroupBox.Name = "consoleGroupBox";
-            consoleGroupBox.Size = new Size(1891, 271);
+            consoleGroupBox.Size = new Size(1051, 168);
             consoleGroupBox.TabIndex = 0;
             consoleGroupBox.TabStop = false;
             consoleGroupBox.Text = "Console";
             // 
             // consoleTextBox
             // 
-            consoleTextBox.BorderStyle = BorderStyle.FixedSingle;
+            consoleTextBox.BorderStyle = BorderStyle.None;
             consoleTextBox.Dock = DockStyle.Fill;
-            consoleTextBox.Location = new Point(3, 19);
+            consoleTextBox.Location = new Point(0, 0);
             consoleTextBox.Name = "consoleTextBox";
-            consoleTextBox.Size = new Size(1885, 249);
+            consoleTextBox.Size = new Size(1043, 144);
             consoleTextBox.TabIndex = 0;
             consoleTextBox.Text = "";
             // 
             // statusRibbon
             // 
             statusRibbon.Items.AddRange(new ToolStripItem[] { statusLabel });
-            statusRibbon.Location = new Point(0, 1019);
+            statusRibbon.Location = new Point(0, 659);
             statusRibbon.Name = "statusRibbon";
-            statusRibbon.Size = new Size(1904, 22);
+            statusRibbon.Size = new Size(1064, 22);
             statusRibbon.TabIndex = 8;
             statusRibbon.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // statusLabel
             // 
             statusLabel.Name = "statusLabel";
             statusLabel.Size = new Size(39, 17);
             statusLabel.Text = "Ready";
             // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(consoleTextBox);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 19);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1045, 146);
+            panel1.TabIndex = 1;
+            // 
             // NavMeshStudio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1904, 1041);
+            ClientSize = new Size(1064, 681);
             Controls.Add(statusRibbon);
             Controls.Add(splitContainer4);
             Controls.Add(toolStrip1);
@@ -378,6 +390,7 @@
             consoleGroupBox.ResumeLayout(false);
             statusRibbon.ResumeLayout(false);
             statusRibbon.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -408,5 +421,6 @@
         public ToolStripButton openIconButton;
         public ToolStripMenuItem exportJSONToolStripMenuItem;
         public ToolStripButton exportJsonIconButton;
+        private Panel panel1;
     }
 }

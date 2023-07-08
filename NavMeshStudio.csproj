@@ -9,6 +9,7 @@
     <StartupObject>NavMeshStudio.Program</StartupObject>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>

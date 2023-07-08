@@ -27,16 +27,16 @@ public static class StudioUtils
         studio.statusLabel.Text = message;
     }
 
-    public static void OpenNavMesh(this NavMeshStudio studio)
+    public static void OpenMap(this NavMeshStudio studio)
     {
         if (!FileIO.OpenNvmHktBndFile()) return;
         SetWindowTitleFilePath(studio, Cache.NvmHktBnd?.Path!);
         // TODO: Function
-        studio.exportJSONToolStripMenuItem.Enabled = true;
-        studio.exportJsonIconButton.Enabled = true;
+        studio.saveNVMJSONToolStripMenuItem.Enabled = true;
+        studio.saveNVMJSONIconButton.Enabled = true;
     }
 
-    public static async Task ExportNavMeshJson(this NavMeshStudio studio)
+    public static async Task SaveNvmJson(this NavMeshStudio studio)
     {
         UpdateStatus(studio, "Reading navmesh geometry...");
         if (!await NavMeshUtils.ReadNavMeshGeometry())
@@ -44,7 +44,7 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
-        UpdateStatus(studio, "Waiting for export...");
+        UpdateStatus(studio, "Waiting for user...");
         string rootJsonString = JsonConvert.SerializeObject(Cache.NavMeshJson, Formatting.Indented);
         SaveFileDialog dialog = new() { FileName = $"{Cache.NvmHktBnd?.FileName}.json", Filter = @"JSON File (*.json)|*.json" };
         if (dialog.ShowDialog() != DialogResult.OK)
@@ -52,30 +52,30 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
-        UpdateStatus(studio, "Exporting to JSON...");
+        UpdateStatus(studio, "Saving NVMJSON to disk...");
         await File.WriteAllTextAsync(dialog.FileName, rootJsonString);
         ResetStatus(studio);
     }
 
     public static void RegisterDefaultEvents(this NavMeshStudio studio)
     {
-        studio.openToolStripMenuItem.Click += (_, _) => OpenNavMesh(studio);
-        studio.exportJSONToolStripMenuItem.Click += async (_, _) => await ExportNavMeshJson(studio);
-        studio.exportJSONToolStripMenuItem.Enabled = false;
+        studio.openMapToolStripMenuItem.Click += (_, _) => OpenMap(studio);
+        studio.saveNVMJSONToolStripMenuItem.Click += async (_, _) => await SaveNvmJson(studio);
+        studio.saveNVMJSONToolStripMenuItem.Enabled = false;
         studio.KeyDown += async (_, e) =>
         {
             switch (e.Control)
             {
                 case true when e.KeyCode == Keys.O:
-                    OpenNavMesh(studio);
+                    OpenMap(studio);
                     break;
-                case true when e.KeyCode == Keys.E:
-                    await ExportNavMeshJson(studio);
+                case true when e.KeyCode == Keys.S:
+                    await SaveNvmJson(studio);
                     break;
             }
         };
-        studio.openIconButton.Click += (_, _) => OpenNavMesh(studio);
-        studio.exportJsonIconButton.Click += async (_, _) => await ExportNavMeshJson(studio);
-        studio.exportJsonIconButton.Enabled = false;
+        studio.openMapIconButton.Click += (_, _) => OpenMap(studio);
+        studio.saveNVMJSONIconButton.Click += async (_, _) => await SaveNvmJson(studio);
+        studio.saveNVMJSONIconButton.Enabled = false;
     }
 }

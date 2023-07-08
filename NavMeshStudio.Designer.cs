@@ -50,10 +50,10 @@
             attributesListView = new ListView();
             splitContainer4 = new SplitContainer();
             consoleGroupBox = new GroupBox();
+            panel1 = new Panel();
             consoleTextBox = new RichTextBox();
             statusRibbon = new StatusStrip();
             statusLabel = new ToolStripStatusLabel();
-            panel1 = new Panel();
             menuRibbon.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -76,8 +76,8 @@
             splitContainer4.Panel2.SuspendLayout();
             splitContainer4.SuspendLayout();
             consoleGroupBox.SuspendLayout();
-            statusRibbon.SuspendLayout();
             panel1.SuspendLayout();
+            statusRibbon.SuspendLayout();
             SuspendLayout();
             // 
             // menuRibbon
@@ -177,7 +177,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(navMeshCollisionEditingGroupBox);
             splitContainer1.Size = new Size(282, 432);
-            splitContainer1.SplitterDistance = 215;
+            splitContainer1.SplitterDistance = 214;
             splitContainer1.TabIndex = 4;
             // 
             // sceneGraphGroupBox
@@ -186,7 +186,7 @@
             sceneGraphGroupBox.Dock = DockStyle.Fill;
             sceneGraphGroupBox.Location = new Point(0, 0);
             sceneGraphGroupBox.Name = "sceneGraphGroupBox";
-            sceneGraphGroupBox.Size = new Size(282, 215);
+            sceneGraphGroupBox.Size = new Size(282, 214);
             sceneGraphGroupBox.TabIndex = 0;
             sceneGraphGroupBox.TabStop = false;
             sceneGraphGroupBox.Text = "Scene Graph";
@@ -196,7 +196,7 @@
             sceneGraphTreeView.Dock = DockStyle.Fill;
             sceneGraphTreeView.Location = new Point(3, 19);
             sceneGraphTreeView.Name = "sceneGraphTreeView";
-            sceneGraphTreeView.Size = new Size(276, 193);
+            sceneGraphTreeView.Size = new Size(276, 192);
             sceneGraphTreeView.TabIndex = 0;
             // 
             // navMeshCollisionEditingGroupBox
@@ -205,7 +205,7 @@
             navMeshCollisionEditingGroupBox.Dock = DockStyle.Fill;
             navMeshCollisionEditingGroupBox.Location = new Point(0, 0);
             navMeshCollisionEditingGroupBox.Name = "navMeshCollisionEditingGroupBox";
-            navMeshCollisionEditingGroupBox.Size = new Size(282, 213);
+            navMeshCollisionEditingGroupBox.Size = new Size(282, 214);
             navMeshCollisionEditingGroupBox.TabIndex = 5;
             navMeshCollisionEditingGroupBox.TabStop = false;
             navMeshCollisionEditingGroupBox.Text = "NavMesh/Collision Editing";
@@ -215,7 +215,7 @@
             navMeshCollisionEditingListView.Dock = DockStyle.Fill;
             navMeshCollisionEditingListView.Location = new Point(3, 19);
             navMeshCollisionEditingListView.Name = "navMeshCollisionEditingListView";
-            navMeshCollisionEditingListView.Size = new Size(276, 191);
+            navMeshCollisionEditingListView.Size = new Size(276, 192);
             navMeshCollisionEditingListView.TabIndex = 0;
             navMeshCollisionEditingListView.UseCompatibleStateImageBehavior = false;
             // 
@@ -312,6 +312,16 @@
             consoleGroupBox.TabStop = false;
             consoleGroupBox.Text = "Console";
             // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(consoleTextBox);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 19);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1045, 146);
+            panel1.TabIndex = 1;
+            // 
             // consoleTextBox
             // 
             consoleTextBox.BorderStyle = BorderStyle.None;
@@ -336,16 +346,6 @@
             statusLabel.Name = "statusLabel";
             statusLabel.Size = new Size(39, 17);
             statusLabel.Text = "Ready";
-            // 
-            // panel1
-            // 
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(consoleTextBox);
-            panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(3, 19);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1045, 146);
-            panel1.TabIndex = 1;
             // 
             // NavMeshStudio
             // 
@@ -388,9 +388,9 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer4).EndInit();
             splitContainer4.ResumeLayout(false);
             consoleGroupBox.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             statusRibbon.ResumeLayout(false);
             statusRibbon.PerformLayout();
-            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }

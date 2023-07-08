@@ -15,13 +15,13 @@ public class NavMeshUtils
 
     public static async Task<bool> ReadNavMeshGeometry()
     {
-        if (Cache.NavMeshJson != null) return true;
+        if (Cache.NvmJson != null) return true;
         if (Cache.NvmHktBnd == null) return false;
         await Task.Run(() =>
         {
             HavokBinarySerializer serializer = new();
-            Cache.NavMeshJson = new JObject();
-            for (int i = 0; i < Cache.NvmHktBnd.Data.Files.Count; i++)
+            Cache.NvmJson = new JObject();
+            for (int i = 0; i < Cache.NvmHktBnd.Data.Files.Count; ++i)
             {
                 BinderFile file = Cache.NvmHktBnd.Data.Files[i];
                 hkRootLevelContainer rootLevelContainer = (hkRootLevelContainer)serializer.Read(new MemoryStream(file.Bytes));
@@ -31,7 +31,7 @@ public class NavMeshUtils
                 JObject? navMeshJson = ToJson(navMesh);
                 JObject? queryMediatorJson = ToJson(queryMediator);
                 JObject? userEdgeSetupJson = ToJson(userEdgeSetup);
-                Cache.NavMeshJson[(i + 1).ToString()] = new JObject
+                Cache.NvmJson[(i + 1).ToString()] = new JObject
                 {
                     { "NavMesh", navMeshJson },
                     { "QueryMediator", queryMediatorJson },
@@ -40,13 +40,5 @@ public class NavMeshUtils
             }
         });
         return true;
-    }
-
-    // TODO: Work in progress...
-    public static void LoadEditor()
-    {
-        NavMeshEditor editor = new();
-        editor.ConfigureGeometry();
-        editor.Viewer.ShowDialog();
     }
 }

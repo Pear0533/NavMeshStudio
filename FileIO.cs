@@ -9,7 +9,7 @@ public class FileIO
 {
     public static T? GetFileData<T>(string filePath) where T : SoulsFile<T>, new()
     {
-        if (string.IsNullOrWhiteSpace(filePath)) return null;
+        if (string.IsNullOrEmpty(filePath)) return null;
         bool isFileTypeValid = SoulsFile<T>.IsRead(filePath, out T fileData);
         if (isFileTypeValid) return fileData;
         ShowInformationDialog($"{Path.GetFileName(filePath)} is not valid.");

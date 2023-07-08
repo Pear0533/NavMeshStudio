@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavMeshStudio));
             menuRibbon = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
-            openMapToolStripMenuItem = new ToolStripMenuItem();
-            saveNVMJSONToolStripMenuItem = new ToolStripMenuItem();
+            openToolStripMenuItem = new ToolStripMenuItem();
+            saveAsToolStripMenuItem = new ToolStripMenuItem();
             copyrightInfoLabel = new Label();
             versionLabel = new Label();
             toolStrip1 = new ToolStrip();
-            openMapIconButton = new ToolStripButton();
-            saveNVMJSONIconButton = new ToolStripButton();
+            openToolStripButton = new ToolStripButton();
+            saveAsToolStripButton = new ToolStripButton();
             splitContainer1 = new SplitContainer();
             sceneGraphGroupBox = new GroupBox();
             sceneGraphTreeView = new TreeView();
@@ -92,22 +92,22 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openMapToolStripMenuItem, saveNVMJSONToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveAsToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
             // 
-            // openMapToolStripMenuItem
+            // openToolStripMenuItem
             // 
-            openMapToolStripMenuItem.Name = "openMapToolStripMenuItem";
-            openMapToolStripMenuItem.Size = new Size(200, 22);
-            openMapToolStripMenuItem.Text = "Open Map (Ctrl+O)";
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Text = "Open (Ctrl+O)";
             // 
-            // saveNVMJSONToolStripMenuItem
+            // saveAsToolStripMenuItem
             // 
-            saveNVMJSONToolStripMenuItem.Name = "saveNVMJSONToolStripMenuItem";
-            saveNVMJSONToolStripMenuItem.Size = new Size(200, 22);
-            saveNVMJSONToolStripMenuItem.Text = "Save NVMJSON (Ctrl+S)";
+            saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            saveAsToolStripMenuItem.Size = new Size(180, 22);
+            saveAsToolStripMenuItem.Text = "Save As (Ctrl+S)";
             // 
             // copyrightInfoLabel
             // 
@@ -136,30 +136,30 @@
             // toolStrip1
             // 
             toolStrip1.ImageScalingSize = new Size(18, 18);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { openMapIconButton, saveNVMJSONIconButton });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { openToolStripButton, saveAsToolStripButton });
             toolStrip1.Location = new Point(0, 24);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1064, 25);
             toolStrip1.TabIndex = 3;
             toolStrip1.Text = "toolStrip1";
             // 
-            // openMapIconButton
+            // openToolStripButton
             // 
-            openMapIconButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            openMapIconButton.Image = Properties.Resources.open;
-            openMapIconButton.ImageTransparentColor = Color.Magenta;
-            openMapIconButton.Name = "openMapIconButton";
-            openMapIconButton.Size = new Size(23, 22);
-            openMapIconButton.ToolTipText = "Open Map";
+            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            openToolStripButton.Image = Properties.Resources.open;
+            openToolStripButton.ImageTransparentColor = Color.Magenta;
+            openToolStripButton.Name = "openToolStripButton";
+            openToolStripButton.Size = new Size(23, 22);
+            openToolStripButton.ToolTipText = "Open";
             // 
-            // saveNVMJSONIconButton
+            // saveAsToolStripButton
             // 
-            saveNVMJSONIconButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            saveNVMJSONIconButton.Image = Properties.Resources.exportjson;
-            saveNVMJSONIconButton.ImageTransparentColor = Color.Magenta;
-            saveNVMJSONIconButton.Name = "saveNVMJSONIconButton";
-            saveNVMJSONIconButton.Size = new Size(23, 22);
-            saveNVMJSONIconButton.ToolTipText = "Save NVMJSON";
+            saveAsToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            saveAsToolStripButton.Image = Properties.Resources.exportjson;
+            saveAsToolStripButton.ImageTransparentColor = Color.Magenta;
+            saveAsToolStripButton.Name = "saveAsToolStripButton";
+            saveAsToolStripButton.Size = new Size(23, 22);
+            saveAsToolStripButton.ToolTipText = "Save As";
             // 
             // splitContainer1
             // 
@@ -398,7 +398,7 @@
 
         private MenuStrip menuRibbon;
         private ToolStripMenuItem fileToolStripMenuItem;
-        public ToolStripMenuItem openMapToolStripMenuItem;
+        public ToolStripMenuItem openToolStripMenuItem;
         private Label copyrightInfoLabel;
         public Label versionLabel;
         private ToolStrip toolStrip1;
@@ -417,9 +417,9 @@
         private GroupBox viewerGroupBox;
         private StatusStrip statusRibbon;
         public ToolStripStatusLabel statusLabel;
-        public ToolStripButton openMapIconButton;
-        public ToolStripMenuItem saveNVMJSONToolStripMenuItem;
-        public ToolStripButton saveNVMJSONIconButton;
+        public ToolStripButton openToolStripButton;
+        public ToolStripMenuItem saveAsToolStripMenuItem;
+        public ToolStripButton saveAsToolStripButton;
         private Panel panel1;
     }
 }

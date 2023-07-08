@@ -22,7 +22,7 @@ public class NavMeshEditor : Game
     private Vector3 Camera = new(0, 4, 2);
     private Vector3 CameraOffset = new(0, 0, 0);
     private MouseState CurrentMouseState;
-    private VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
+    private readonly VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
     private Vector2 PreviousMousePosition = new(0, 0);
     private MouseState PreviousMouseState;
     private SpriteBatch? SpriteBatch;
@@ -59,6 +59,7 @@ public class NavMeshEditor : Game
         GraphicsManager = new GraphicsDeviceManager(this);
     }
 
+    // TODO: Integrate the viewer into the main form
     private void ConfigureViewerSettings()
     {
         Window.Title = "NavMesh Editor";
@@ -69,8 +70,8 @@ public class NavMeshEditor : Game
 
     private static VertexPositionColor[] GetGroundPlaneLines()
     {
-        List<VertexPositionColor> groundLines = new();
-        groundLines.AddRange(new[]
+        List<VertexPositionColor> groundPlaneLines = new();
+        groundPlaneLines.AddRange(new[]
         {
             new VertexPositionColor(new Vector3(-1000, 0, 0), Color.Red),
             new VertexPositionColor(new Vector3(1000, 0, 0), Color.Red),
@@ -79,7 +80,7 @@ public class NavMeshEditor : Game
             new VertexPositionColor(new Vector3(0, 0, 0), Color.Yellow),
             new VertexPositionColor(new Vector3(0, 0, 1000), Color.Yellow)
         });
-        return groundLines.ToArray();
+        return groundPlaneLines.ToArray();
     }
 
     private void DrawGroundPlaneLines()
@@ -101,7 +102,6 @@ public class NavMeshEditor : Game
 
     private void InitializeGroundPlane()
     {
-        GroundPlane = new VertexPositionTexture[6];
         AddGroundPlaneVertices(new[]
         {
             new Microsoft.Xna.Framework.Vector3(-20, -20, 0),
@@ -218,18 +218,8 @@ public class NavMeshEditor : Game
         DrawGroundPlaneLines();
     }
 
-    public void ConfigureGeometry()
+    public void SetupGeometry()
     {
-        // TODO: Work in progress...
-        int vertexCount = GetMeshVertCount();
-        int indexCount = GetMeshTriCount();
-        if (indexCount <= 0) return;
-        ushort[] vertices = new ushort[vertexCount * 3];
-        ushort[] indices = new ushort[indexCount * 3 * 2];
-        NavMesh.GetMeshVerts(vertices);
-        NavMesh.GetMeshTris(indices);
-        Vector3[] boundingBox = new Vector3[2];
-        NavMesh.GetBoundingBox(boundingBox);
-        Console.WriteLine(boundingBox);
+        throw new NotImplementedException();
     }
 }

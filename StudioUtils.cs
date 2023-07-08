@@ -12,12 +12,12 @@ public static class StudioUtils
         studio.versionLabel.Text += ' ' + $@"{Version}";
     }
 
-    public static void SetWindowTitleFilePath(this NavMeshStudio studio, string filePath)
+    private static void SetWindowTitleFilePath(this NavMeshStudio studio, string filePath)
     {
         studio.Text = $@"{AppName} - {filePath}";
     }
 
-    public static void ResetStatus(this NavMeshStudio studio)
+    private static void ResetStatus(this NavMeshStudio studio)
     {
         studio.statusLabel.Text = @"Ready";
     }
@@ -27,16 +27,21 @@ public static class StudioUtils
         studio.statusLabel.Text = message;
     }
 
-    public static void OpenMap(this NavMeshStudio studio)
+    public static void ToggleStudioControls(this NavMeshStudio studio, bool enabled = false)
+    {
+        studio.saveAsToolStripMenuItem.Enabled = enabled;
+        studio.saveAsToolStripButton.Enabled = enabled;
+    }
+
+    // TODO: Prompt the user for an MSB file
+    private static void Open(this NavMeshStudio studio)
     {
         if (!FileIO.OpenNvmHktBndFile()) return;
         SetWindowTitleFilePath(studio, Cache.NvmHktBnd?.Path!);
-        // TODO: Function
-        studio.saveNVMJSONToolStripMenuItem.Enabled = true;
-        studio.saveNVMJSONIconButton.Enabled = true;
+        ToggleStudioControls(studio, true);
     }
 
-    public static async Task SaveNvmJson(this NavMeshStudio studio)
+    private static async Task SaveAs(this NavMeshStudio studio)
     {
         UpdateStatus(studio, "Reading navmesh geometry...");
         if (!await NavMeshUtils.ReadNavMeshGeometry())
@@ -45,37 +50,35 @@ public static class StudioUtils
             return;
         }
         UpdateStatus(studio, "Waiting for user...");
-        string rootJsonString = JsonConvert.SerializeObject(Cache.NavMeshJson, Formatting.Indented);
+        string rootJsonString = JsonConvert.SerializeObject(Cache.NvmJson, Formatting.Indented);
         SaveFileDialog dialog = new() { FileName = $"{Cache.NvmHktBnd?.FileName}.json", Filter = @"JSON File (*.json)|*.json" };
         if (dialog.ShowDialog() != DialogResult.OK)
         {
             ResetStatus(studio);
             return;
         }
-        UpdateStatus(studio, "Saving NVMJSON to disk...");
+        UpdateStatus(studio, "Saving navmesh JSON...");
         await File.WriteAllTextAsync(dialog.FileName, rootJsonString);
         ResetStatus(studio);
     }
 
-    public static void RegisterDefaultEvents(this NavMeshStudio studio)
+    public static void RegisterFormEvents(this NavMeshStudio studio)
     {
-        studio.openMapToolStripMenuItem.Click += (_, _) => OpenMap(studio);
-        studio.saveNVMJSONToolStripMenuItem.Click += async (_, _) => await SaveNvmJson(studio);
-        studio.saveNVMJSONToolStripMenuItem.Enabled = false;
+        studio.openToolStripMenuItem.Click += (_, _) => Open(studio);
+        studio.saveAsToolStripMenuItem.Click += async (_, _) => await SaveAs(studio);
         studio.KeyDown += async (_, e) =>
         {
             switch (e.Control)
             {
                 case true when e.KeyCode == Keys.O:
-                    OpenMap(studio);
+                    Open(studio);
                     break;
                 case true when e.KeyCode == Keys.S:
-                    await SaveNvmJson(studio);
+                    await SaveAs(studio);
                     break;
             }
         };
-        studio.openMapIconButton.Click += (_, _) => OpenMap(studio);
-        studio.saveNVMJSONIconButton.Click += async (_, _) => await SaveNvmJson(studio);
-        studio.saveNVMJSONIconButton.Enabled = false;
+        studio.openToolStripButton.Click += (_, _) => Open(studio);
+        studio.saveAsToolStripButton.Click += async (_, _) => await SaveAs(studio);
     }
 }

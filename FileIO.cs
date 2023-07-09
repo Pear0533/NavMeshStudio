@@ -23,6 +23,11 @@ public class FileIO
         return fileData == null ? null : new StudioFile<T>(filePath, Path.GetFileName(filePath), fileData);
     }
 
+    public static string GetSaveDialogFilter()
+    {
+        return @"NVA JSON (*.nvajson)|*.nvajson|NVMHKTBND JSON (*.nvmhktbndjson)|*.nvmhktbndjson";
+    }
+
     public static bool OpenNvaFile()
     {
         Cache.Nva = OpenFile<NVA>(@"NVA File (*.nva, *.nva.dcx)|*.nva;*.nva.dcx");
@@ -31,7 +36,7 @@ public class FileIO
 
     public static bool OpenNvmHktBndFile()
     {
-        Cache.NvmHktBnd = OpenFile<BND4>(@"NVMHKTBND File (*.nvmhktbnd.dcx)|*.nvmhktbnd.dcx");
+        Cache.NvmHktBnd = OpenFile<BND4>(@"NVMHKTBND File (*.nvmhktbnd, *.nvmhktbnd.dcx)|*.nvmhktbnd;*.nvmhktbnd.dcx");
         return Cache.NvmHktBnd != null;
     }
 

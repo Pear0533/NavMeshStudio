@@ -13,7 +13,18 @@ public class NavMeshUtils
         return container.m_namedVariants.ElementAtOrDefault(index)?.m_variant;
     }
 
-    public static async Task<bool> ReadNavMeshGeometry()
+    public static JObject? GetNavMeshJson(int type)
+    {
+        JObject? rootJson = type switch
+        {
+            1 => ToJson(Cache.Nva?.Data),
+            2 => Cache.NvmJson,
+            _ => null
+        };
+        return rootJson;
+    }
+
+    public static async Task<bool> GenerateNvmJson()
     {
         if (Cache.NvmJson != null) return true;
         if (Cache.NvmHktBnd == null) return false;

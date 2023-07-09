@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace NavMeshStudio;
 
@@ -33,30 +34,37 @@ public static class StudioUtils
         studio.saveAsToolStripButton.Enabled = enabled;
     }
 
-    // TODO: Prompt the user for an MSB file
     private static void Open(this NavMeshStudio studio)
     {
+        if (!FileIO.OpenMsbFile()) return;
+        if (!FileIO.OpenNvaFile()) return;
         if (!FileIO.OpenNvmHktBndFile()) return;
-        SetWindowTitleFilePath(studio, Cache.NvmHktBnd?.Path!);
+        SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         ToggleStudioControls(studio, true);
+    }
+
+    private static async Task ReadNavMeshGeometry(this NavMeshStudio studio)
+    {
+        UpdateStatus(studio, "Reading navmesh geometry...");
+        if (!await NavMeshUtils.GenerateNvmJson()) ResetStatus(studio);
     }
 
     private static async Task SaveAs(this NavMeshStudio studio)
     {
-        UpdateStatus(studio, "Reading navmesh geometry...");
-        if (!await NavMeshUtils.ReadNavMeshGeometry())
-        {
-            ResetStatus(studio);
-            return;
-        }
         UpdateStatus(studio, "Waiting for user...");
-        string rootJsonString = JsonConvert.SerializeObject(Cache.NvmJson, Formatting.Indented);
-        SaveFileDialog dialog = new() { FileName = $"{Cache.NvmHktBnd?.FileName}.json", Filter = @"JSON File (*.json)|*.json" };
+        SaveFileDialog dialog = new()
+        {
+            FileName = Utils.RemoveFileExtensions(Cache.Msb?.FileName),
+            Filter = FileIO.GetSaveDialogFilter()
+        };
         if (dialog.ShowDialog() != DialogResult.OK)
         {
             ResetStatus(studio);
             return;
         }
+        if (dialog.FilterIndex == 2) await ReadNavMeshGeometry(studio);
+        JObject? rootJson = NavMeshUtils.GetNavMeshJson(dialog.FilterIndex);
+        string rootJsonString = JsonConvert.SerializeObject(rootJson, Formatting.Indented);
         UpdateStatus(studio, "Saving navmesh JSON...");
         await File.WriteAllTextAsync(dialog.FileName, rootJsonString);
         ResetStatus(studio);

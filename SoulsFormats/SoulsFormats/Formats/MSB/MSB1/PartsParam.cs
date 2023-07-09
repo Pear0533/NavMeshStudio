@@ -455,7 +455,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSB1 msb, Entries entries)
             {
-                ModelIndex = MSB.FindIndex(entries.Models, ModelName);
+                ModelIndex = MSB.FindIndex(this, entries.Models, ModelName);
             }
 
             /// <summary>
@@ -493,6 +493,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Collision that controls loading of the object.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
@@ -560,7 +561,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSB1 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(entries.Parts, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, entries.Parts, CollisionName);
                 }
             }
 
@@ -587,11 +588,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// ID in NPCThinkParam determining AI properties.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcThinkParam")]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// ID in NPCParam determining character properties.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
@@ -612,17 +615,20 @@ namespace SoulsFormats
                 /// <summary>
                 /// ID in CharaInitParam determining equipment and stats for humans.
                 /// </summary>
+                [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
                 /// Collision that controls loading of the enemy.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
                 /// <summary>
                 /// Regions for the enemy to patrol.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] MovePointNames { get; private set; }
                 private short[] MovePointIndices;
 
@@ -704,11 +710,11 @@ namespace SoulsFormats
                 internal override void GetIndices(MSB1 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(entries.Parts, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, entries.Parts, CollisionName);
 
                     MovePointIndices = new short[MovePointNames.Length];
                     for (int i = 0; i < MovePointNames.Length; i++)
-                        MovePointIndices[i] = (short)MSB.FindIndex(entries.Regions, MovePointNames[i]);
+                        MovePointIndices[i] = (short)MSB.FindIndex(this, entries.Regions, MovePointNames[i]);
                 }
             }
 
@@ -823,11 +829,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// ID in LockCamParam determining camera properties.
                 /// </summary>
+                [MSBParamReference(ParamName = "LockCamParam")]
                 public short LockCamParamID1 { get; set; }
 
                 /// <summary>
                 /// ID in LockCamParam determining camera properties.
                 /// </summary>
+                [MSBParamReference(ParamName = "LockCamParam")]
                 public short LockCamParamID2 { get; set; }
 
                 /// <summary>
@@ -990,6 +998,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The collision which will load another map.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
@@ -1039,7 +1048,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSB1 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(msb.Parts.Collisions, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, msb.Parts.Collisions, CollisionName);
                 }
             }
         }

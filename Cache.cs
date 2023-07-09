@@ -7,6 +7,6 @@ public class Cache
 {
     public static StudioFile<NVA>? Nva;
     public static StudioFile<BND4>? NvmHktBnd;
-    public static StudioFile<MSB3>? Msb;
+    public static StudioFile<MSBE>? Msb;
     public static JObject? NvmJson;
 }

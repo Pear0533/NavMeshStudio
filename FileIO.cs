@@ -42,7 +42,7 @@ public class FileIO
 
     public static bool OpenMsbFile()
     {
-        Cache.Msb = OpenFile<MSB3>(@"MSB File (*.msb, *.msb.dcx)|*.msb;*.msb.dcx");
+        Cache.Msb = OpenFile<MSBE>(@"MSB File (*.msb, *.msb.dcx)|*.msb;*.msb.dcx");
         return Cache.Msb != null;
     }
 }

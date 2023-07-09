@@ -74,6 +74,20 @@ namespace SoulsFormats
             Connectors = new ConnectorSection();
             Entries7 = new Section7();
         }
+        
+        /// <summary>
+        /// Creates an empty NVA formatted for DS3 with compression.
+        /// </summary>
+        public NVA(DCX.Type compression)
+        {
+            Compression = DCX.Type.DCX_DFLT_10000_44_9;
+            Version = NVAVersion.DarkSouls3;
+            Navmeshes = new NavmeshSection(2);
+            Entries1 = new Section1();
+            Entries2 = new Section2();
+            Connectors = new ConnectorSection();
+            Entries7 = new Section7();
+        }
 
         /// <summary>
         /// Checks whether the data appears to be a file of this format.
@@ -687,10 +701,10 @@ namespace SoulsFormats
             /// </summary>
             public List<ConnectorCondition> Conditions { get; set; }
 
-            private int PointCount;
-            private int ConditionCount;
-            private int PointsIndex;
-            private int ConditionsIndex;
+            public int PointCount;
+            public int ConditionCount;
+            public int PointsIndex;
+            public int ConditionsIndex;
 
             /// <summary>
             /// Creates a Connector with default values.

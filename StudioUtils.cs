@@ -37,7 +37,6 @@ public static class StudioUtils
     private static void Open(this NavMeshStudio studio)
     {
         if (!FileIO.OpenMsbFile()) return;
-        if (!FileIO.OpenNvaFile()) return;
         if (!FileIO.OpenNvmHktBndFile()) return;
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         ToggleStudioControls(studio, true);

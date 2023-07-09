@@ -243,12 +243,14 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
             private int PartIndex;
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [MSBReference(ReferenceType = typeof(Region))]
             public string RegionName { get; set; }
             private int RegionIndex;
 
@@ -357,8 +359,8 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBS msb, Entries entries)
             {
-                PartIndex = MSB.FindIndex(entries.Parts, PartName);
-                RegionIndex = MSB.FindIndex(entries.Regions, RegionName);
+                PartIndex = MSB.FindIndex(this, entries.Parts, PartName);
+                RegionIndex = MSB.FindIndex(this, entries.Regions, RegionName);
             }
 
             /// <summary>
@@ -380,6 +382,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part that the treasure is attached to.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string TreasurePartName { get; set; }
                 private int TreasurePartIndex;
 
@@ -465,7 +468,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    TreasurePartIndex = MSB.FindIndex(entries.Parts, TreasurePartName);
+                    TreasurePartIndex = MSB.FindIndex(this, entries.Parts, TreasurePartName);
                 }
             }
 
@@ -530,12 +533,15 @@ namespace SoulsFormats
                 /// <summary>
                 /// Regions where parts will spawn from.
                 /// </summary>
+
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnRegionNames { get; private set; }
                 private int[] SpawnRegionIndices;
 
                 /// <summary>
                 /// Parts that will be respawned.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
                 private int[] SpawnPartIndices;
 
@@ -632,6 +638,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The part to be interacted with.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
                 private int ObjActPartIndex;
 
@@ -699,7 +706,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    ObjActPartIndex = MSB.FindIndex(entries.Parts, ObjActPartName);
+                    ObjActPartIndex = MSB.FindIndex(this, entries.Parts, ObjActPartName);
                 }
             }
 
@@ -719,7 +726,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown, but looks like rotation.
                 /// </summary>
-                public float Degree { get; set; }
+                public float RotationY { get; set; }
 
                 /// <summary>
                 /// Creates a MapOffset with default values.
@@ -731,13 +738,13 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     Position = br.ReadVector3();
-                    Degree = br.ReadSingle();
+                    RotationY = br.ReadSingle();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteVector3(Position);
-                    bw.WriteSingle(Degree);
+                    bw.WriteSingle(RotationY);
                 }
             }
 
@@ -750,13 +757,14 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Determines patrol behavior. 0 = return to first region on loop, 1 = go through list backwards on loop, etc.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public int PatrolType { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkRegionNames { get; private set; }
                 private short[] WalkRegionIndices;
 
@@ -789,7 +797,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    PatrolType = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -802,7 +810,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(PatrolType);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -828,10 +836,10 @@ namespace SoulsFormats
                     base.GetIndices(msb, entries);
                     WalkRegionIndices = new short[WalkRegionNames.Length];
                     for (int i = 0; i < WalkRegionNames.Length; i++)
-                        WalkRegionIndices[i] = (short)MSB.FindIndex(entries.Regions, WalkRegionNames[i]);
+                        WalkRegionIndices[i] = (short)MSB.FindIndex(this, entries.Regions, WalkRegionNames[i]);
 
                     foreach (WREntry wrEntry in WREntries)
-                        wrEntry.GetIndices(entries);
+                        wrEntry.GetIndices(this, entries);
                 }
 
                 /// <summary>
@@ -842,18 +850,19 @@ namespace SoulsFormats
                     /// <summary>
                     /// Unknown.
                     /// </summary>
+                    [MSBReference(ReferenceType = typeof(Region))]
                     public string RegionName { get; set; }
                     private short RegionIndex;
 
                     /// <summary>
-                    /// Unknown.
+                    /// ID of animation to play when arriving at destination region.
                     /// </summary>
-                    public int Unk04 { get; set; }
+                    public int ArrivalAnimID { get; set; }
 
                     /// <summary>
-                    /// Unknown.
+                    /// Time in seconds to wait (after animation finishes) after arriving at destination region.
                     /// </summary>
-                    public int Unk08 { get; set; }
+                    public int ArrivalWaitTime { get; set; }
 
                     /// <summary>
                     /// Creates a WREntry with default values.
@@ -872,16 +881,16 @@ namespace SoulsFormats
                     {
                         RegionIndex = br.ReadInt16();
                         br.AssertInt16(0);
-                        Unk04 = br.ReadInt32();
-                        Unk08 = br.ReadInt32();
+                        ArrivalAnimID = br.ReadInt32();
+                        ArrivalWaitTime = br.ReadInt32();
                     }
 
                     internal void Write(BinaryWriterEx bw)
                     {
                         bw.WriteInt16(RegionIndex);
                         bw.WriteInt16(0);
-                        bw.WriteInt32(Unk04);
-                        bw.WriteInt32(Unk08);
+                        bw.WriteInt32(ArrivalAnimID);
+                        bw.WriteInt32(ArrivalWaitTime);
                     }
 
                     internal void GetNames(Entries entries)
@@ -889,9 +898,9 @@ namespace SoulsFormats
                         RegionName = MSB.FindName(entries.Regions, RegionIndex);
                     }
 
-                    internal void GetIndices(Entries entries)
+                    internal void GetIndices(IMsbEntry entry, Entries entries)
                     {
-                        RegionIndex = (short)MSB.FindIndex(entries.Regions, RegionName);
+                        RegionIndex = (short)MSB.FindIndex(entry, entries.Regions, RegionName);
                     }
                 }
             }
@@ -917,6 +926,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string[] GroupPartNames { get; private set; }
                 private int[] GroupPartIndices;
 
@@ -1179,6 +1189,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part.EnemyBase))]
                 public string[] EnemyNames { get; private set; }
                 private int[] EnemyIndices;
 
@@ -1266,12 +1277,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Name of the filming point for the autodrawgroup capture, probably.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Region))]
                 public string AutoDrawGroupPointName { get; set; }
                 private int AutoDrawGroupPointIndex;
 
                 /// <summary>
                 /// The collision that the filming point belongs to, presumably.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part.Collision))]
                 public string OwningCollisionName { get; set; }
                 private int OwningCollisionIndex;
 
@@ -1306,8 +1319,8 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    AutoDrawGroupPointIndex = MSB.FindIndex(msb.Regions.AutoDrawGroupPoints, AutoDrawGroupPointName);
-                    OwningCollisionIndex = MSB.FindIndex(msb.Parts.Collisions, OwningCollisionName);
+                    AutoDrawGroupPointIndex = MSB.FindIndex(this, msb.Regions.AutoDrawGroupPoints, AutoDrawGroupPointName);
+                    OwningCollisionIndex = MSB.FindIndex(this, msb.Parts.Collisions, OwningCollisionName);
                 }
             }
 

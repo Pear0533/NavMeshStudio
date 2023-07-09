@@ -616,7 +616,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBS msb, Entries entries)
             {
-                ModelIndex = MSB.FindIndex(entries.Models, ModelName);
+                ModelIndex = MSB.FindIndex(this, entries.Models, ModelName);
             }
 
             /// <summary>
@@ -824,9 +824,9 @@ namespace SoulsFormats
                 public sbyte[] EventIDs { get; private set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Amount of time it takes for GParam to transition (in seconds). -1 = Some default time.
                 /// </summary>
-                public float Unk40 { get; set; }
+                public float TransitionTime { get; set; }
 
                 /// <summary>
                 /// Creates a SceneGparamConfig with default values.
@@ -850,7 +850,7 @@ namespace SoulsFormats
                 {
                     br.AssertPattern(0x3C, 0x00);
                     EventIDs = br.ReadSBytes(4);
-                    Unk40 = br.ReadSingle();
+                    TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -860,7 +860,7 @@ namespace SoulsFormats
                 {
                     bw.WritePattern(0x3C, 0x00);
                     bw.WriteSBytes(EventIDs);
-                    bw.WriteSingle(Unk40);
+                    bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -871,7 +871,7 @@ namespace SoulsFormats
                 /// </summary>
                 public override string ToString()
                 {
-                    return $"EventID[{EventIDs[0],2}][{EventIDs[1],2}][{EventIDs[2],2}][{EventIDs[3],2}] {Unk40:0.0}";
+                    return $"EventID[{EventIDs[0],2}][{EventIDs[1],2}][{EventIDs[2],2}][{EventIDs[3],2}] {TransitionTime:0.0}";
                 }
             }
 
@@ -1034,6 +1034,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Reference to a map piece or collision; believed to determine when the object is loaded.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjPartName1 { get; set; }
                 private int ObjPartIndex1;
 
@@ -1075,12 +1076,14 @@ namespace SoulsFormats
                 /// <summary>
                 /// Reference to a collision; believed to be involved with loading when grappling to the object.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string ObjPartName2 { get; set; }
                 private int ObjPartIndex2;
 
                 /// <summary>
                 /// Reference to a collision; believed to be involved with loading when grappling to the object.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string ObjPartName3 { get; set; }
                 private int ObjPartIndex3;
 
@@ -1150,9 +1153,9 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    ObjPartIndex1 = MSB.FindIndex(entries.Parts, ObjPartName1);
-                    ObjPartIndex2 = MSB.FindIndex(entries.Parts, ObjPartName2);
-                    ObjPartIndex3 = MSB.FindIndex(entries.Parts, ObjPartName3);
+                    ObjPartIndex1 = MSB.FindIndex(this, entries.Parts, ObjPartName1);
+                    ObjPartIndex2 = MSB.FindIndex(this, entries.Parts, ObjPartName2);
+                    ObjPartIndex3 = MSB.FindIndex(this, entries.Parts, ObjPartName3);
                 }
             }
 
@@ -1234,18 +1237,19 @@ namespace SoulsFormats
                 /// <summary>
                 /// Should reference the collision the enemy starts on.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionPartName { get; set; }
                 private int CollisionPartIndex;
 
                 /// <summary>
-                /// Unknown.
+                /// References which PatrolInfo index to use for patrol information.
                 /// </summary>
-                public short UnkT20 { get; set; }
+                public short PatrolIndex { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Enum that refers to an animation ID to use.
                 /// </summary>
-                public short UnkT22 { get; set; }
+                public short InitAnimIDType { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1322,8 +1326,8 @@ namespace SoulsFormats
                     PlatoonID = br.ReadInt16();
                     CharaInitID = br.ReadInt32();
                     CollisionPartIndex = br.ReadInt32();
-                    UnkT20 = br.ReadInt16();
-                    UnkT22 = br.ReadInt16();
+                    PatrolIndex = br.ReadInt16();
+                    InitAnimIDType = br.ReadInt16();
                     UnkT24 = br.ReadInt32();
                     br.AssertPattern(0x10, 0xFF);
                     BackupEventAnimID = br.ReadInt32();
@@ -1363,8 +1367,8 @@ namespace SoulsFormats
                     bw.WriteInt16(PlatoonID);
                     bw.WriteInt32(CharaInitID);
                     bw.WriteInt32(CollisionPartIndex);
-                    bw.WriteInt16(UnkT20);
-                    bw.WriteInt16(UnkT22);
+                    bw.WriteInt16(PatrolIndex);
+                    bw.WriteInt16(InitAnimIDType);
                     bw.WriteInt32(UnkT24);
                     bw.WritePattern(0x10, 0xFF);
                     bw.WriteInt32(BackupEventAnimID);
@@ -1402,7 +1406,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionPartIndex = MSB.FindIndex(entries.Parts, CollisionPartName);
+                    CollisionPartIndex = MSB.FindIndex(this, entries.Parts, CollisionPartName);
                 }
             }
 
@@ -1761,6 +1765,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The collision part to attach to.
                 /// </summary>
+                [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
@@ -1816,7 +1821,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(msb.Parts.Collisions, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, msb.Parts.Collisions, CollisionName);
                 }
             }
         }

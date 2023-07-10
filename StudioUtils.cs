@@ -34,18 +34,21 @@ public static class StudioUtils
         studio.saveAsToolStripButton.Enabled = enabled;
     }
 
-    private static void Open(this NavMeshStudio studio)
+    private static async Task Open(this NavMeshStudio studio)
     {
         if (!FileIO.OpenMsbFile()) return;
         if (!FileIO.OpenNvmHktBndFile()) return;
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
+        UpdateStatus(studio, "Reading navmesh geometry...");
+        await NavMeshUtils.ReadNavMeshGeometry();
         ToggleStudioControls(studio, true);
+        ResetStatus(studio);
         Cache.Viewer.ConfigureGeometry();
     }
 
-    private static async Task ReadNavMeshGeometry(this NavMeshStudio studio)
+    private static async Task GetNvmJson(this NavMeshStudio studio)
     {
-        UpdateStatus(studio, "Reading navmesh geometry...");
+        UpdateStatus(studio, "Generating nvmhktbnd JSON...");
         if (!await NavMeshUtils.GenerateNvmJson()) ResetStatus(studio);
     }
 
@@ -62,7 +65,7 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
-        if (dialog.FilterIndex == 2) await ReadNavMeshGeometry(studio);
+        if (dialog.FilterIndex == 2) await GetNvmJson(studio);
         JObject? rootJson = NavMeshUtils.GetNavMeshJson(dialog.FilterIndex);
         string rootJsonString = JsonConvert.SerializeObject(rootJson, Formatting.Indented);
         UpdateStatus(studio, "Saving navmesh JSON...");
@@ -72,21 +75,21 @@ public static class StudioUtils
 
     public static void RegisterFormEvents(this NavMeshStudio studio)
     {
-        studio.openToolStripMenuItem.Click += (_, _) => Open(studio);
+        studio.openToolStripMenuItem.Click += async (_, _) => await Open(studio);
         studio.saveAsToolStripMenuItem.Click += async (_, _) => await SaveAs(studio);
         studio.KeyDown += async (_, e) =>
         {
             switch (e.Control)
             {
                 case true when e.KeyCode == Keys.O:
-                    Open(studio);
+                    await Open(studio);
                     break;
                 case true when e.KeyCode == Keys.S:
                     await SaveAs(studio);
                     break;
             }
         };
-        studio.openToolStripButton.Click += (_, _) => Open(studio);
+        studio.openToolStripButton.Click += async (_, _) => await Open(studio);
         studio.saveAsToolStripButton.Click += async (_, _) => await SaveAs(studio);
     }
 }

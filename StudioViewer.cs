@@ -17,17 +17,17 @@ public class StudioViewer : Game
     private static GraphicsDeviceManager? GraphicsManager;
     private readonly Vector2 CurrentMousePosition = new(0, 0);
     public readonly List<VertexPositionColor> Facesets = new();
+    private readonly VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
     public readonly List<VertexPositionColor> Vertices = new();
     private readonly string ViewerBGFilePath = $"{Utils.ResourcesPath}\\bg.png";
     private BasicEffect? BasicEffect;
     private Vector3 Camera = new(0, 4, 2);
     private Vector3 CameraOffset = new(0, 0, 0);
     private MouseState CurrentMouseState;
-    private readonly VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
+    public Form Form = new();
     private Vector2 PreviousMousePosition = new(0, 0);
     private MouseState PreviousMouseState;
     private SpriteBatch? SpriteBatch;
-    public Form Form = new();
     private Rectangle ViewerBGArea;
     private Texture2D? ViewerBGTexture;
 
@@ -228,6 +228,6 @@ public class StudioViewer : Game
 
     public void ConfigureGeometry()
     {
-        throw new NotImplementedException();
+        // ...
     }
 }

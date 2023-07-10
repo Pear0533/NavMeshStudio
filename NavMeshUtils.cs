@@ -24,29 +24,40 @@ public class NavMeshUtils
         return rootJson;
     }
 
-    public static async Task<bool> GenerateNvmJson()
+    public static async Task<bool> ReadNavMeshGeometry()
     {
-        if (Cache.NvmJson != null) return true;
         if (Cache.NvmHktBnd == null) return false;
         await Task.Run(() =>
         {
+            Cache.Clear();
             HavokBinarySerializer serializer = new();
-            Cache.NvmJson = new JObject();
-            for (int i = 0; i < Cache.NvmHktBnd.Data.Files.Count; ++i)
+            foreach (BinderFile file in Cache.NvmHktBnd.Data.Files)
             {
-                BinderFile file = Cache.NvmHktBnd.Data.Files[i];
                 hkRootLevelContainer rootLevelContainer = (hkRootLevelContainer)serializer.Read(new MemoryStream(file.Bytes));
-                hkReferencedObject? navMeshRefObj = GetReferencedObject(rootLevelContainer, 0);
-                hkReferencedObject? queryMediatorRefObj = GetReferencedObject(rootLevelContainer, 1);
-                hkReferencedObject? userEdgeSetupRefObj = GetReferencedObject(rootLevelContainer, 2);
-                JObject? navMeshJson = ToJson(navMeshRefObj);
-                JObject? queryMediatorJson = ToJson(queryMediatorRefObj);
-                JObject? userEdgeSetupJson = ToJson(userEdgeSetupRefObj);
+                hkReferencedObject? navMesh = GetReferencedObject(rootLevelContainer, 0);
+                hkReferencedObject? queryMediator = GetReferencedObject(rootLevelContainer, 1);
+                hkReferencedObject? userEdgeSetup = GetReferencedObject(rootLevelContainer, 2);
+                Cache.NavMeshes.Add(navMesh as hkaiNavMesh);
+                Cache.QueryMediators.Add(queryMediator);
+                Cache.UserEdgeSetups.Add(userEdgeSetup);
+            }
+        });
+        return true;
+    }
+
+    public static async Task<bool> GenerateNvmJson()
+    {
+        if (Cache.NvmJson != null) return true;
+        await Task.Run(() =>
+        {
+            Cache.NvmJson = new JObject();
+            for (int i = 0; i < Cache.NavMeshes.Count; i++)
+            {
                 Cache.NvmJson[(i + 1).ToString()] = new JObject
                 {
-                    { "NavMesh", navMeshJson },
-                    { "QueryMediator", queryMediatorJson },
-                    { "UserEdgeSetup", userEdgeSetupJson }
+                    { "NavMesh", ToJson(Cache.NavMeshes[i]) },
+                    { "QueryMediator", ToJson(Cache.QueryMediators[i]) },
+                    { "UserEdgeSetup", ToJson(Cache.UserEdgeSetups[i]) }
                 };
             }
         });

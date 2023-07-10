@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HKLib.hk2018;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
@@ -228,6 +229,9 @@ public class StudioViewer : Game
 
     public void ConfigureGeometry()
     {
-        // ...
+        foreach (hkaiNavMesh? navMesh in Cache.NavMeshes)
+        {
+            navMesh?.m_vertices.ForEach(AddVertex);
+        }
     }
 }

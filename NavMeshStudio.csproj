@@ -48,6 +48,9 @@
     <None Update="oo2core_6_win64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\bg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Res\HavokTypeRegistry20180100.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

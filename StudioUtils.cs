@@ -34,6 +34,17 @@ public static class StudioUtils
         studio.saveAsToolStripButton.Enabled = enabled;
     }
 
+    private static void RunViewer()
+    {
+        new Thread(() =>
+        {
+            Thread.CurrentThread.IsBackground = true;
+            Cache.Viewer = new StudioViewer();
+            Cache.Viewer.ConfigureGeometry();
+            Cache.Viewer.Run();
+        }).Start();
+    }
+
     private static async Task Open(this NavMeshStudio studio)
     {
         if (!FileIO.OpenMsbFile()) return;
@@ -43,7 +54,7 @@ public static class StudioUtils
         await NavMeshUtils.ReadNavMeshGeometry();
         ToggleStudioControls(studio, true);
         ResetStatus(studio);
-        Cache.Viewer.ConfigureGeometry();
+        RunViewer();
     }
 
     private static async Task GetNvmJson(this NavMeshStudio studio)

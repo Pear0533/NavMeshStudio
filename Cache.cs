@@ -9,7 +9,7 @@ public class Cache
     public static StudioFile<NVA>? Nva;
     public static StudioFile<BND4>? NvmHktBnd;
     public static StudioFile<MSBE>? Msb;
-    public static StudioViewer Viewer = new();
+    public static StudioViewer? Viewer;
     public static List<hkaiNavMesh?> NavMeshes = new();
     public static List<hkReferencedObject?> QueryMediators = new();
     public static List<hkReferencedObject?> UserEdgeSetups = new();

@@ -36,12 +36,12 @@ public class NavMeshUtils
             {
                 BinderFile file = Cache.NvmHktBnd.Data.Files[i];
                 hkRootLevelContainer rootLevelContainer = (hkRootLevelContainer)serializer.Read(new MemoryStream(file.Bytes));
-                hkReferencedObject? navMesh = GetReferencedObject(rootLevelContainer, 0);
-                hkReferencedObject? queryMediator = GetReferencedObject(rootLevelContainer, 1);
-                hkReferencedObject? userEdgeSetup = GetReferencedObject(rootLevelContainer, 2);
-                JObject? navMeshJson = ToJson(navMesh);
-                JObject? queryMediatorJson = ToJson(queryMediator);
-                JObject? userEdgeSetupJson = ToJson(userEdgeSetup);
+                hkReferencedObject? navMeshRefObj = GetReferencedObject(rootLevelContainer, 0);
+                hkReferencedObject? queryMediatorRefObj = GetReferencedObject(rootLevelContainer, 1);
+                hkReferencedObject? userEdgeSetupRefObj = GetReferencedObject(rootLevelContainer, 2);
+                JObject? navMeshJson = ToJson(navMeshRefObj);
+                JObject? queryMediatorJson = ToJson(queryMediatorRefObj);
+                JObject? userEdgeSetupJson = ToJson(userEdgeSetupRefObj);
                 Cache.NvmJson[(i + 1).ToString()] = new JObject
                 {
                     { "NavMesh", navMeshJson },

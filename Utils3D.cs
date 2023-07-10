@@ -1,7 +1,12 @@
 ﻿namespace NavMeshStudio;
 
-public class Utils3D
+public static class Utils3D
 {
+    public static Vector3 ToVector3(this Vector4 vector)
+    {
+        return new Vector3(vector.X, vector.Y, vector.Z);
+    }
+
     public static Vector3 RotatePoint(Vector3 point, float pitch, float roll, float yaw)
     {
         Vector3 rotatedPoint = new(0, 0, 0);

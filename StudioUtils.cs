@@ -40,6 +40,7 @@ public static class StudioUtils
         if (!FileIO.OpenNvmHktBndFile()) return;
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         ToggleStudioControls(studio, true);
+        Cache.Viewer.ConfigureGeometry();
     }
 
     private static async Task ReadNavMeshGeometry(this NavMeshStudio studio)

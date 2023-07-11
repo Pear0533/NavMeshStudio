@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using Vector2 = System.Numerics.Vector2;
 using Vector3 = System.Numerics.Vector3;
 using Vector4 = System.Numerics.Vector4;
 
@@ -16,7 +15,6 @@ namespace NavMeshStudio;
 public class StudioViewer : Game
 {
     private static GraphicsDeviceManager? GraphicsManager;
-    private readonly Vector2 CurrentMousePosition = new(0, 0);
     public readonly List<VertexPositionColor> Facesets = new();
     private readonly VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
     public readonly List<VertexPositionColor> Vertices = new();
@@ -26,7 +24,6 @@ public class StudioViewer : Game
     private Vector3 CameraOffset = new(0, 0, 0);
     private MouseState CurrentMouseState;
     public Form Form = new();
-    private Vector2 PreviousMousePosition = new(0, 0);
     private MouseState PreviousMouseState;
     private SpriteBatch? SpriteBatch;
     private Rectangle ViewerBGArea;
@@ -143,9 +140,9 @@ public class StudioViewer : Game
 
     private void UpdateLeftMouseButtonClick()
     {
-        Camera = Utils3D.RotatePoint(Camera, 0, 0, -(CurrentMousePosition.X - PreviousMousePosition.X) * 0.01f);
+        Camera = Utils3D.RotatePoint(Camera, 0, 0, -(CurrentMouseState.Position.X - PreviousMouseState.Position.X) * 0.01f);
         Vector3 direction = new(Camera.Y, -Camera.X, 0);
-        float theta = (CurrentMousePosition.Y - PreviousMousePosition.Y) * 0.01f;
+        float theta = (CurrentMouseState.Position.Y - PreviousMouseState.Position.Y) * 0.01f;
         Camera = Utils3D.RotateLine(Camera, new Vector3(0, 0, 0), direction, theta);
     }
 
@@ -154,26 +151,15 @@ public class StudioViewer : Game
         Vector3 upVector = new(0, 0, 1);
         Vector3 rightVector = Utils3D.Normalize(Utils3D.CrossProduct(upVector, Camera));
         Microsoft.Xna.Framework.Vector3 cameraUpVector = Utils3D.Normalize(Utils3D.CrossProduct(Camera, rightVector));
-        float mouseX = CurrentMousePosition.X - PreviousMousePosition.X;
-        float mouseY = CurrentMousePosition.Y - PreviousMousePosition.Y;
+        float mouseX = CurrentMouseState.Position.X - PreviousMouseState.Position.X;
+        float mouseY = CurrentMouseState.Position.Y - PreviousMouseState.Position.Y;
         CameraOffset -= new Vector3(rightVector.X * mouseX * 0.01f, rightVector.Y * mouseX * 0.01f, rightVector.Z * mouseX * 0.01f);
         CameraOffset += new Vector3(cameraUpVector.X * mouseY * 0.01f, cameraUpVector.Y * mouseY * 0.01f, cameraUpVector.Z * mouseY * 0.01f);
     }
 
-    private void UpdateMouseScrollWheel()
-    {
-        int scrollAmount = CurrentMouseState.ScrollWheelValue - PreviousMouseState.ScrollWheelValue;
-        float scrollX = 0.5f * (Camera.X / Camera.Length());
-        float scrollY = 0.5f * (Camera.Y / Camera.Length());
-        float scrollZ = 0.5f * (Camera.Z / Camera.Length());
-        Camera.X += scrollAmount > 0 ? -scrollX : scrollX;
-        Camera.Y += scrollAmount > 0 ? -scrollY : scrollY;
-        Camera.Z += scrollAmount > 0 ? -scrollZ : scrollZ;
-    }
-
     private void UpdatePreviousMousePosition()
     {
-        PreviousMousePosition = CurrentMousePosition;
+        PreviousMouseState = CurrentMouseState;
     }
 
     protected override void Update(GameTime gameTime)
@@ -187,7 +173,6 @@ public class StudioViewer : Game
         {
             UpdateMiddleMouseButtonClick();
         }
-        UpdateMouseScrollWheel();
         UpdatePreviousMousePosition();
         base.Update(gameTime);
     }

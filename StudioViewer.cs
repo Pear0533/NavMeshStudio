@@ -157,6 +157,23 @@ public class StudioViewer : Game
         CameraOffset += new Vector3(cameraUpVector.X * mouseY * 0.01f, cameraUpVector.Y * mouseY * 0.01f, cameraUpVector.Z * mouseY * 0.01f);
     }
 
+    private void UpdateMouseScrollWheel()
+    {
+        switch (CurrentMouseState.ScrollWheelValue - PreviousMouseState.ScrollWheelValue)
+        {
+            case > 0:
+                Camera.X -= 0.5f * (Camera.X / Camera.Length());
+                Camera.Y -= 0.5f * (Camera.Y / Camera.Length());
+                Camera.Z -= 0.5f * (Camera.Z / Camera.Length());
+                break;
+            case < 0:
+                Camera.X += 0.5f * (Camera.X / Camera.Length());
+                Camera.Y += 0.5f * (Camera.Y / Camera.Length());
+                Camera.Z += 0.5f * (Camera.Z / Camera.Length());
+                break;
+        }
+    }
+
     private void UpdatePreviousMousePosition()
     {
         PreviousMouseState = CurrentMouseState;
@@ -173,6 +190,7 @@ public class StudioViewer : Game
         {
             UpdateMiddleMouseButtonClick();
         }
+        UpdateMouseScrollWheel();
         UpdatePreviousMousePosition();
         base.Update(gameTime);
     }

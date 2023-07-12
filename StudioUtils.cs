@@ -18,6 +18,11 @@ public static class StudioUtils
         studio.Text = $@"{AppName} - {filePath}";
     }
 
+    private static void ActivateWaitingStatus(this NavMeshStudio studio)
+    {
+        studio.statusLabel.Text = @"Waiting for user...";
+    }
+
     private static void ResetStatus(this NavMeshStudio studio)
     {
         studio.statusLabel.Text = @"Ready";
@@ -47,8 +52,12 @@ public static class StudioUtils
 
     private static async Task Open(this NavMeshStudio studio)
     {
-        if (!FileIO.OpenMsbFile()) return;
-        if (!FileIO.OpenNvmHktBndFile()) return;
+        ActivateWaitingStatus(studio);
+        if (!FileIO.OpenMsbFile() || !FileIO.OpenNvmHktBndFile())
+        {
+            ResetStatus(studio);
+            return;
+        }
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         UpdateStatus(studio, "Reading navmesh geometry...");
         await NavMeshUtils.ReadNavMeshGeometry();
@@ -65,7 +74,7 @@ public static class StudioUtils
 
     private static async Task SaveAs(this NavMeshStudio studio)
     {
-        UpdateStatus(studio, "Waiting for user...");
+        ActivateWaitingStatus(studio);
         SaveFileDialog dialog = new()
         {
             FileName = Utils.RemoveFileExtensions(Cache.Msb?.FileName),

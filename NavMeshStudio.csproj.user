@@ -4,5 +4,8 @@
     <Compile Update="NavMeshStudio.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="StudioViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

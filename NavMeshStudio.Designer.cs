@@ -54,6 +54,7 @@
             consoleTextBox = new RichTextBox();
             statusRibbon = new StatusStrip();
             statusLabel = new ToolStripStatusLabel();
+            viewer = new PictureBox();
             menuRibbon.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -66,6 +67,7 @@
             splitContainer2.Panel1.SuspendLayout();
             splitContainer2.Panel2.SuspendLayout();
             splitContainer2.SuspendLayout();
+            viewerGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer3).BeginInit();
             splitContainer3.Panel1.SuspendLayout();
             splitContainer3.Panel2.SuspendLayout();
@@ -78,6 +80,7 @@
             consoleGroupBox.SuspendLayout();
             panel1.SuspendLayout();
             statusRibbon.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)viewer).BeginInit();
             SuspendLayout();
             // 
             // menuRibbon
@@ -100,13 +103,13 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(158, 22);
             openToolStripMenuItem.Text = "Open (Ctrl+O)";
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new Size(180, 22);
+            saveAsToolStripMenuItem.Size = new Size(158, 22);
             saveAsToolStripMenuItem.Text = "Save As (Ctrl+S)";
             // 
             // copyrightInfoLabel
@@ -237,6 +240,7 @@
             // 
             // viewerGroupBox
             // 
+            viewerGroupBox.Controls.Add(viewer);
             viewerGroupBox.Dock = DockStyle.Fill;
             viewerGroupBox.Location = new Point(0, 0);
             viewerGroupBox.Name = "viewerGroupBox";
@@ -346,6 +350,15 @@
             statusLabel.Size = new Size(39, 17);
             statusLabel.Text = "Ready";
             // 
+            // viewer
+            // 
+            viewer.Dock = DockStyle.Fill;
+            viewer.Location = new Point(3, 19);
+            viewer.Name = "viewer";
+            viewer.Size = new Size(557, 410);
+            viewer.TabIndex = 0;
+            viewer.TabStop = false;
+            // 
             // NavMeshStudio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -377,6 +390,7 @@
             splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
             splitContainer2.ResumeLayout(false);
+            viewerGroupBox.ResumeLayout(false);
             splitContainer3.Panel1.ResumeLayout(false);
             splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
@@ -390,6 +404,7 @@
             panel1.ResumeLayout(false);
             statusRibbon.ResumeLayout(false);
             statusRibbon.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)viewer).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -421,5 +436,6 @@
         public ToolStripMenuItem saveAsToolStripMenuItem;
         public ToolStripButton saveAsToolStripButton;
         private Panel panel1;
+        public PictureBox viewer;
     }
 }

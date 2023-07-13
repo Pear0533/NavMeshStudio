@@ -23,17 +23,17 @@ public class StudioViewer : Game
     private Vector3 Camera = new(0, 4, 2);
     private Vector3 CameraOffset = new(0, 0, 0);
     private MouseState CurrentMouseState;
-    public Form Form = new();
+    private IntPtr DrawSurface;
     private MouseState PreviousMouseState;
     private SpriteBatch? SpriteBatch;
     private Rectangle ViewerBGArea;
     private Texture2D? ViewerBGTexture;
 
-    public StudioViewer()
+    public StudioViewer(NavMeshStudio studio)
     {
-        ConfigureViewerSettings();
+        ConfigureViewerSettings(studio);
         InitializeGraphicsManager();
-        InitializeViewer();
+        RegisterViewerEvents();
     }
 
     [DllImport("NavGen.dll")]
@@ -48,23 +48,30 @@ public class StudioViewer : Game
     [DllImport("NavGen.dll")]
     public static extern void GetMeshTris([In] [Out] ushort[] buffer);
 
-    private void InitializeViewer()
-    {
-        Form = (Form)Control.FromHandle(Window.Handle)!;
-    }
-
     private void InitializeGraphicsManager()
     {
         GraphicsManager = new GraphicsDeviceManager(this);
     }
 
-    // TODO: Integrate the viewer into the main form
-    private void ConfigureViewerSettings()
+    private void RegisterViewerEvents()
+    {
+        if (GraphicsManager != null)
+        {
+            GraphicsManager.PreparingDeviceSettings += (_, e) =>
+            {
+                e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = DrawSurface;
+            };
+            if (Control.FromHandle(Window.Handle) is Form viewerDialog) viewerDialog.Opacity = 0;
+        }
+    }
+
+    private void ConfigureViewerSettings(NavMeshStudio studio)
     {
         Window.Title = "NavMesh Viewer";
         Window.AllowUserResizing = true;
         IsMouseVisible = true;
         Content.RootDirectory = "Content";
+        studio.viewer.Invoke(() => DrawSurface = studio.viewer.Handle);
     }
 
     public void AddVertex(Vector4 vertex)

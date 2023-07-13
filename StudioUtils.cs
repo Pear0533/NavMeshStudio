@@ -39,12 +39,12 @@ public static class StudioUtils
         studio.saveAsToolStripButton.Enabled = enabled;
     }
 
-    private static void RunViewer()
+    private static void RunViewer(this NavMeshStudio studio)
     {
         new Thread(() =>
         {
             Thread.CurrentThread.IsBackground = true;
-            Cache.Viewer = new StudioViewer();
+            Cache.Viewer = new StudioViewer(studio);
             Cache.Viewer.ConfigureGeometry();
             Cache.Viewer.Run();
         }).Start();
@@ -63,7 +63,7 @@ public static class StudioUtils
         await NavMeshUtils.ReadNavMeshGeometry();
         ToggleStudioControls(studio, true);
         ResetStatus(studio);
-        RunViewer();
+        RunViewer(studio);
     }
 
     private static async Task GetNvmJson(this NavMeshStudio studio)

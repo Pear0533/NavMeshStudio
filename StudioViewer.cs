@@ -58,9 +58,7 @@ public class StudioViewer : Game
         if (GraphicsManager != null)
         {
             GraphicsManager.PreparingDeviceSettings += (_, e) =>
-            {
                 e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = DrawSurface;
-            };
             if (Control.FromHandle(Window.Handle) is Form viewerDialog) viewerDialog.Opacity = 0;
         }
     }
@@ -74,11 +72,13 @@ public class StudioViewer : Game
         studio.viewer.Invoke(() => DrawSurface = studio.viewer.Handle);
     }
 
-    public void AddVertex(Vector4 vertex)
+    private void AddVertices(IReadOnlyList<Vector4> vertices)
     {
         Color vertexColor = Color.Pink;
-        VertexPositionColor viewerVertex = new(vertex.ToVector3(), vertexColor);
-        Vertices.Add(viewerVertex);
+        VertexPositionColor firstVertex = new(vertices[0].ToVector3(), vertexColor);
+        VertexPositionColor secondVertex = new(vertices[1].ToVector3(), vertexColor);
+        VertexPositionColor thirdVertex = new(vertices[2].ToVector3(), vertexColor);
+        Vertices.AddRange(new[] { firstVertex, secondVertex, firstVertex, thirdVertex, secondVertex, thirdVertex });
     }
 
     private static VertexPositionColor[] GetGroundPlaneLines()
@@ -204,9 +204,9 @@ public class StudioViewer : Game
 
     private void DrawGeometry()
     {
-        if (Vertices.Count <= 0 || Facesets.Count <= 0) return;
+        if (Vertices.Count <= 0 && Facesets.Count <= 0) return;
         GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, Vertices.ToArray(), 0, Vertices.Count / 2);
-        GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Facesets.ToArray(), 0, Facesets.Count / 3);
+        // GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Facesets.ToArray(), 0, Facesets.Count / 3);
     }
 
     protected override void Draw(GameTime gameTime)
@@ -239,9 +239,12 @@ public class StudioViewer : Game
 
     public void ConfigureGeometry()
     {
-        foreach (hkaiNavMesh? navMesh in Cache.NavMeshes)
+        foreach (hkaiNavMesh? navMesh in Cache.NavMeshes.Where(i => i?.m_vertices != null))
         {
-            navMesh?.m_vertices.ForEach(AddVertex);
+            List<List<Vector4>>? vertexGroups = navMesh?.m_vertices.ChunkBy(3);
+            if (vertexGroups == null) continue;
+            // TODO: Account for the W component in the vertex groups
+            foreach (List<Vector4> group in vertexGroups.Where(i => i.Count == 3)) AddVertices(group);
         }
     }
 }

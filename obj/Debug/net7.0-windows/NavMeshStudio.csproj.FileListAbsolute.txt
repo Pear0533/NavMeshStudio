@@ -91,3 +91,7 @@ C:\Users\Isaac Fisher\Downloads\Syncthing Shared\Game Mods & Tools\Tools\FromSof
 C:\Users\Isaac Fisher\Downloads\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\runtimes\win7-x86\native\libuv.dll
 C:\Users\Isaac Fisher\Downloads\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\obj\Debug\net7.0-windows\NavMeshStudio.Properties.Resources.resources
 D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\Resources\bg.png
+D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\Lib\NavGen.dll
+D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\Lib\NavGen.exp
+D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\Lib\NavGen.lib
+D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\bin\Debug\net7.0-windows\Lib\NavGen.pdb

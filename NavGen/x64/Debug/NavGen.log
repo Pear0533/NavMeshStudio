@@ -1,0 +1,18 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(503,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  pch.cpp
+  bvhbuilder.cpp
+  dllmain.cpp
+  Recast.cpp
+  RecastAlloc.cpp
+  RecastArea.cpp
+  RecastAssert.cpp
+  RecastContour.cpp
+  RecastFilter.cpp
+  RecastLayers.cpp
+  RecastMesh.cpp
+  RecastMeshDetail.cpp
+  RecastRasterization.cpp
+  RecastRegion.cpp
+  Generating Code...
+     Creating library D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\NavGen\..\Lib\NavGen.lib and object D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\NavGen\..\Lib\NavGen.exp
+  NavGen.vcxproj -> D:\Syncthing Shared\Game Mods & Tools\Tools\FromSoftware\Repositories\Active\NavMeshStudio\Lib\NavGen.dll

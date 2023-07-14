@@ -2,8 +2,8 @@
 
 public class SceneGraph
 {
-    private readonly TreeView View;
     private readonly List<GraphNode> Nodes = new();
+    private readonly TreeView View;
 
     public SceneGraph(NavMeshStudio studio)
     {

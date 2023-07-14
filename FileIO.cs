@@ -25,7 +25,7 @@ public class FileIO
 
     public static string GetSaveDialogFilter()
     {
-        return @"NVA JSON (*.nvajson)|*.nvajson|NVMHKTBND JSON (*.nvmhktbndjson)|*.nvmhktbndjson";
+        return @"NVA JSON (*.nvajson)|*.nvajson|NVMHKTBND JSON (*.nvmhktbndjson)|*.nvmhktbndjson|HKX (*.hkx)|*.hkx";
     }
 
     public static bool OpenNvaFile()

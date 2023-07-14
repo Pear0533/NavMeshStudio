@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HKLib.Serialization.hk2018.Binary;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace NavMeshStudio;
@@ -90,11 +91,20 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
-        if (dialog.FilterIndex == 2) await GetNvmJson(studio);
-        JObject? rootJson = NavMeshUtils.GetNavMeshJson(dialog.FilterIndex);
-        string rootJsonString = JsonConvert.SerializeObject(rootJson, Formatting.Indented);
-        UpdateStatus(studio, "Saving navmesh JSON...");
-        await File.WriteAllTextAsync(dialog.FileName, rootJsonString);
+        if (dialog.FilterIndex == 3)
+        {
+            HavokBinarySerializer serializer = new();
+            for (int i = 0; i < Cache.NavMeshes.Count; ++i)
+                serializer.Write(Cache.NavMeshes[i], $"{Path.GetDirectoryName(dialog.FileName)}\\{i}.hkx");
+        }
+        else
+        {
+            if (dialog.FilterIndex == 2) await GetNvmJson(studio);
+            JObject? rootJson = NavMeshUtils.GetNavMeshJson(dialog.FilterIndex);
+            string rootJsonString = JsonConvert.SerializeObject(rootJson, Formatting.Indented);
+            UpdateStatus(studio, "Saving navmesh JSON...");
+            await File.WriteAllTextAsync(dialog.FileName, rootJsonString);
+        }
         ResetStatus(studio);
     }
 

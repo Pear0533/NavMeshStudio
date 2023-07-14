@@ -44,7 +44,7 @@ public static class StudioUtils
         new Thread(() =>
         {
             Thread.CurrentThread.IsBackground = true;
-            Cache.Viewer = new StudioViewer(studio);
+            Cache.Viewer = new Viewer(studio);
             Cache.Viewer.Run();
         }).Start();
     }

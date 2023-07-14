@@ -45,7 +45,6 @@ public static class StudioUtils
         {
             Thread.CurrentThread.IsBackground = true;
             Cache.Viewer = new StudioViewer(studio);
-            Cache.Viewer.ConfigureGeometry();
             Cache.Viewer.Run();
         }).Start();
     }

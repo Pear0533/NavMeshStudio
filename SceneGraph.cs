@@ -1,11 +1,11 @@
-﻿using HKLib.hk2018;
-
-namespace NavMeshStudio;
+﻿namespace NavMeshStudio;
 
 public class SceneGraph
 {
-    private readonly List<GraphNode> Nodes = new();
-    private readonly TreeView View;
+    public readonly List<GraphNode> GraphNodes = new();
+    private readonly TreeView View = new();
+
+    public SceneGraph() { }
 
     public SceneGraph(NavMeshStudio studio)
     {
@@ -15,10 +15,8 @@ public class SceneGraph
 
     private void Populate()
     {
-        foreach (hkaiNavMesh navMesh in Cache.NavMeshes)
-        {
-            NVNode nvNode = new(navMesh);
-            Nodes.Add(nvNode);
-        }
+        Cache.NavMeshes.ForEach(i => GraphNodes.Add(new NVNode(GraphNodes.Count.ToString(), i)));
+        View.Invoke(View.Nodes.Clear);
+        GraphNodes.ForEach(i => View.Invoke(() => View.Nodes.Add(i.Name)));
     }
 }

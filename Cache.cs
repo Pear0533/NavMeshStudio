@@ -11,6 +11,7 @@ public class Cache
     public static StudioFile<MSBE>? Msb;
     public static JObject? NvmJson;
     public static Viewer Viewer = new();
+    public static SceneGraph SceneGraph = new();
     public static List<hkaiNavMesh> NavMeshes = new();
     public static List<hkReferencedObject> QueryMediators = new();
     public static List<hkReferencedObject> UserEdgeSetups = new();

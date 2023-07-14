@@ -44,8 +44,14 @@ public static class StudioUtils
         new Thread(() =>
         {
             Thread.CurrentThread.IsBackground = true;
-            Cache.Viewer = new Viewer(studio);
-            Cache.Viewer.Run();
+            Cache.SceneGraph = new SceneGraph(studio);
+            if (!Cache.Viewer.IsInitialized)
+            {
+                Cache.Viewer = new Viewer(studio);
+                Cache.Viewer.BuildGeometry();
+                Cache.Viewer.Run();
+            }
+            else Cache.Viewer.BuildGeometry();
         }).Start();
     }
 

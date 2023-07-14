@@ -12,20 +12,21 @@ namespace NavMeshStudio;
 
 public class Viewer : Game
 {
-    private static GraphicsDeviceManager? GraphicsManager;
+    public GraphicsDeviceManager GraphicsManager = null!;
     public readonly List<VertexPositionColor> Facesets = new();
     private readonly VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
     public readonly List<VertexPositionColor> Vertices = new();
     private readonly string ViewerBGFilePath = $"{Utils.ResourcesPath}\\bg.png";
-    private BasicEffect BasicEffect = new(GraphicsManager?.GraphicsDevice);
+    private BasicEffect BasicEffect = null!;
     private Vector3 Camera = new(0, 4, 2);
     private Vector3 CameraOffset = new(0, 0, 0);
     private MouseState CurrentMouseState;
     private IntPtr DrawSurface;
     private MouseState PreviousMouseState;
-    private SpriteBatch SpriteBatch = new(GraphicsManager?.GraphicsDevice);
+    private SpriteBatch SpriteBatch = null!;
     private Rectangle ViewerBGArea;
-    private Texture2D ViewerBGTexture = new(GraphicsManager?.GraphicsDevice, 0, 0);
+    private Texture2D ViewerBGTexture = null!;
+    public bool IsInitialized;
 
     public Viewer() { }
 
@@ -43,7 +44,6 @@ public class Viewer : Game
 
     private void RegisterViewerEvents()
     {
-        if (GraphicsManager == null) return;
         GraphicsManager.PreparingDeviceSettings += (_, e) =>
             e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = DrawSurface;
         if (Control.FromHandle(Window.Handle) is Form viewerDialog) viewerDialog.Opacity = 0;
@@ -54,6 +54,7 @@ public class Viewer : Game
         Window.Title = "NavMesh Viewer";
         Window.AllowUserResizing = true;
         IsMouseVisible = true;
+        IsInitialized = true;
         Content.RootDirectory = "Content";
         studio.viewer.Invoke(() => DrawSurface = studio.viewer.Handle);
     }
@@ -214,8 +215,16 @@ public class Viewer : Game
         GraphicsDevice.DepthStencilState = depthStencilState;
         BasicEffect.View = Matrix.CreateLookAt(cameraPosition, CameraOffset, Vector3.UnitZ);
         BasicEffect.VertexColorEnabled = true;
-        float viewerAspectRatio = GraphicsManager!.PreferredBackBufferWidth / (float)GraphicsManager.PreferredBackBufferHeight;
-        BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, viewerAspectRatio, 0.1f, 200);
+        float viewerAspectRatio = GraphicsManager.PreferredBackBufferWidth / (float)GraphicsManager.PreferredBackBufferHeight;
+        BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, viewerAspectRatio, 0.1f, 500);
         DrawGroundPlaneLines();
+    }
+
+    public void BuildGeometry()
+    {
+        // TODO: Formulate a method for retrieving navmesh nodes more elegantly
+        List<NVNode> nvNodes = Cache.SceneGraph.GraphNodes.Where(i => i is NVNode).ToList().Select(i => (NVNode)i).ToList();
+        Vertices.Clear();
+        nvNodes.ForEach(i => Vertices.AddRange(i.Vertices));
     }
 }

@@ -9,8 +9,9 @@ public sealed class NVNode : GeoNode
 {
     private readonly hkaiNavMesh Mesh;
 
-    public NVNode(hkaiNavMesh mesh)
+    public NVNode(string name, hkaiNavMesh mesh)
     {
+        Name = name;
         Mesh = mesh;
         Process();
     }
@@ -21,6 +22,8 @@ public sealed class NVNode : GeoNode
     {
         int idx = 0;
         int maxcluster = 0;
+        int indexCount = Mesh.m_faces.Sum(f => (f.m_numEdges - 2) * 3);
+        VertexPositionColor[] vertices = new VertexPositionColor[indexCount * 3];
         foreach (hkaiNavMesh.Face face in Mesh.m_faces)
         {
             if (face.m_clusterIndex > maxcluster) maxcluster = face.m_clusterIndex;
@@ -32,11 +35,12 @@ public sealed class NVNode : GeoNode
                 Vector4 vert1 = Mesh.m_vertices[Mesh.m_edges[startEdgeIndices].m_a];
                 Vector4 vert2 = Mesh.m_vertices[Mesh.m_edges[startEdgeIndices + i + 1].m_a];
                 Vector4 vert3 = Mesh.m_vertices[Mesh.m_edges[end].m_a];
-                Vertices[idx] = new VertexPositionColor(new Vector3(vert1.X, vert1.Y, vert1.Z), Color.Pink);
-                Vertices[idx + 1] = new VertexPositionColor(new Vector3(vert2.X, vert2.Y, vert2.Z), Color.Pink);
-                Vertices[idx + 2] = new VertexPositionColor(new Vector3(vert3.X, vert3.Y, vert3.Z), Color.Pink);
+                vertices[idx] = new VertexPositionColor(new Vector3(vert1.X, vert1.Y, vert1.Z), Color.Pink);
+                vertices[idx + 1] = new VertexPositionColor(new Vector3(vert2.X, vert2.Y, vert2.Z), Color.Pink);
+                vertices[idx + 2] = new VertexPositionColor(new Vector3(vert3.X, vert3.Y, vert3.Z), Color.Pink);
                 idx += 3;
             }
         }
+        Vertices = vertices.ToList();
     }
 }

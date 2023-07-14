@@ -8,9 +8,9 @@ namespace NavMeshStudio;
 
 public class NavMeshUtils
 {
-    private static hkReferencedObject? GetReferencedObject(hkRootLevelContainer container, int index)
+    private static hkReferencedObject GetReferencedObject(hkRootLevelContainer container, int index)
     {
-        return container.m_namedVariants.ElementAtOrDefault(index)?.m_variant;
+        return container.m_namedVariants.ElementAtOrDefault(index)?.m_variant ?? new hkReferencedObject();
     }
 
     public static JObject? GetNavMeshJson(int type)
@@ -34,10 +34,11 @@ public class NavMeshUtils
             foreach (BinderFile file in Cache.NvmHktBnd.Data.Files)
             {
                 hkRootLevelContainer rootLevelContainer = (hkRootLevelContainer)serializer.Read(new MemoryStream(file.Bytes));
-                hkReferencedObject? navMesh = GetReferencedObject(rootLevelContainer, 0);
-                hkReferencedObject? queryMediator = GetReferencedObject(rootLevelContainer, 1);
-                hkReferencedObject? userEdgeSetup = GetReferencedObject(rootLevelContainer, 2);
-                Cache.NavMeshes.Add(navMesh as hkaiNavMesh);
+                hkReferencedObject navMesh = GetReferencedObject(rootLevelContainer, 0);
+                hkReferencedObject queryMediator = GetReferencedObject(rootLevelContainer, 1);
+                hkReferencedObject userEdgeSetup = GetReferencedObject(rootLevelContainer, 2);
+                if (navMesh is not hkaiNavMesh mesh) continue;
+                Cache.NavMeshes.Add(mesh);
                 Cache.QueryMediators.Add(queryMediator);
                 Cache.UserEdgeSetups.Add(userEdgeSetup);
             }

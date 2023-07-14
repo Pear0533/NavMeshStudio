@@ -1,4 +1,6 @@
-﻿namespace NavMeshStudio;
+﻿using HKLib.hk2018;
+
+namespace NavMeshStudio;
 
 public class SceneGraph
 {
@@ -8,5 +10,15 @@ public class SceneGraph
     public SceneGraph(NavMeshStudio studio)
     {
         View = studio.sceneGraphTreeView;
+        Populate();
+    }
+
+    private void Populate()
+    {
+        foreach (hkaiNavMesh navMesh in Cache.NavMeshes)
+        {
+            NVNode nvNode = new(navMesh);
+            Nodes.Add(nvNode);
+        }
     }
 }

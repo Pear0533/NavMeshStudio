@@ -17,15 +17,17 @@ public class Viewer : Game
     private readonly VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
     public readonly List<VertexPositionColor> Vertices = new();
     private readonly string ViewerBGFilePath = $"{Utils.ResourcesPath}\\bg.png";
-    private BasicEffect? BasicEffect;
+    private BasicEffect BasicEffect = new(GraphicsManager?.GraphicsDevice);
     private Vector3 Camera = new(0, 4, 2);
     private Vector3 CameraOffset = new(0, 0, 0);
     private MouseState CurrentMouseState;
     private IntPtr DrawSurface;
     private MouseState PreviousMouseState;
-    private SpriteBatch? SpriteBatch;
+    private SpriteBatch SpriteBatch = new(GraphicsManager?.GraphicsDevice);
     private Rectangle ViewerBGArea;
-    private Texture2D? ViewerBGTexture;
+    private Texture2D ViewerBGTexture = new(GraphicsManager?.GraphicsDevice, 0, 0);
+
+    public Viewer() { }
 
     public Viewer(NavMeshStudio studio)
     {
@@ -74,7 +76,7 @@ public class Viewer : Game
     private void DrawGroundPlaneLines()
     {
         VertexPositionColor[] groundPlaneLines = GetGroundPlaneLines();
-        BasicEffect!.TextureEnabled = false;
+        BasicEffect.TextureEnabled = false;
         BasicEffect.CurrentTechnique.Passes.ToList().ForEach(i =>
         {
             i.Apply();
@@ -192,14 +194,14 @@ public class Viewer : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.White);
-        SpriteBatch?.Begin();
+        SpriteBatch.Begin();
         ViewerBGArea = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-        SpriteBatch?.Draw(ViewerBGTexture, ViewerBGArea, Color.White);
-        SpriteBatch?.End();
-        SpriteBatch?.Begin();
+        SpriteBatch.Draw(ViewerBGTexture, ViewerBGArea, Color.White);
+        SpriteBatch.End();
+        SpriteBatch.Begin();
         DrawGroundPlane();
         DrawGeometry();
-        SpriteBatch?.End();
+        SpriteBatch.End();
         base.Draw(gameTime);
     }
 
@@ -210,7 +212,7 @@ public class Viewer : Game
         depthStencilState.DepthBufferEnable = true;
         depthStencilState.DepthBufferFunction = CompareFunction.LessEqual;
         GraphicsDevice.DepthStencilState = depthStencilState;
-        BasicEffect!.View = Matrix.CreateLookAt(cameraPosition, CameraOffset, Vector3.UnitZ);
+        BasicEffect.View = Matrix.CreateLookAt(cameraPosition, CameraOffset, Vector3.UnitZ);
         BasicEffect.VertexColorEnabled = true;
         float viewerAspectRatio = GraphicsManager!.PreferredBackBufferWidth / (float)GraphicsManager.PreferredBackBufferHeight;
         BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, viewerAspectRatio, 0.1f, 200);

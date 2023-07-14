@@ -7,8 +7,8 @@ namespace NavMeshStudio;
 
 public static class Utils
 {
-    public static string? AppRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    public static string? ResourcesPath = $"{AppRootPath}\\Resources";
+    public static string AppRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
+    public static string ResourcesPath = $"{AppRootPath}\\Resources";
 
     public static void RegisterCharacterEncodings()
     {
@@ -29,15 +29,6 @@ public static class Utils
     public static string? RemoveFileExtensions(string? input)
     {
         return input?[..input.IndexOf('.')];
-    }
-
-    public static List<List<T>> ChunkBy<T>(this List<T> source, int chunkSize)
-    {
-        return source
-            .Select((x, i) => new { Index = i, Value = x })
-            .GroupBy(x => x.Index / chunkSize)
-            .Select(x => x.Select(v => v.Value).ToList())
-            .ToList();
     }
 
     public static JObject? ToJson(object? obj)

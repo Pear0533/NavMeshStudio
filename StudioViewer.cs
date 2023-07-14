@@ -1,12 +1,10 @@
-﻿using HKLib.hk2018;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Vector3 = System.Numerics.Vector3;
-using Vector4 = System.Numerics.Vector4;
 
 // ReSharper disable CollectionNeverUpdated.Local
 
@@ -36,18 +34,6 @@ public class StudioViewer : Game
         RegisterViewerEvents();
     }
 
-    [DllImport("NavGen.dll")]
-    public static extern int GetMeshVertCount();
-
-    [DllImport("NavGen.dll")]
-    public static extern int GetMeshTriCount();
-
-    [DllImport("NavGen.dll")]
-    public static extern void GetMeshVerts([In] [Out] ushort[] buffer);
-
-    [DllImport("NavGen.dll")]
-    public static extern void GetMeshTris([In] [Out] ushort[] buffer);
-
     private void InitializeGraphicsManager()
     {
         GraphicsManager = new GraphicsDeviceManager(this);
@@ -55,12 +41,10 @@ public class StudioViewer : Game
 
     private void RegisterViewerEvents()
     {
-        if (GraphicsManager != null)
-        {
-            GraphicsManager.PreparingDeviceSettings += (_, e) =>
-                e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = DrawSurface;
-            if (Control.FromHandle(Window.Handle) is Form viewerDialog) viewerDialog.Opacity = 0;
-        }
+        if (GraphicsManager == null) return;
+        GraphicsManager.PreparingDeviceSettings += (_, e) =>
+            e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = DrawSurface;
+        if (Control.FromHandle(Window.Handle) is Form viewerDialog) viewerDialog.Opacity = 0;
     }
 
     private void ConfigureViewerSettings(NavMeshStudio studio)
@@ -70,15 +54,6 @@ public class StudioViewer : Game
         IsMouseVisible = true;
         Content.RootDirectory = "Content";
         studio.viewer.Invoke(() => DrawSurface = studio.viewer.Handle);
-    }
-
-    private void AddVertices(IReadOnlyList<Vector4> vertices)
-    {
-        Color vertexColor = Color.Pink;
-        VertexPositionColor firstVertex = new(vertices[0].ToVector3(), vertexColor);
-        VertexPositionColor secondVertex = new(vertices[1].ToVector3(), vertexColor);
-        VertexPositionColor thirdVertex = new(vertices[2].ToVector3(), vertexColor);
-        Vertices.AddRange(new[] { firstVertex, secondVertex, firstVertex, thirdVertex, secondVertex, thirdVertex });
     }
 
     private static VertexPositionColor[] GetGroundPlaneLines()
@@ -204,9 +179,14 @@ public class StudioViewer : Game
 
     private void DrawGeometry()
     {
-        if (Vertices.Count <= 0 && Facesets.Count <= 0) return;
-        GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, Vertices.ToArray(), 0, Vertices.Count / 2);
-        // GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Facesets.ToArray(), 0, Facesets.Count / 3);
+        if (Vertices.Count > 0)
+        {
+            GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, Vertices.ToArray(), 0, Vertices.Count / 2);
+        }
+        if (Facesets.Count > 0)
+        {
+            GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Facesets.ToArray(), 0, Facesets.Count / 3);
+        }
     }
 
     protected override void Draw(GameTime gameTime)
@@ -235,16 +215,5 @@ public class StudioViewer : Game
         float viewerAspectRatio = GraphicsManager!.PreferredBackBufferWidth / (float)GraphicsManager.PreferredBackBufferHeight;
         BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, viewerAspectRatio, 0.1f, 200);
         DrawGroundPlaneLines();
-    }
-
-    public void ConfigureGeometry()
-    {
-        foreach (hkaiNavMesh? navMesh in Cache.NavMeshes.Where(i => i?.m_vertices != null))
-        {
-            List<List<Vector4>>? vertexGroups = navMesh?.m_vertices.ChunkBy(3);
-            if (vertexGroups == null) continue;
-            // TODO: Account for the W component in the vertex groups
-            foreach (List<Vector4> group in vertexGroups.Where(i => i.Count == 3)) AddVertices(group);
-        }
     }
 }

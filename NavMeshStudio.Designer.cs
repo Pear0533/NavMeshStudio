@@ -420,7 +420,7 @@
         private SplitContainer splitContainer1;
         private GroupBox sceneGraphGroupBox;
         private GroupBox navMeshCollisionEditingGroupBox;
-        private TreeView sceneGraphTreeView;
+        public TreeView sceneGraphTreeView;
         private ListView navMeshCollisionEditingListView;
         private SplitContainer splitContainer2;
         private SplitContainer splitContainer3;

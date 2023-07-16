@@ -20,15 +20,11 @@ public sealed class NVNode : GeoNode
 
     protected override void Process()
     {
-        int idx = 0;
-        int maxcluster = 0;
-        int indexCount = Mesh.m_faces.Sum(f => (f.m_numEdges - 2) * 3);
-        VertexPositionColor[] vertices = new VertexPositionColor[indexCount * 3];
-        VertexPositionColor[] facesets = new VertexPositionColor[indexCount * 3];
+        List<VertexPositionColor> vertices = new();
+        List<VertexPositionColor> facesets = new();
         Color facesetColor = Utils.GetRandomColor();
         foreach (hkaiNavMesh.Face face in Mesh.m_faces)
         {
-            if (face.m_clusterIndex > maxcluster) maxcluster = face.m_clusterIndex;
             int startEdgeIndices = face.m_startEdgeIndex;
             short edgeCount = face.m_numEdges;
             for (int i = 0; i < edgeCount - 2; i++)
@@ -40,16 +36,27 @@ public sealed class NVNode : GeoNode
                 Vector3 vert1Position = new(vert1.X, vert1.Z, vert1.Y);
                 Vector3 vert2Position = new(vert2.X, vert2.Z, vert2.Y);
                 Vector3 vert3Position = new(vert3.X, vert3.Z, vert3.Y);
-                vertices[idx] = new VertexPositionColor(vert1Position, facesetColor);
-                facesets[idx] = new VertexPositionColor(vert1Position, facesetColor);
-                vertices[idx + 1] = new VertexPositionColor(vert2Position, facesetColor);
-                facesets[idx + 1] = new VertexPositionColor(vert2Position, facesetColor);
-                vertices[idx + 2] = new VertexPositionColor(vert3Position, facesetColor);
-                facesets[idx + 2] = new VertexPositionColor(vert3Position, facesetColor);
-                idx += 3;
+                vertices.AddRange(new[]
+                {
+                    new VertexPositionColor(vert1Position, facesetColor),
+                    new VertexPositionColor(vert2Position, facesetColor),
+                    new VertexPositionColor(vert1Position, facesetColor),
+                    new VertexPositionColor(vert3Position, facesetColor),
+                    new VertexPositionColor(vert2Position, facesetColor),
+                    new VertexPositionColor(vert3Position, facesetColor)
+                });
+                facesets.AddRange(new[]
+                {
+                    new VertexPositionColor(vert1Position, facesetColor),
+                    new VertexPositionColor(vert3Position, facesetColor),
+                    new VertexPositionColor(vert2Position, facesetColor),
+                    new VertexPositionColor(vert1Position, facesetColor),
+                    new VertexPositionColor(vert3Position, facesetColor),
+                    new VertexPositionColor(vert2Position, facesetColor)
+                });
             }
         }
-        Vertices = vertices.ToList();
-        Facesets = facesets.ToList();
+        Vertices = vertices;
+        Facesets = facesets;
     }
 }

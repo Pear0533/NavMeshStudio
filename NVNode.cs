@@ -24,6 +24,8 @@ public sealed class NVNode : GeoNode
         int maxcluster = 0;
         int indexCount = Mesh.m_faces.Sum(f => (f.m_numEdges - 2) * 3);
         VertexPositionColor[] vertices = new VertexPositionColor[indexCount * 3];
+        VertexPositionColor[] facesets = new VertexPositionColor[indexCount * 3];
+        Color facesetColor = Utils.GetRandomColor();
         foreach (hkaiNavMesh.Face face in Mesh.m_faces)
         {
             if (face.m_clusterIndex > maxcluster) maxcluster = face.m_clusterIndex;
@@ -35,12 +37,19 @@ public sealed class NVNode : GeoNode
                 Vector4 vert1 = Mesh.m_vertices[Mesh.m_edges[startEdgeIndices].m_a];
                 Vector4 vert2 = Mesh.m_vertices[Mesh.m_edges[startEdgeIndices + i + 1].m_a];
                 Vector4 vert3 = Mesh.m_vertices[Mesh.m_edges[end].m_a];
-                vertices[idx] = new VertexPositionColor(new Vector3(vert1.X, vert1.Y, vert1.Z), Color.Pink);
-                vertices[idx + 1] = new VertexPositionColor(new Vector3(vert2.X, vert2.Y, vert2.Z), Color.Pink);
-                vertices[idx + 2] = new VertexPositionColor(new Vector3(vert3.X, vert3.Y, vert3.Z), Color.Pink);
+                Vector3 vert1Position = new(vert1.X, vert1.Z, vert1.Y);
+                Vector3 vert2Position = new(vert2.X, vert2.Z, vert2.Y);
+                Vector3 vert3Position = new(vert3.X, vert3.Z, vert3.Y);
+                vertices[idx] = new VertexPositionColor(vert1Position, facesetColor);
+                facesets[idx] = new VertexPositionColor(vert1Position, facesetColor);
+                vertices[idx + 1] = new VertexPositionColor(vert2Position, facesetColor);
+                facesets[idx + 1] = new VertexPositionColor(vert2Position, facesetColor);
+                vertices[idx + 2] = new VertexPositionColor(vert3Position, facesetColor);
+                facesets[idx + 2] = new VertexPositionColor(vert3Position, facesetColor);
                 idx += 3;
             }
         }
         Vertices = vertices.ToList();
+        Facesets = facesets.ToList();
     }
 }

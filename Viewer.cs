@@ -12,7 +12,6 @@ namespace NavMeshStudio;
 
 public class Viewer : Game
 {
-    public GraphicsDeviceManager GraphicsManager = null!;
     public readonly List<VertexPositionColor> Facesets = new();
     private readonly VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
     public readonly List<VertexPositionColor> Vertices = new();
@@ -22,11 +21,12 @@ public class Viewer : Game
     private Vector3 CameraOffset = new(0, 0, 0);
     private MouseState CurrentMouseState;
     private IntPtr DrawSurface;
+    public GraphicsDeviceManager GraphicsManager = null!;
+    public bool IsInitialized;
     private MouseState PreviousMouseState;
     private SpriteBatch SpriteBatch = null!;
     private Rectangle ViewerBGArea;
     private Texture2D ViewerBGTexture = null!;
-    public bool IsInitialized;
 
     public Viewer() { }
 
@@ -225,6 +225,10 @@ public class Viewer : Game
         // TODO: Formulate a method for retrieving navmesh nodes more elegantly
         List<NVNode> nvNodes = Cache.SceneGraph.GraphNodes.Where(i => i is NVNode).ToList().Select(i => (NVNode)i).ToList();
         Vertices.Clear();
-        nvNodes.ForEach(i => Vertices.AddRange(i.Vertices));
+        nvNodes.ForEach(i =>
+        {
+            Vertices.AddRange(i.Vertices);
+            Facesets.AddRange(i.Facesets);
+        });
     }
 }

@@ -2,6 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace NavMeshStudio;
 
@@ -29,6 +30,14 @@ public static class Utils
     public static string? RemoveFileExtensions(string? input)
     {
         return input?[..input.IndexOf('.')];
+    }
+
+    public static Color GetRandomColor()
+    {
+        int r = Random.Shared.Next(256);
+        int g = Random.Shared.Next(256);
+        int b = Random.Shared.Next(256);
+        return Color.FromNonPremultiplied(r, g, b, 256);
     }
 
     public static JObject? ToJson(object? obj)

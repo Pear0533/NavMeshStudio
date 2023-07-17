@@ -2,7 +2,7 @@
 
 public class SceneGraph
 {
-    public readonly List<GraphNode> GraphNodes = new();
+    public readonly List<GraphNode> NVNodes = new();
     private readonly TreeView View = new();
 
     public SceneGraph() { }
@@ -15,8 +15,10 @@ public class SceneGraph
 
     private void Populate()
     {
-        Cache.NavMeshes.ForEach(i => GraphNodes.Add(new NVNode(GraphNodes.Count.ToString(), i)));
+        TreeNode navMeshesRootNode = new("NavMeshes");
+        Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode((NVNodes.Count + 1).ToString(), i)));
         View.Invoke(View.Nodes.Clear);
-        GraphNodes.ForEach(i => View.Invoke(() => View.Nodes.Add(i.Name)));
+        NVNodes.ForEach(i => View.Invoke(() => navMeshesRootNode.Nodes.Add(i.Name)));
+        View.Invoke(() => View.Nodes.Add(navMeshesRootNode));
     }
 }

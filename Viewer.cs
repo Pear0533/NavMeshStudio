@@ -223,7 +223,7 @@ public class Viewer : Game
     public void BuildGeometry()
     {
         // TODO: Formulate a method for retrieving navmesh nodes more elegantly
-        List<NVNode> nvNodes = Cache.SceneGraph.GraphNodes.Where(i => i is NVNode).ToList().Select(i => (NVNode)i).ToList();
+        List<NVNode> nvNodes = Cache.SceneGraph.NVNodes.Where(i => i is NVNode).ToList().Select(i => (NVNode)i).ToList();
         Vertices.Clear();
         nvNodes.ForEach(i =>
         {

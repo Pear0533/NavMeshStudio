@@ -2,7 +2,7 @@
 
 public class SceneGraph
 {
-    public readonly List<GraphNode> NVNodes = new();
+    public readonly List<NVNode> NVNodes = new();
     private readonly TreeView View = new();
 
     public SceneGraph() { }

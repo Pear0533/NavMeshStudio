@@ -54,6 +54,12 @@ public sealed class NVNode : GeoNode
                     new VertexPositionColor(vert3Position, facesetColor),
                     new VertexPositionColor(vert2Position, facesetColor)
                 });
+                facesets.AddRange(new[]
+                {
+                    new VertexPositionColor(vert1Position, facesetColor),
+                    new VertexPositionColor(vert2Position, facesetColor),
+                    new VertexPositionColor(vert3Position, facesetColor)
+                });
             }
         }
         Vertices = vertices;

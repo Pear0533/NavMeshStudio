@@ -41,6 +41,11 @@ public static class StudioUtils
         studio.saveAsToolStripButton.Enabled = enabled;
     }
 
+    public static void RegisterConsole(this NavMeshStudio studio)
+    {
+        Cache.Console = new Console(studio);
+    }
+
     private static void RunViewer(this NavMeshStudio studio)
     {
         new Thread(() =>
@@ -55,6 +60,7 @@ public static class StudioUtils
             }
             else Cache.Viewer.BuildGeometry();
         }).Start();
+        Cache.Console.Write("Started main thread for viewer");
     }
 
     private static async Task Open(this NavMeshStudio studio)
@@ -65,6 +71,8 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
+        Cache.Console.Write($"Read {Cache.Msb?.Path}");
+        Cache.Console.Write($"Read {Cache.NvmHktBnd?.Path}");
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         UpdateStatus(studio, "Reading navmesh geometry...");
         await NavMeshUtils.ReadNavMeshGeometry();
@@ -79,17 +87,20 @@ public static class StudioUtils
         if (!await NavMeshUtils.GenerateNvmJson()) ResetStatus(studio);
     }
 
-    private static void SaveNvmHktBnd(FileDialog dialog)
+    private static async Task SaveNvmHktBnd(FileDialog dialog)
     {
         HavokBinarySerializer serializer = new();
-        for (int i = 0; i < Cache.NvmHktBnd?.Data.Files.Count; ++i)
+        await Task.Run(() =>
         {
-            BinderFile file = Cache.NvmHktBnd.Data.Files[i];
-            MemoryStream stream = new();
-            serializer.Write(Cache.NavMeshes[i], stream);
-            file.Bytes = stream.ToArray();
-        }
-        Cache.NvmHktBnd?.Data.Write(dialog.FileName);
+            for (int i = 0; i < Cache.NvmHktBnd?.Data.Files.Count; ++i)
+            {
+                BinderFile file = Cache.NvmHktBnd.Data.Files[i];
+                MemoryStream stream = new();
+                serializer.Write(Cache.NavMeshes[i], stream);
+                file.Bytes = stream.ToArray();
+            }
+            Cache.NvmHktBnd?.Data.Write(dialog.FileName);
+        });
     }
 
     private static async Task SaveNavMeshJson(this NavMeshStudio studio, FileDialog dialog)
@@ -114,8 +125,9 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
-        if (dialog.FilterIndex == 3) SaveNvmHktBnd(dialog);
+        if (dialog.FilterIndex == 3) await SaveNvmHktBnd(dialog);
         else await studio.SaveNavMeshJson(dialog);
+        Cache.Console.Write($"Saved {dialog.FileName} to file");
         ResetStatus(studio);
     }
 

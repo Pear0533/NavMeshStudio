@@ -10,6 +10,7 @@ public partial class NavMeshStudio : Form
         CenterToScreen();
         RegisterCharacterEncodings();
         this.RegisterFormEvents();
+        this.RegisterConsole();
         this.ToggleStudioControls();
         this.SetVersionString();
     }

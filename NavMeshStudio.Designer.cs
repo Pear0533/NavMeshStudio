@@ -338,6 +338,7 @@
             // 
             consoleTextBox.BorderStyle = BorderStyle.None;
             consoleTextBox.Dock = DockStyle.Fill;
+            consoleTextBox.Font = new Font("Consolas", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             consoleTextBox.Location = new Point(0, 0);
             consoleTextBox.Name = "consoleTextBox";
             consoleTextBox.ReadOnly = true;
@@ -429,7 +430,7 @@
         private GroupBox attributesGroupBox;
         private ListView attributesListView;
         private GroupBox consoleGroupBox;
-        private RichTextBox consoleTextBox;
+        public RichTextBox consoleTextBox;
         private GroupBox viewerGroupBox;
         private StatusStrip statusRibbon;
         public ToolStripStatusLabel statusLabel;

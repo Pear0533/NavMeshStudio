@@ -14,6 +14,7 @@ public class Cache
     public static Viewer Viewer = new();
     public static Console Console = new();
     public static List<hkaiNavMesh> NavMeshes = new();
+    public static List<FLVER2> MapPieces = new();
     public static List<hkReferencedObject> QueryMediators = new();
     public static List<hkReferencedObject> UserEdgeSetups = new();
 

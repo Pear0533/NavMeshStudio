@@ -79,6 +79,9 @@ public static class StudioUtils
         ToggleStudioControls(studio, true);
         ResetStatus(studio);
         RunViewer(studio);
+        UpdateStatus(studio, "Reading map piece geometry...");
+        await MapUtils.ReadMapPieces();
+        ResetStatus(studio);
     }
 
     private static async Task GetNvmJson(this NavMeshStudio studio)

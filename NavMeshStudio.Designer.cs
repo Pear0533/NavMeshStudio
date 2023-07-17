@@ -45,6 +45,7 @@
             navMeshCollisionEditingListView = new ListView();
             splitContainer2 = new SplitContainer();
             viewerGroupBox = new GroupBox();
+            viewer = new PictureBox();
             splitContainer3 = new SplitContainer();
             attributesGroupBox = new GroupBox();
             attributesListView = new ListView();
@@ -54,7 +55,6 @@
             consoleTextBox = new RichTextBox();
             statusRibbon = new StatusStrip();
             statusLabel = new ToolStripStatusLabel();
-            viewer = new PictureBox();
             menuRibbon.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -68,6 +68,7 @@
             splitContainer2.Panel2.SuspendLayout();
             splitContainer2.SuspendLayout();
             viewerGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)viewer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer3).BeginInit();
             splitContainer3.Panel1.SuspendLayout();
             splitContainer3.Panel2.SuspendLayout();
@@ -80,7 +81,6 @@
             consoleGroupBox.SuspendLayout();
             panel1.SuspendLayout();
             statusRibbon.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)viewer).BeginInit();
             SuspendLayout();
             // 
             // menuRibbon
@@ -249,6 +249,15 @@
             viewerGroupBox.TabStop = false;
             viewerGroupBox.Text = "Viewer";
             // 
+            // viewer
+            // 
+            viewer.Dock = DockStyle.Fill;
+            viewer.Location = new Point(3, 19);
+            viewer.Name = "viewer";
+            viewer.Size = new Size(557, 410);
+            viewer.TabIndex = 0;
+            viewer.TabStop = false;
+            // 
             // splitContainer3
             // 
             splitContainer3.Dock = DockStyle.Fill;
@@ -331,6 +340,7 @@
             consoleTextBox.Dock = DockStyle.Fill;
             consoleTextBox.Location = new Point(0, 0);
             consoleTextBox.Name = "consoleTextBox";
+            consoleTextBox.ReadOnly = true;
             consoleTextBox.Size = new Size(1043, 144);
             consoleTextBox.TabIndex = 0;
             consoleTextBox.Text = "";
@@ -349,15 +359,6 @@
             statusLabel.Name = "statusLabel";
             statusLabel.Size = new Size(39, 17);
             statusLabel.Text = "Ready";
-            // 
-            // viewer
-            // 
-            viewer.Dock = DockStyle.Fill;
-            viewer.Location = new Point(3, 19);
-            viewer.Name = "viewer";
-            viewer.Size = new Size(557, 410);
-            viewer.TabIndex = 0;
-            viewer.TabStop = false;
             // 
             // NavMeshStudio
             // 
@@ -391,6 +392,7 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
             splitContainer2.ResumeLayout(false);
             viewerGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)viewer).EndInit();
             splitContainer3.Panel1.ResumeLayout(false);
             splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
@@ -404,7 +406,6 @@
             panel1.ResumeLayout(false);
             statusRibbon.ResumeLayout(false);
             statusRibbon.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)viewer).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }

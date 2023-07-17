@@ -2,9 +2,9 @@
 
 public static class Utils3D
 {
-    public static Vector3 ToVector3(this Vector4 vector)
+    public static Point ToDrawingPoint(this Microsoft.Xna.Framework.Point point)
     {
-        return new Vector3(vector.X, vector.Y, vector.Z);
+        return new Point(point.X, point.Y);
     }
 
     public static Vector3 RotatePoint(Vector3 point, float pitch, float roll, float yaw)

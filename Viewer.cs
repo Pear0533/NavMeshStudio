@@ -22,6 +22,7 @@ public class Viewer : Game
     private MouseState CurrentMouseState;
     private IntPtr DrawSurface;
     public GraphicsDeviceManager GraphicsManager = null!;
+    private bool IsFocused;
     public bool IsInitialized;
     private MouseState PreviousMouseState;
     private SpriteBatch SpriteBatch = null!;
@@ -34,7 +35,7 @@ public class Viewer : Game
     {
         ConfigureViewerSettings(studio);
         InitializeGraphicsManager();
-        RegisterViewerEvents();
+        RegisterViewerEvents(studio);
     }
 
     private void InitializeGraphicsManager()
@@ -42,10 +43,12 @@ public class Viewer : Game
         GraphicsManager = new GraphicsDeviceManager(this);
     }
 
-    private void RegisterViewerEvents()
+    private void RegisterViewerEvents(NavMeshStudio studio)
     {
         GraphicsManager.PreparingDeviceSettings += (_, e) =>
             e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = DrawSurface;
+        studio.viewer.MouseEnter += (_, _) => IsFocused = true;
+        studio.viewer.MouseLeave += (_, _) => IsFocused = false;
         if (Control.FromHandle(Window.Handle) is Form viewerDialog) viewerDialog.Opacity = 0;
     }
 
@@ -166,6 +169,7 @@ public class Viewer : Game
 
     protected override void Update(GameTime gameTime)
     {
+        if (!IsFocused) return;
         CurrentMouseState = Mouse.GetState();
         if (CurrentMouseState.LeftButton == ButtonState.Pressed)
         {

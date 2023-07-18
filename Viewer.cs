@@ -227,7 +227,13 @@ public class Viewer : Game
     public void BuildGeometry()
     {
         Vertices.Clear();
+        // TODO: Create a method for this...
         Cache.SceneGraph.NVNodes.ForEach(i =>
+        {
+            Vertices.AddRange(i.Vertices);
+            Facesets.AddRange(i.Facesets);
+        });
+        Cache.SceneGraph.MPNodes.ToList().ForEach(i =>
         {
             Vertices.AddRange(i.Vertices);
             Facesets.AddRange(i.Facesets);

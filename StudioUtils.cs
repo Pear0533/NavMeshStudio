@@ -76,12 +76,11 @@ public static class StudioUtils
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         UpdateStatus(studio, "Reading navmesh geometry...");
         await NavMeshUtils.ReadNavMeshGeometry();
+        UpdateStatus(studio, "Reading map piece geometry...");
+        await MapUtils.ReadMapPieces();
         ToggleStudioControls(studio, true);
         ResetStatus(studio);
         RunViewer(studio);
-        UpdateStatus(studio, "Reading map piece geometry...");
-        await MapUtils.ReadMapPieces();
-        ResetStatus(studio);
     }
 
     private static async Task GetNvmJson(this NavMeshStudio studio)

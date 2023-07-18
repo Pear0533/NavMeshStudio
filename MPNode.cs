@@ -6,12 +6,12 @@ namespace NavMeshStudio;
 
 public sealed class MPNode : GeoNode
 {
-    private readonly FLVER2 MapPiece;
+    private readonly string MapPieceBndFilePath;
 
-    public MPNode(string name, FLVER2 mapPiece)
+    public MPNode(string name, string mapPieceBndFilePath)
     {
         Name = name;
-        MapPiece = mapPiece;
+        MapPieceBndFilePath = mapPieceBndFilePath;
         Process();
     }
 
@@ -22,7 +22,8 @@ public sealed class MPNode : GeoNode
         List<VertexPositionColor> vertices = new();
         List<VertexPositionColor> facesets = new();
         Color facesetColor = Color.Gray;
-        MapPiece.Meshes.ForEach(i =>
+        FLVER2 mapPiece = MapUtils.ReadFLVERFromBND(MapPieceBndFilePath);
+        mapPiece.Meshes.ForEach(i =>
         {
             List<FLVER.Vertex[]> faces = i.GetFaces();
             faces.ForEach(x =>

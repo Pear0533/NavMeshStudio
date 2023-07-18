@@ -11,17 +11,20 @@ public class SceneGraph
     public SceneGraph(NavMeshStudio studio)
     {
         View = studio.sceneGraphTreeView;
-        Populate();
+        Populate(studio);
     }
 
-    private void Populate()
+    private void Populate(NavMeshStudio studio)
     {
         TreeNode navMeshesRootNode = new("NavMeshes");
         TreeNode mapPiecesRootNode = new("MapPieces");
         // TODO: Formulate a generic method for creating nodes from objects
         Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode((NVNodes.Count + 1).ToString(), i)));
+        studio.UpdateStatus("Reading map piece geometry...");
+        // TODO: Improve performance when reading map pieces
         // TODO: Use actual names for the map pieces in the scene graph
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode((MPNodes.Count + 1).ToString(), i)));
+        studio.ResetStatus();
         View.Invoke(View.Nodes.Clear);
         // TODO: Formulate a generic method for adding nodes to a root
         NVNodes.ForEach(i => navMeshesRootNode.Nodes.Add(i.Name));

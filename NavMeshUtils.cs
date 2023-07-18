@@ -13,20 +13,10 @@ public class NavMeshUtils
         return container.m_namedVariants.ElementAtOrDefault(index)?.m_variant ?? new hkReferencedObject();
     }
 
-    public static JObject? GetNavMeshJson(int type)
-    {
-        JObject? rootJson = type switch
-        {
-            1 => ToJson(Cache.Nva?.Data),
-            2 => Cache.NvmJson,
-            _ => null
-        };
-        return rootJson;
-    }
-
-    public static async Task<bool> ReadNavMeshGeometry()
+    public static async Task<bool> ReadNavMeshGeometry(NavMeshStudio studio)
     {
         if (Cache.NvmHktBnd == null) return false;
+        studio.UpdateStatus("Reading navmesh geometry...");
         await Task.Run(() =>
         {
             Cache.Clear();
@@ -46,15 +36,14 @@ public class NavMeshUtils
         return true;
     }
 
-    public static async Task<bool> GenerateNvmJson()
+    public static async Task<JObject> GenerateNvmJson()
     {
-        if (Cache.NvmJson != null) return true;
+        JObject nvmJson = new();
         await Task.Run(() =>
         {
-            Cache.NvmJson = new JObject();
             for (int i = 0; i < Cache.NavMeshes.Count; i++)
             {
-                Cache.NvmJson[(i + 1).ToString()] = new JObject
+                nvmJson[(i + 1).ToString()] = new JObject
                 {
                     { "NavMesh", ToJson(Cache.NavMeshes[i]) },
                     { "QueryMediator", ToJson(Cache.QueryMediators[i]) },
@@ -62,6 +51,6 @@ public class NavMeshUtils
                 };
             }
         });
-        return true;
+        return nvmJson;
     }
 }

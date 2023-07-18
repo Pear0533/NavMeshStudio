@@ -233,10 +233,5 @@ public class Viewer : Game
             Vertices.AddRange(i.Vertices);
             Facesets.AddRange(i.Facesets);
         });
-        Cache.SceneGraph.MPNodes.ToList().ForEach(i =>
-        {
-            Vertices.AddRange(i.Vertices);
-            Facesets.AddRange(i.Facesets);
-        });
     }
 }

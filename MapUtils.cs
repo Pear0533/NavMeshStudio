@@ -4,18 +4,15 @@ namespace NavMeshStudio;
 
 public class MapUtils
 {
-    public static async Task ReadMapPieces()
+    public static FLVER2 ReadFLVERFromBND(string bndFilePath)
+    {
+        BinderFile? flverBinderFile = BND4.Read(bndFilePath).Files.Find(i => i.Name.EndsWith(".flver"));
+        return flverBinderFile == null ? new FLVER2() : FLVER2.Read(flverBinderFile.Bytes);
+    }
+
+    public static void ReadMapPieceGeometry()
     {
         string mapBndsFolderPath = Path.GetDirectoryName(Cache.NvmHktBnd?.Path) ?? "";
-        List<string> mapBndFilePaths = Directory.GetFiles(mapBndsFolderPath, "*.mapbnd.dcx").ToList();
-        await Task.Run(() =>
-        {
-            mapBndFilePaths.ForEach(i =>
-            {
-                BinderFile? flverBinderFile = BND4.Read(i).Files.Find(x => x.Name.EndsWith(".flver"));
-                if (flverBinderFile == null) return;
-                Cache.MapPieces.Add(FLVER2.Read(flverBinderFile.Bytes));
-            });
-        });
+        Cache.MapPieces = Directory.GetFiles(mapBndsFolderPath, "*.mapbnd.dcx").ToList();
     }
 }

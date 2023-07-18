@@ -25,24 +25,27 @@ public class FileIO
 
     public static string GetSaveDialogFilter()
     {
-        return @"NVA JSON (*.nvajson)|*.nvajson|NVMHKTBND JSON (*.nvmhktbndjson)|*.nvmhktbndjson|NVMHKTBND (*.nvmhktbnd.dcx)|*.nvmhktbnd.dcx";
+        return @"NVA JSON (*.nvajson)|*.nvajson|NVMHKTBND JSON (*.nvmhktbndjson)|*.nvmhktbndjson|NVMHKTBND (*.nvmhktbnd)|*.nvmhktbnd";
     }
 
     public static bool OpenNvaFile()
     {
-        Cache.Nva = OpenFile<NVA>(@"NVA File (*.nva, *.nva.dcx)|*.nva;*.nva.dcx");
-        return Cache.Nva != null;
+        StudioFile<NVA>? nva = OpenFile<NVA>(@"NVA File (*.nva, *.nva.dcx)|*.nva;*.nva.dcx");
+        if (nva != null) Cache.Nva = nva;
+        return nva != null;
     }
 
     public static bool OpenNvmHktBndFile()
     {
-        Cache.NvmHktBnd = OpenFile<BND4>(@"NVMHKTBND File (*.nvmhktbnd, *.nvmhktbnd.dcx)|*.nvmhktbnd;*.nvmhktbnd.dcx");
-        return Cache.NvmHktBnd != null;
+        StudioFile<BND4>? nvmhktbnd = OpenFile<BND4>(@"NVMHKTBND File (*.nvmhktbnd, *.nvmhktbnd.dcx)|*.nvmhktbnd;*.nvmhktbnd.dcx");
+        if (nvmhktbnd != null) Cache.NvmHktBnd = nvmhktbnd;
+        return nvmhktbnd != null;
     }
 
     public static bool OpenMsbFile()
     {
-        Cache.Msb = OpenFile<MSBE>(@"MSB File (*.msb, *.msb.dcx)|*.msb;*.msb.dcx");
-        return Cache.Msb != null;
+        StudioFile<MSBE>? msb = OpenFile<MSBE>(@"MSB File (*.msb, *.msb.dcx)|*.msb;*.msb.dcx");
+        if (msb != null) Cache.Msb = msb;
+        return msb != null;
     }
 }

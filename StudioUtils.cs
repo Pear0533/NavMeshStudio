@@ -25,7 +25,7 @@ public static class StudioUtils
         studio.statusLabel.Text = @"Waiting for user...";
     }
 
-    private static void ResetStatus(this NavMeshStudio studio)
+    public static void ResetStatus(this NavMeshStudio studio)
     {
         studio.statusLabel.Text = @"Ready";
     }
@@ -74,27 +74,26 @@ public static class StudioUtils
         Cache.Console.Write($"Read {Cache.Msb?.Path}");
         Cache.Console.Write($"Read {Cache.NvmHktBnd?.Path}");
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
-        UpdateStatus(studio, "Reading navmesh geometry...");
-        await NavMeshUtils.ReadNavMeshGeometry();
-        UpdateStatus(studio, "Reading map piece geometry...");
-        await MapUtils.ReadMapPieces();
+        await NavMeshUtils.ReadNavMeshGeometry(studio);
+        MapUtils.ReadMapPieceGeometry();
         ToggleStudioControls(studio, true);
         ResetStatus(studio);
         RunViewer(studio);
     }
 
-    private static async Task GetNvmJson(this NavMeshStudio studio)
+    private static async Task<JObject> GetNvmJson(this NavMeshStudio studio)
     {
         UpdateStatus(studio, "Generating nvmhktbnd JSON...");
-        if (!await NavMeshUtils.GenerateNvmJson()) ResetStatus(studio);
+        return await NavMeshUtils.GenerateNvmJson();
     }
 
-    private static async Task SaveNvmHktBnd(FileDialog dialog)
+    private static async Task SaveNvmHktBnd(this NavMeshStudio studio, FileDialog dialog)
     {
+        UpdateStatus(studio, "Saving nvmhktbnd to file...");
         HavokBinarySerializer serializer = new();
         await Task.Run(() =>
         {
-            for (int i = 0; i < Cache.NvmHktBnd?.Data.Files.Count; ++i)
+            for (int i = 0; i < Cache.NvmHktBnd?.Data.Files.Count; i++)
             {
                 BinderFile file = Cache.NvmHktBnd.Data.Files[i];
                 MemoryStream stream = new();
@@ -107,8 +106,7 @@ public static class StudioUtils
 
     private static async Task SaveNavMeshJson(this NavMeshStudio studio, FileDialog dialog)
     {
-        if (dialog.FilterIndex == 2) await GetNvmJson(studio);
-        JObject? rootJson = NavMeshUtils.GetNavMeshJson(dialog.FilterIndex);
+        JObject? rootJson = dialog.FilterIndex == 1 ? Utils.ToJson(Cache.Nva?.Data) : await GetNvmJson(studio);
         string rootJsonString = JsonConvert.SerializeObject(rootJson, Formatting.Indented);
         UpdateStatus(studio, "Saving navmesh JSON...");
         await File.WriteAllTextAsync(dialog.FileName, rootJsonString);
@@ -127,7 +125,7 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
-        if (dialog.FilterIndex == 3) await SaveNvmHktBnd(dialog);
+        if (dialog.FilterIndex == 3) await SaveNvmHktBnd(studio, dialog);
         else await studio.SaveNavMeshJson(dialog);
         Cache.Console.Write($"Saved {dialog.FileName} to file");
         ResetStatus(studio);

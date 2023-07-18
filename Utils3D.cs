@@ -1,15 +1,55 @@
-﻿namespace NavMeshStudio;
+﻿using Vector3 = Microsoft.Xna.Framework.Vector3;
+
+namespace NavMeshStudio;
 
 public static class Utils3D
 {
-    public static Point ToDrawingPoint(this Microsoft.Xna.Framework.Point point)
+    public static void FlipYZ(ref this Vector3 vector)
     {
-        return new Point(point.X, point.Y);
+        float x = vector.X;
+        float y = vector.Y;
+        float z = vector.Z;
+        vector = new Vector3(x, z, y);
     }
 
-    public static Vector3 RotatePoint(Vector3 point, float pitch, float roll, float yaw)
+    public static Vector3 NormalizeXnaVector3(this Vector3 vector)
     {
-        Vector3 rotatedPoint = new(0, 0, 0);
+        float x = vector.X;
+        float y = vector.Y;
+        float z = vector.Z;
+        float num = MathF.Sqrt(x * x + y * y + z * z);
+        num = 1f / num;
+        x *= num;
+        y *= num;
+        z *= num;
+        return new Vector3(x, y, z);
+    }
+
+    public static Vector3 CrossProduct(Vector3 vector1, Vector3 vector2)
+    {
+        float x1 = vector1.X;
+        float y1 = vector1.Y;
+        float z1 = vector1.Z;
+        float x2 = vector2.X;
+        float y2 = vector2.Y;
+        float z2 = vector2.Z;
+        return new Vector3(y1 * z2 - z1 * y2, z1 * x2 - x1 * z2, x1 * y2 - y1 * x2);
+    }
+
+    public static float DotProduct(Vector3 vector1, Vector3 vector2)
+    {
+        float x1 = vector1.X;
+        float y1 = vector1.Y;
+        float z1 = vector1.Z;
+        float x2 = vector2.X;
+        float y2 = vector2.Y;
+        float z2 = vector2.Z;
+        return x1 * x2 + y1 * y2 + z1 * z2;
+    }
+
+    public static System.Numerics.Vector3 RotatePoint(this System.Numerics.Vector3 point, float pitch, float roll, float yaw)
+    {
+        System.Numerics.Vector3 rotatedPoint = new(0, 0, 0);
         double cosa = Math.Cos(yaw);
         double sina = Math.Sin(yaw);
         double cosb = Math.Cos(pitch);
@@ -34,7 +74,7 @@ public static class Utils3D
         return rotatedPoint;
     }
 
-    public static Vector3 RotateLine(Vector3 point, Vector3 org, Vector3 direction, double theta)
+    public static System.Numerics.Vector3 RotateLine(System.Numerics.Vector3 point, System.Numerics.Vector3 org, System.Numerics.Vector3 direction, double theta)
     {
         double x = point.X;
         double y = point.Y;
@@ -55,11 +95,11 @@ public static class Utils3D
         rP[2] = (c * (nu * nu + nv * nv) - nw * (a * nu + b * nv - nu * x - nv * y - nw * z)) * (1 - Math.Cos(theta))
             + z * Math.Cos(theta)
             + (-b * nu + a * nv - nv * x + nu * y) * Math.Sin(theta);
-        Vector3 rotatedLine = new((float)rP[0], (float)rP[1], (float)rP[2]);
+        System.Numerics.Vector3 rotatedLine = new((float)rP[0], (float)rP[1], (float)rP[2]);
         return rotatedLine;
     }
 
-    public static Vector3 CrossProduct(Vector3 vector1, Vector3 vector2)
+    public static System.Numerics.Vector3 CrossProduct(System.Numerics.Vector3 vector1, System.Numerics.Vector3 vector2)
     {
         float x1 = vector1.X;
         float y1 = vector1.Y;
@@ -67,12 +107,12 @@ public static class Utils3D
         float x2 = vector2.X;
         float y2 = vector2.Y;
         float z2 = vector2.Z;
-        return new Vector3(y1 * z2 - z1 * y2, z1 * x2 - x1 * z2, x1 * y2 - y1 * x2);
+        return new System.Numerics.Vector3(y1 * z2 - z1 * y2, z1 * x2 - x1 * z2, x1 * y2 - y1 * x2);
     }
 
-    public static Vector3 Normalize(Vector3 vector)
+    public static System.Numerics.Vector3 NormalizeNumericsVector3(this System.Numerics.Vector3 vector)
     {
         float length = vector.Length();
-        return length == 0 ? new Vector3() : new Vector3(vector.X / length, vector.Y / length, vector.Z / length);
+        return length == 0 ? new System.Numerics.Vector3() : new System.Numerics.Vector3(vector.X / length, vector.Y / length, vector.Z / length);
     }
 }

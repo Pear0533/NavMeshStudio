@@ -128,7 +128,7 @@ public class Viewer : Game
 
     private void UpdateLeftMouseButtonClick()
     {
-        Camera = Utils3D.RotatePoint(Camera, 0, 0, -(CurrentMouseState.Position.X - PreviousMouseState.Position.X) * 0.01f);
+        Camera = Camera.RotatePoint(0, 0, -(CurrentMouseState.Position.X - PreviousMouseState.Position.X) * 0.01f);
         Vector3 direction = new(Camera.Y, -Camera.X, 0);
         float theta = (CurrentMouseState.Position.Y - PreviousMouseState.Position.Y) * 0.01f;
         Camera = Utils3D.RotateLine(Camera, new Vector3(0, 0, 0), direction, theta);
@@ -137,8 +137,8 @@ public class Viewer : Game
     private void UpdateMiddleMouseButtonClick()
     {
         Vector3 upVector = new(0, 0, 1);
-        Vector3 rightVector = Utils3D.Normalize(Utils3D.CrossProduct(upVector, Camera));
-        Microsoft.Xna.Framework.Vector3 cameraUpVector = Utils3D.Normalize(Utils3D.CrossProduct(Camera, rightVector));
+        Vector3 rightVector = Utils3D.CrossProduct(upVector, Camera).NormalizeNumericsVector3();
+        Microsoft.Xna.Framework.Vector3 cameraUpVector = Utils3D.CrossProduct(Camera, rightVector).NormalizeNumericsVector3();
         float mouseX = CurrentMouseState.Position.X - PreviousMouseState.Position.X;
         float mouseY = CurrentMouseState.Position.Y - PreviousMouseState.Position.Y;
         CameraOffset -= new Vector3(rightVector.X * mouseX * 0.01f, rightVector.Y * mouseX * 0.01f, rightVector.Z * mouseX * 0.01f);

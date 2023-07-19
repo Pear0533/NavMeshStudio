@@ -34,10 +34,10 @@ public static class Utils
 
     public static Color GetRandomColor()
     {
-        int r = Random.Shared.Next(256);
-        int g = Random.Shared.Next(256);
-        int b = Random.Shared.Next(256);
-        return Color.FromNonPremultiplied(r, g, b, 256);
+        int r = (byte)(Random.Shared.Next(128) + 127);
+        int g = (byte)(Random.Shared.Next(128) + 127);
+        int b = (byte)(Random.Shared.Next(128) + 127);
+        return Color.FromNonPremultiplied(r, g, b, 255);
     }
 
     public static JObject? ToJson(object? obj)

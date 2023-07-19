@@ -17,10 +17,10 @@ public class SceneGraph
     private void Populate(NavMeshStudio studio)
     {
         TreeNode navMeshesRootNode = new("NavMeshes");
-        TreeNode mapPiecesRootNode = new("MapPieces");
+        TreeNode mapPiecesRootNode = new("Map Pieces");
         // TODO: Formulate a generic method for creating nodes from objects
         Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode((NVNodes.Count + 1).ToString(), i)));
-        studio.UpdateStatus("Reading map piece geometry...");
+        studio.Invoke(() => studio.UpdateStatus("Reading map piece geometry..."));
         // TODO: Improve performance when reading map pieces
         // TODO: Use actual names for the map pieces in the scene graph
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode((MPNodes.Count + 1).ToString(), i)));

@@ -22,7 +22,7 @@ public class Viewer : Game
     private MouseState CurrentMouseState;
     private IntPtr DrawSurface;
     public GraphicsDeviceManager GraphicsManager = null!;
-    private bool IsFocused;
+    private bool IsFocused = true;
     public bool IsInitialized;
     private MouseState PreviousMouseState;
     private SpriteBatch SpriteBatch = null!;

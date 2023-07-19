@@ -40,6 +40,11 @@ public static class Utils
         return Color.FromNonPremultiplied(r, g, b, 255);
     }
 
+    public static bool IsMouseOverControl(Control control)
+    {
+        return control.ClientRectangle.Contains(control.PointToClient(Cursor.Position));
+    }
+
     public static JObject? ToJson(object? obj)
     {
         return JsonConvert.DeserializeObject<JObject>(JsonConvert.SerializeObject(obj));

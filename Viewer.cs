@@ -22,7 +22,7 @@ public class Viewer : Game
     private MouseState CurrentMouseState;
     private IntPtr DrawSurface;
     public GraphicsDeviceManager GraphicsManager = null!;
-    private bool IsFocused = true;
+    private bool IsFocused;
     public bool IsInitialized;
     private MouseState PreviousMouseState;
     private SpriteBatch SpriteBatch = null!;
@@ -46,7 +46,10 @@ public class Viewer : Game
     private void RegisterViewerEvents(NavMeshStudio studio)
     {
         GraphicsManager.PreparingDeviceSettings += (_, e) =>
+        {
             e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = DrawSurface;
+            IsFocused = studio.viewer.Invoke(() => Utils.IsMouseOverControl(studio.viewer));
+        };
         studio.viewer.MouseEnter += (_, _) => IsFocused = true;
         studio.viewer.MouseLeave += (_, _) => IsFocused = false;
         if (Control.FromHandle(Window.Handle) is Form viewerDialog) viewerDialog.Opacity = 0;

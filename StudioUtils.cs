@@ -76,7 +76,6 @@ public static class StudioUtils
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         await NavMeshUtils.ReadNavMeshGeometry(studio);
         MapUtils.ReadMapPieceGeometry();
-        ToggleStudioControls(studio, true);
         ResetStatus(studio);
         RunViewer(studio);
     }

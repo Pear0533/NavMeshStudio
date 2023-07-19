@@ -24,7 +24,8 @@ public class SceneGraph
         // TODO: Improve performance when reading map pieces
         // TODO: Use actual names for the map pieces in the scene graph
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode((MPNodes.Count + 1).ToString(), i)));
-        studio.ResetStatus();
+        studio.Invoke(() => studio.ToggleStudioControls(true));
+        studio.Invoke(studio.ResetStatus);
         View.Invoke(View.Nodes.Clear);
         // TODO: Formulate a generic method for adding nodes to a root
         NVNodes.ForEach(i => navMeshesRootNode.Nodes.Add(i.Name));

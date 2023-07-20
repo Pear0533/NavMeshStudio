@@ -1,9 +1,22 @@
-﻿using Vector3 = Microsoft.Xna.Framework.Vector3;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Vector3 = Microsoft.Xna.Framework.Vector3;
 
 namespace NavMeshStudio;
 
 public static class Utils3D
 {
+    public static List<int> GetIndices(List<VertexPositionColor> vertices)
+    {
+        int index = 0;
+        List<int> indices = new();
+        for (int i = 0; i < vertices.Count - 1; i++)
+        {
+            indices.AddRange(new[] { index, index + 1, index + 2 });
+            index += 3;
+        }
+        return indices;
+    }
+
     public static void FlipYZ(ref this Vector3 vector)
     {
         float x = vector.X;

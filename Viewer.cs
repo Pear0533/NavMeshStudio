@@ -21,11 +21,15 @@ public class Viewer : Game
     private Vector3 CameraOffset = new(0, 0, 0);
     private MouseState CurrentMouseState;
     private IntPtr DrawSurface;
+    private VertexBuffer FacesetBuffer = null!;
     public GraphicsDeviceManager GraphicsManager = null!;
+    private IndexBuffer IndexBuffer = null!;
+    public List<int> Indices = new();
     private bool IsFocused;
     public bool IsInitialized;
     private MouseState PreviousMouseState;
     private SpriteBatch SpriteBatch = null!;
+    private VertexBuffer VertexBuffer = null!;
     private Rectangle ViewerBGArea;
     private Texture2D ViewerBGTexture = null!;
 
@@ -116,10 +120,21 @@ public class Viewer : Game
         BasicEffect.VertexColorEnabled = true;
     }
 
+    private void InitializePrimitiveBuffers()
+    {
+        VertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, Vertices.Count, BufferUsage.None);
+        VertexBuffer.SetData(Vertices.ToArray());
+        FacesetBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, Facesets.Count, BufferUsage.None);
+        FacesetBuffer.SetData(Facesets.ToArray());
+        IndexBuffer = new IndexBuffer(GraphicsDevice, IndexElementSize.ThirtyTwoBits, Indices.Count, BufferUsage.None);
+        IndexBuffer.SetData(Indices.ToArray());
+    }
+
     protected override void Initialize()
     {
         InitializeGroundPlane();
         InitializeBasicEffect();
+        InitializePrimitiveBuffers();
         base.Initialize();
     }
 
@@ -191,12 +206,13 @@ public class Viewer : Game
     {
         if (Vertices.Count > 0)
         {
-            GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, Vertices.ToArray(), 0, Vertices.Count / 2);
+            GraphicsDevice.Indices = IndexBuffer;
+            GraphicsDevice.SetVertexBuffer(VertexBuffer);
+            GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, Vertices.Count / 2);
         }
-        if (Facesets.Count > 0)
-        {
-            GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Facesets.ToArray(), 0, Facesets.Count / 3);
-        }
+        if (Facesets.Count <= 0) return;
+        GraphicsDevice.SetVertexBuffer(FacesetBuffer);
+        GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, Facesets.Count / 3);
     }
 
     protected override void Draw(GameTime gameTime)
@@ -236,5 +252,6 @@ public class Viewer : Game
             Vertices.AddRange(i.Vertices);
             Facesets.AddRange(i.Facesets);
         });
+        Indices = Utils3D.GetIndices(Vertices);
     }
 }

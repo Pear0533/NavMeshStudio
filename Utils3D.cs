@@ -5,6 +5,11 @@ namespace NavMeshStudio;
 
 public static class Utils3D
 {
+    public static Vector3 ToVector3(this Vector4 vector)
+    {
+        return new Vector3(vector.X, vector.Y, vector.Z);
+    }
+
     public static List<int> GetIndices(List<VertexPositionColor> vertices)
     {
         int index = 0;

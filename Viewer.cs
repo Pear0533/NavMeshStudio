@@ -252,6 +252,11 @@ public class Viewer : Game
             Vertices.AddRange(i.Vertices);
             Facesets.AddRange(i.Facesets);
         });
+        Cache.SceneGraph.MPNodes.ForEach(i =>
+        {
+            Vertices.AddRange(i.Vertices);
+            Facesets.AddRange(i.Facesets);
+        });
         Indices = Utils3D.GetIndices(Vertices);
     }
 }

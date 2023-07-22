@@ -23,7 +23,7 @@ public class SceneGraph
         studio.Invoke(() => studio.UpdateStatus("Reading map piece geometry..."));
         // TODO: Improve performance when reading map pieces
         // TODO: Use actual names for the map pieces in the scene graph
-        Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode((MPNodes.Count + 1).ToString(), i)));
+        Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode(i)));
         studio.Invoke(() => studio.ToggleStudioControls(true));
         studio.Invoke(studio.ResetStatus);
         View.Invoke(View.Nodes.Clear);

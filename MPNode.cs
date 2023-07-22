@@ -8,10 +8,10 @@ public sealed class MPNode : GeoNode
 {
     private readonly string MapPieceBndFilePath;
 
-    public MPNode(string name, string mapPieceBndFilePath)
+    public MPNode(string mapPieceBndFilePath)
     {
-        Name = name;
         MapPieceBndFilePath = mapPieceBndFilePath;
+        Name = Utils.RemoveFileExtensions(Path.GetFileName(MapPieceBndFilePath));
         Process();
     }
 

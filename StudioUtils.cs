@@ -116,7 +116,7 @@ public static class StudioUtils
         ActivateWaitingStatus(studio);
         SaveFileDialog dialog = new()
         {
-            FileName = Utils.RemoveFileExtensions(Cache.Msb?.FileName),
+            FileName = Utils.RemoveFileExtensions(Cache.Msb?.FileName ?? ""),
             Filter = FileIO.GetSaveDialogFilter()
         };
         if (dialog.ShowDialog() != DialogResult.OK)

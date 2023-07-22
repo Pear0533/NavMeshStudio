@@ -27,9 +27,9 @@ public static class Utils
         return dialog.ShowDialog() == DialogResult.OK ? dialog.FileName : "";
     }
 
-    public static string? RemoveFileExtensions(string? input)
+    public static string RemoveFileExtensions(string input)
     {
-        return input?[..input.IndexOf('.')];
+        return input[..input.IndexOf('.')];
     }
 
     public static Color GetRandomColor()

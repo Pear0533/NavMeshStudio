@@ -13,7 +13,6 @@ namespace NavMeshStudio;
 public class Viewer : Game
 {
     public readonly List<VertexPositionColor> Facesets = new();
-    private readonly VertexPositionTexture[] GroundPlane = new VertexPositionTexture[6];
     public readonly List<VertexPositionColor> Vertices = new();
     private readonly string ViewerBGFilePath = $"{Utils.ResourcesPath}\\bg.png";
     private BasicEffect BasicEffect = null!;
@@ -69,51 +68,6 @@ public class Viewer : Game
         studio.viewer.Invoke(() => DrawSurface = studio.viewer.Handle);
     }
 
-    private static VertexPositionColor[] GetGroundPlaneLines()
-    {
-        List<VertexPositionColor> groundPlaneLines = new();
-        groundPlaneLines.AddRange(new[]
-        {
-            new VertexPositionColor(new Vector3(-1000, 0, 0), Color.Red),
-            new VertexPositionColor(new Vector3(1000, 0, 0), Color.Red),
-            new VertexPositionColor(new Vector3(0, -1000, 0), Color.Blue),
-            new VertexPositionColor(new Vector3(0, 1000, 0), Color.Blue),
-            new VertexPositionColor(new Vector3(0, 0, 0), Color.Yellow),
-            new VertexPositionColor(new Vector3(0, 0, 1000), Color.Yellow)
-        });
-        return groundPlaneLines.ToArray();
-    }
-
-    private void DrawGroundPlaneLines()
-    {
-        VertexPositionColor[] groundPlaneLines = GetGroundPlaneLines();
-        BasicEffect.TextureEnabled = false;
-        BasicEffect.CurrentTechnique.Passes.ToList().ForEach(i =>
-        {
-            i.Apply();
-            GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, groundPlaneLines, 0, 3);
-        });
-    }
-
-    private void AddGroundPlaneVertices(IReadOnlyList<Microsoft.Xna.Framework.Vector3> vertices)
-    {
-        for (int i = 0; i < vertices.Count; ++i)
-            GroundPlane[i].Position = vertices[i];
-    }
-
-    private void InitializeGroundPlane()
-    {
-        AddGroundPlaneVertices(new[]
-        {
-            new Microsoft.Xna.Framework.Vector3(-20, -20, 0),
-            new Microsoft.Xna.Framework.Vector3(-20, 20, 0),
-            new Microsoft.Xna.Framework.Vector3(20, -20, 0),
-            new Microsoft.Xna.Framework.Vector3(-20, 20, 0),
-            new Microsoft.Xna.Framework.Vector3(20, 20, 0),
-            new Microsoft.Xna.Framework.Vector3(20, -20, 0)
-        });
-    }
-
     private void InitializeBasicEffect()
     {
         BasicEffect = new BasicEffect(GraphicsDevice);
@@ -132,7 +86,6 @@ public class Viewer : Game
 
     protected override void Initialize()
     {
-        InitializeGroundPlane();
         InitializeBasicEffect();
         InitializePrimitiveBuffers();
         base.Initialize();
@@ -223,13 +176,13 @@ public class Viewer : Game
         SpriteBatch.Draw(ViewerBGTexture, ViewerBGArea, Color.White);
         SpriteBatch.End();
         SpriteBatch.Begin();
-        DrawGroundPlane();
+        UpdateView();
         DrawGeometry();
         SpriteBatch.End();
         base.Draw(gameTime);
     }
 
-    private void DrawGroundPlane()
+    private void UpdateView()
     {
         Vector3 cameraPosition = new(Camera.X + CameraOffset.X, Camera.Y + CameraOffset.Y, Camera.Z + CameraOffset.Z);
         DepthStencilState depthStencilState = new();
@@ -240,7 +193,8 @@ public class Viewer : Game
         BasicEffect.VertexColorEnabled = true;
         float viewerAspectRatio = GraphicsManager.PreferredBackBufferWidth / (float)GraphicsManager.PreferredBackBufferHeight;
         BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, viewerAspectRatio, 0.1f, 500);
-        DrawGroundPlaneLines();
+        BasicEffect.TextureEnabled = false;
+        BasicEffect.CurrentTechnique.Passes.ToList().ForEach(i => i.Apply());
     }
 
     public void BuildGeometry()

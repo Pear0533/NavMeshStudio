@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
+using Key = Microsoft.Xna.Framework.Input.Keys;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Vector3 = System.Numerics.Vector3;
 
@@ -18,6 +19,7 @@ public class Viewer : Game
     private BasicEffect BasicEffect = null!;
     private Vector3 Camera = new(0, 4, 2);
     private Vector3 CameraOffset = new(0, 0, 0);
+    private KeyboardState CurrentKeyboardState;
     private MouseState CurrentMouseState;
     private IntPtr DrawSurface;
     private VertexBuffer FacesetBuffer = null!;
@@ -31,6 +33,7 @@ public class Viewer : Game
     private VertexBuffer VertexBuffer = null!;
     private Rectangle ViewerBGArea;
     private Texture2D ViewerBGTexture = null!;
+    public Form ViewerWindow = null!;
 
     public Viewer() { }
 
@@ -55,7 +58,8 @@ public class Viewer : Game
         };
         studio.viewer.MouseEnter += (_, _) => IsFocused = true;
         studio.viewer.MouseLeave += (_, _) => IsFocused = false;
-        if (Control.FromHandle(Window.Handle) is Form viewerDialog) viewerDialog.Opacity = 0;
+        ViewerWindow = (Control.FromHandle(Window.Handle) as Form)!;
+        ViewerWindow.Opacity = 0;
     }
 
     private void ConfigureViewerSettings(NavMeshStudio studio)
@@ -133,14 +137,47 @@ public class Viewer : Game
         }
     }
 
-    private void UpdatePreviousMousePosition()
+    private void UpdateMoveCameraForwardBackward(GameTime gameTime, bool forwards)
+    {
+        Vector3 forwardVector = Camera.NormalizeNumericsVector3();
+        CameraOffset -= 50 * (float)gameTime.ElapsedGameTime.TotalSeconds * forwardVector * (forwards ? 1 : -1);
+    }
+
+    private void UpdateMoveCameraLeftRight(GameTime gameTime, bool left)
+    {
+        Vector3 upVector = new(0, 0, 1);
+        Vector3 rightVector = Utils3D.CrossProduct(upVector, Camera).NormalizeNumericsVector3();
+        CameraOffset -= 50 * (float)gameTime.ElapsedGameTime.TotalSeconds * rightVector * (left ? 1 : -1);
+    }
+
+    private void UpdateKeyboardInput(GameTime gameTime)
+    {
+        CurrentKeyboardState = Keyboard.GetState();
+        Key pressedKey = CurrentKeyboardState.GetPressedKeys().ElementAtOrDefault(0);
+        switch (pressedKey)
+        {
+            case Key.W:
+                UpdateMoveCameraForwardBackward(gameTime, true);
+                break;
+            case Key.A:
+                UpdateMoveCameraLeftRight(gameTime, true);
+                break;
+            case Key.S:
+                UpdateMoveCameraForwardBackward(gameTime, false);
+                break;
+            case Key.D:
+                UpdateMoveCameraLeftRight(gameTime, false);
+                break;
+        }
+    }
+
+    private void UpdatePreviousMouseState()
     {
         PreviousMouseState = CurrentMouseState;
     }
 
-    protected override void Update(GameTime gameTime)
+    private void UpdateMouseInput()
     {
-        if (!IsFocused) return;
         CurrentMouseState = Mouse.GetState();
         if (CurrentMouseState.LeftButton == ButtonState.Pressed)
         {
@@ -151,7 +188,14 @@ public class Viewer : Game
             UpdateMiddleMouseButtonClick();
         }
         UpdateMouseScrollWheel();
-        UpdatePreviousMousePosition();
+        UpdatePreviousMouseState();
+    }
+
+    protected override void Update(GameTime gameTime)
+    {
+        UpdateKeyboardInput(gameTime);
+        if (!IsFocused) return;
+        UpdateMouseInput();
         base.Update(gameTime);
     }
 

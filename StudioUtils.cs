@@ -130,6 +130,13 @@ public static class StudioUtils
         ResetStatus(studio);
     }
 
+    private static void RegisterViewerEvents(KeyEventArgs e)
+    {
+        if (!new[] { Keys.W, Keys.A, Keys.S, Keys.D }.Contains(e.KeyCode)) return;
+        e.SuppressKeyPress = true;
+        Cache.Viewer.ViewerWindow.Invoke(Cache.Viewer.ViewerWindow.Focus);
+    }
+
     public static void RegisterFormEvents(this NavMeshStudio studio)
     {
         studio.openToolStripMenuItem.Click += async (_, _) => await Open(studio);
@@ -145,6 +152,7 @@ public static class StudioUtils
                     await SaveAs(studio);
                     break;
             }
+            RegisterViewerEvents(e);
         };
         studio.openToolStripButton.Click += async (_, _) => await Open(studio);
         studio.saveAsToolStripButton.Click += async (_, _) => await SaveAs(studio);

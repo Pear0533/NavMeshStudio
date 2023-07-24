@@ -75,6 +75,7 @@ public static class StudioUtils
         Cache.Console.Write($"Read {Cache.NvmHktBnd?.Path}");
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         await NavMeshUtils.ReadNavMeshGeometry(studio);
+        CollisionUtils.ReadCollisionGeometry();
         MapUtils.ReadMapPieceGeometry();
         ResetStatus(studio);
         RunViewer(studio);

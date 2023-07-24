@@ -66,16 +66,15 @@ public static class StudioUtils
     private static async Task Open(this NavMeshStudio studio)
     {
         ActivateWaitingStatus(studio);
-        if (!FileIO.OpenMsbFile() || !FileIO.OpenNvmHktBndFile())
+        if (!FileIO.OpenMsbFile())
         {
             ResetStatus(studio);
             return;
         }
         Cache.Console.Write($"Read {Cache.Msb?.Path}");
-        Cache.Console.Write($"Read {Cache.NvmHktBnd?.Path}");
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
+        MapUtils.SetMapBndsFolderPath();
         await NavMeshUtils.ReadNavMeshGeometry(studio);
-        CollisionUtils.ReadCollisionGeometry();
         MapUtils.ReadMapPieceGeometry();
         ResetStatus(studio);
         RunViewer(studio);

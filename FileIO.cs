@@ -20,26 +20,12 @@ public class FileIO
     {
         string filePath = ShowOpenFileDialog(dialogFilter);
         T? fileData = GetFileData<T>(filePath);
-        return fileData == null ? null : new StudioFile<T>(filePath, Path.GetFileName(filePath), fileData);
+        return fileData == null ? null : new StudioFile<T>(filePath);
     }
 
     public static string GetSaveDialogFilter()
     {
         return @"NVA JSON (*.nvajson)|*.nvajson|NVMHKTBND JSON (*.nvmhktbndjson)|*.nvmhktbndjson|NVMHKTBND (*.nvmhktbnd)|*.nvmhktbnd";
-    }
-
-    public static bool OpenNvaFile()
-    {
-        StudioFile<NVA>? nva = OpenFile<NVA>(@"NVA File (*.nva, *.nva.dcx)|*.nva;*.nva.dcx");
-        if (nva != null) Cache.Nva = nva;
-        return nva != null;
-    }
-
-    public static bool OpenNvmHktBndFile()
-    {
-        StudioFile<BND4>? nvmhktbnd = OpenFile<BND4>(@"NVMHKTBND File (*.nvmhktbnd, *.nvmhktbnd.dcx)|*.nvmhktbnd;*.nvmhktbnd.dcx");
-        if (nvmhktbnd != null) Cache.NvmHktBnd = nvmhktbnd;
-        return nvmhktbnd != null;
     }
 
     public static bool OpenMsbFile()

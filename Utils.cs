@@ -32,6 +32,13 @@ public static class Utils
         return input[..input.IndexOf('.')];
     }
 
+    public static string MoveUpDirectory(string path, int steps)
+    {
+        for (int i = 0; i < steps; i++)
+            path = Path.GetDirectoryName(path) ?? path;
+        return path;
+    }
+
     public static Color GetRandomColor()
     {
         int r = (byte)(Random.Shared.Next(128) + 127);

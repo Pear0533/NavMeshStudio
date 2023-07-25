@@ -21,6 +21,12 @@ public class MapUtils
         return true;
     }
 
+    public static T GetDependencyFile<T>(string fileName) where T : StudioFile
+    {
+        string? filePath = Directory.GetFiles(MapDependenciesPath, fileName).ElementAtOrDefault(0);
+        return (T)Activator.CreateInstance(typeof(T), filePath ?? "")!;
+    }
+
     public static void ReadMapPieceGeometry()
     {
         Cache.MapPieces = Directory.GetFiles(MapDependenciesPath, "*.mapbnd.dcx").ToList();

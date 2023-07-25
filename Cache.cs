@@ -5,9 +5,11 @@ namespace NavMeshStudio;
 
 public class Cache
 {
-    public static StudioFile<NVA>? Nva;
-    public static StudioFile<BND4>? NvmHktBnd;
-    public static StudioFile<MSBE>? Msb;
+    public static FromSoftFile<NVA>? Nva;
+    public static FromSoftFile<BND4>? NvmHktBnd;
+    public static BXF4File? LHkxBhd;
+    public static BXF4File? HHkxBhd;
+    public static FromSoftFile<MSBE>? Msb;
     public static SceneGraph SceneGraph = new();
     public static Viewer Viewer = new();
     public static Console Console = new();

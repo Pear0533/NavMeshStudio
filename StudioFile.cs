@@ -1,10 +1,8 @@
-﻿using SoulsFormats;
+﻿namespace NavMeshStudio;
 
-namespace NavMeshStudio;
-
-public class StudioFile<T> where T : SoulsFile<T>, new()
+public abstract class StudioFile
 {
-    public StudioFile(string path)
+    protected StudioFile(string path)
     {
         Path = path;
         FileName = System.IO.Path.GetFileName(Path);
@@ -12,7 +10,6 @@ public class StudioFile<T> where T : SoulsFile<T>, new()
         Tokens = Name.Split('_');
         Prefix = Tokens[0][..1];
         ID = Tokens[0][1..] + '_' + string.Join('_', Tokens.Skip(1));
-        Data = SoulsFile<T>.Read(path);
     }
 
     public string Path { get; set; }
@@ -21,5 +18,4 @@ public class StudioFile<T> where T : SoulsFile<T>, new()
     public string[] Tokens { get; set; }
     public string Prefix { get; set; }
     public string ID { get; set; }
-    public T Data { get; set; }
 }

@@ -15,9 +15,7 @@ public class NavMeshUtils
 
     public static async Task<bool> ReadNavMeshGeometry(NavMeshStudio studio)
     {
-        string nvmHktBndName = $"{Cache.Msb?.Name}.nvmhktbnd.dcx";
-        string? nvmHktBndPath = Directory.GetFiles(MapUtils.MapDependenciesPath, nvmHktBndName).ElementAtOrDefault(0);
-        Cache.NvmHktBnd = new StudioFile<BND4>(nvmHktBndPath ?? "");
+        Cache.NvmHktBnd = MapUtils.GetDependencyFile<FromSoftFile<BND4>>($"{Cache.Msb?.Name}.nvmhktbnd.dcx");
         studio.UpdateStatus("Reading navmesh geometry...");
         await Task.Run(() =>
         {

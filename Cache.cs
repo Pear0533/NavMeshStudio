@@ -21,6 +21,7 @@ public class Cache
     public static void Clear()
     {
         NavMeshes.Clear();
+        MapPieces.Clear();
         QueryMediators.Clear();
         UserEdgeSetups.Clear();
     }

@@ -8,32 +8,25 @@ namespace NavMeshStudio;
 
 public class NavMeshUtils
 {
-    private static hkReferencedObject GetReferencedObject(hkRootLevelContainer container, int index)
-    {
-        return container.m_namedVariants.ElementAtOrDefault(index)?.m_variant ?? new hkReferencedObject();
-    }
-
-    public static async Task<bool> ReadNavMeshGeometry(NavMeshStudio studio)
+    public static async Task ReadNavMeshGeometry(NavMeshStudio studio)
     {
         Cache.NvmHktBnd = MapUtils.GetDependencyFile<FromSoftFile<BND4>>($"{Cache.Msb?.Name}.nvmhktbnd.dcx");
         studio.UpdateStatus("Reading navmesh geometry...");
         await Task.Run(() =>
         {
-            Cache.Clear();
             HavokBinarySerializer serializer = new();
             foreach (BinderFile file in Cache.NvmHktBnd.Data.Files)
             {
-                hkRootLevelContainer rootLevelContainer = (hkRootLevelContainer)serializer.Read(new MemoryStream(file.Bytes));
-                hkReferencedObject navMesh = GetReferencedObject(rootLevelContainer, 0);
-                hkReferencedObject queryMediator = GetReferencedObject(rootLevelContainer, 1);
-                hkReferencedObject userEdgeSetup = GetReferencedObject(rootLevelContainer, 2);
+                hkRootLevelContainer container = serializer.GetRootLevelContainer(file.Bytes);
+                hkReferencedObject navMesh = container.GetReferencedObject(0);
+                hkReferencedObject queryMediator = container.GetReferencedObject(1);
+                hkReferencedObject userEdgeSetup = container.GetReferencedObject(2);
                 if (navMesh is not hkaiNavMesh mesh) continue;
                 Cache.NavMeshes.Add(mesh);
                 Cache.QueryMediators.Add(queryMediator);
                 Cache.UserEdgeSetups.Add(userEdgeSetup);
             }
         });
-        return true;
     }
 
     public static async Task<JObject> GenerateNvmJson()

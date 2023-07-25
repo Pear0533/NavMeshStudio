@@ -71,11 +71,12 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
+        Cache.Clear();
         Cache.Console.Write($"Read {Cache.Msb?.Path}");
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         MapUtils.SetMapDependenciesPath();
         await NavMeshUtils.ReadNavMeshGeometry(studio);
-        CollisionUtils.ReadCollisionGeometry();
+        await CollisionUtils.ReadCollisionGeometry(studio);
         MapUtils.ReadMapPieceGeometry();
         ResetStatus(studio);
         RunViewer(studio);

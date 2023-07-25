@@ -73,7 +73,7 @@ public static class StudioUtils
         }
         Cache.Console.Write($"Read {Cache.Msb?.Path}");
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
-        MapUtils.SetMapBndsFolderPath();
+        MapUtils.SetMapDependenciesPath();
         await NavMeshUtils.ReadNavMeshGeometry(studio);
         MapUtils.ReadMapPieceGeometry();
         ResetStatus(studio);

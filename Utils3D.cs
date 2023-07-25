@@ -1,10 +1,44 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 
 namespace NavMeshStudio;
 
 public static class Utils3D
 {
+    public static List<VertexPositionColor> GetVertices(IReadOnlyList<Vector3> vertices, Color facesetColor)
+    {
+        List<VertexPositionColor> vertexPositions = new();
+        vertexPositions.AddRange(new[]
+        {
+            new VertexPositionColor(vertices[0], facesetColor),
+            new VertexPositionColor(vertices[1], facesetColor),
+            new VertexPositionColor(vertices[0], facesetColor),
+            new VertexPositionColor(vertices[2], facesetColor),
+            new VertexPositionColor(vertices[1], facesetColor),
+            new VertexPositionColor(vertices[2], facesetColor)
+        });
+        return vertexPositions;
+    }
+
+    public static List<VertexPositionColor> GetFacesets(IReadOnlyList<Vector3> vertices, Color facesetColor)
+    {
+        List<VertexPositionColor> facesets = new();
+        facesets.AddRange(new[]
+        {
+            new VertexPositionColor(vertices[0], facesetColor),
+            new VertexPositionColor(vertices[2], facesetColor),
+            new VertexPositionColor(vertices[1], facesetColor),
+            new VertexPositionColor(vertices[0], facesetColor),
+            new VertexPositionColor(vertices[2], facesetColor),
+            new VertexPositionColor(vertices[1], facesetColor),
+            new VertexPositionColor(vertices[0], facesetColor),
+            new VertexPositionColor(vertices[1], facesetColor),
+            new VertexPositionColor(vertices[2], facesetColor)
+        });
+        return facesets;
+    }
+
     public static Vector3 ToVector3(this Vector4 vector)
     {
         return new Vector3(vector.X, vector.Y, vector.Z);

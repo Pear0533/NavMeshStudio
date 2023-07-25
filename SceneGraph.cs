@@ -14,24 +14,21 @@ public class SceneGraph
         Populate(studio);
     }
 
+    // TODO: Improve performance when reading map pieces
+
     private void Populate(NavMeshStudio studio)
     {
         TreeNode navMeshesRootNode = new("NavMeshes");
         TreeNode mapPiecesRootNode = new("Map Pieces");
-        // TODO: Formulate a generic method for creating nodes from objects
-        Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode((NVNodes.Count + 1).ToString(), i)));
         studio.Invoke(() => studio.UpdateStatus("Reading map piece geometry..."));
-        // TODO: Improve performance when reading map pieces
-        // TODO: Use actual names for the map pieces in the scene graph
+        Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode(NVNodes.Count, i)));
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode(i)));
         studio.Invoke(() => studio.ToggleStudioControls(true));
         studio.Invoke(studio.ResetStatus);
         View.Invoke(View.Nodes.Clear);
-        // TODO: Formulate a generic method for adding nodes to a root
-        NVNodes.ForEach(i => navMeshesRootNode.Nodes.Add(i.Name));
-        MPNodes.ForEach(i => mapPiecesRootNode.Nodes.Add(i.Name));
-        // TODO: Create a method for adding a root node to the scene graph
-        View.Invoke(() => View.Nodes.Add(navMeshesRootNode));
-        View.Invoke(() => View.Nodes.Add(mapPiecesRootNode));
+        navMeshesRootNode.Populate(NVNodes);
+        mapPiecesRootNode.Populate(MPNodes);
+        View.Populate(navMeshesRootNode);
+        View.Populate(mapPiecesRootNode);
     }
 }

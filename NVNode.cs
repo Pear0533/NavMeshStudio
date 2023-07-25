@@ -8,9 +8,9 @@ public sealed class NVNode : GeoNode
 {
     private readonly hkaiNavMesh Mesh;
 
-    public NVNode(string name, hkaiNavMesh mesh)
+    public NVNode(int nvNodesCount, hkaiNavMesh mesh)
     {
-        Name = name;
+        Name = (nvNodesCount + 1).ToString();
         Mesh = mesh;
         Process();
     }

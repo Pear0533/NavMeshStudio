@@ -241,20 +241,20 @@ public class Viewer : Game
         BasicEffect.CurrentTechnique.Passes.ToList().ForEach(i => i.Apply());
     }
 
+    private void AddNodesGeometry<T>(List<T> nodes) where T : GeoNode
+    {
+        nodes.ForEach(i =>
+        {
+            Vertices.AddRange(i.Vertices);
+            Facesets.AddRange(i.Facesets);
+        });
+    }
+
     public void BuildGeometry()
     {
         Vertices.Clear();
-        // TODO: Create a method for this...
-        Cache.SceneGraph.NVNodes.ForEach(i =>
-        {
-            Vertices.AddRange(i.Vertices);
-            Facesets.AddRange(i.Facesets);
-        });
-        Cache.SceneGraph.MPNodes.ForEach(i =>
-        {
-            Vertices.AddRange(i.Vertices);
-            Facesets.AddRange(i.Facesets);
-        });
+        AddNodesGeometry(Cache.SceneGraph.NVNodes);
+        AddNodesGeometry(Cache.SceneGraph.MPNodes);
         Indices = Utils3D.GetIndices(Vertices);
     }
 }

@@ -4,7 +4,7 @@ namespace NavMeshStudio;
 
 public class MapUtils
 {
-    public static string MapBndsFolderPath = "";
+    public static string MapDependenciesPath = "";
 
     public static FLVER2 ReadFLVERFromBND(string bndFilePath)
     {
@@ -12,17 +12,17 @@ public class MapUtils
         return flverBinderFile == null ? new FLVER2() : FLVER2.Read(flverBinderFile.Bytes);
     }
 
-    public static bool SetMapBndsFolderPath()
+    public static bool SetMapDependenciesPath()
     {
         if (Cache.Msb == null) return false;
         string mapFolderPath = Utils.MoveUpDirectory(Cache.Msb.Path, 2);
         string[] mapDirectories = Directory.GetDirectories(mapFolderPath, Cache.Msb.Name, SearchOption.AllDirectories);
-        MapBndsFolderPath = mapDirectories.ElementAtOrDefault(0) ?? "";
+        MapDependenciesPath = mapDirectories.ElementAtOrDefault(0) ?? "";
         return true;
     }
 
     public static void ReadMapPieceGeometry()
     {
-        Cache.MapPieces = Directory.GetFiles(MapBndsFolderPath, "*.mapbnd.dcx").ToList();
+        Cache.MapPieces = Directory.GetFiles(MapDependenciesPath, "*.mapbnd.dcx").ToList();
     }
 }

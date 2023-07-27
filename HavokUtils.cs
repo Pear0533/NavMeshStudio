@@ -11,6 +11,19 @@ public static class HavokUtils
         return container.m_namedVariants.ElementAtOrDefault(index)?.m_variant ?? new hkReferencedObject();
     }
 
+    public static hknpPhysicsSystemData GetPhysicsSystemData(this hkRootLevelContainer container, int index)
+    {
+        hkReferencedObject systemData = GetReferencedObject(container, 0);
+        if (systemData is not hknpPhysicsSceneData data) return new hknpPhysicsSystemData();
+        return data.m_systemDatas.ElementAtOrDefault(index) ?? new hknpPhysicsSystemData();
+    }
+
+    public static hknpBodyCinfo GetBodyCollisionInfo(this hkRootLevelContainer container, int index)
+    {
+        hknpPhysicsSystemData systemData = GetPhysicsSystemData(container, 0);
+        return systemData.m_bodyCinfos.ElementAtOrDefault(index) ?? new hknpBodyCinfo();
+    }
+
     public static hkRootLevelContainer GetRootLevelContainer(this HavokBinarySerializer serializer, byte[] bytes)
     {
         return (hkRootLevelContainer)serializer.Read(new MemoryStream(bytes));

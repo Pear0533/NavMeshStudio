@@ -20,7 +20,8 @@ public class CollisionUtils
             {
                 byte[] hkxBytes = DCX.Decompress(hkxFile.Bytes);
                 hkRootLevelContainer container = serializer.GetRootLevelContainer(hkxBytes);
-                System.Console.WriteLine(container);
+                hknpBodyCinfo collisionInfo = container.GetBodyCollisionInfo(0);
+                System.Console.WriteLine(collisionInfo);
             }
         });
     }

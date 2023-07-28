@@ -14,6 +14,7 @@ public class Cache
     public static Viewer Viewer = new();
     public static Console Console = new();
     public static List<hkaiNavMesh> NavMeshes = new();
+    public static List<hknpBodyCinfo> Collisions = new();
     public static List<string> MapPieces = new();
     public static List<hkReferencedObject> QueryMediators = new();
     public static List<hkReferencedObject> UserEdgeSetups = new();
@@ -21,6 +22,7 @@ public class Cache
     public static void Clear()
     {
         NavMeshes.Clear();
+        Collisions.Clear();
         MapPieces.Clear();
         QueryMediators.Clear();
         UserEdgeSetups.Clear();

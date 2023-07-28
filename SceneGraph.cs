@@ -4,6 +4,7 @@ public class SceneGraph
 {
     public readonly List<MPNode> MPNodes = new();
     public readonly List<NVNode> NVNodes = new();
+    public readonly List<CLNode> CLNodes = new();
     private readonly TreeView View = new();
 
     public SceneGraph() { }
@@ -22,6 +23,7 @@ public class SceneGraph
         TreeNode mapPiecesRootNode = new("Map Pieces");
         studio.Invoke(() => studio.UpdateStatus("Reading map piece geometry..."));
         Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode(NVNodes.Count, i)));
+        Cache.Collisions.ForEach(i => CLNodes.Add(new CLNode(NVNodes.Count, i)));
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode(i)));
         studio.Invoke(() => studio.ToggleStudioControls(true));
         studio.Invoke(studio.ResetStatus);

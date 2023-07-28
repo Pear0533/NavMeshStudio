@@ -11,16 +11,11 @@ public static class HavokUtils
         return container.m_namedVariants.ElementAtOrDefault(index)?.m_variant ?? new hkReferencedObject();
     }
 
-    public static hknpPhysicsSystemData GetPhysicsSystemData(this hkRootLevelContainer container, int index)
-    {
-        hkReferencedObject systemData = GetReferencedObject(container, 0);
-        if (systemData is not hknpPhysicsSceneData data) return new hknpPhysicsSystemData();
-        return data.m_systemDatas.ElementAtOrDefault(index) ?? new hknpPhysicsSystemData();
-    }
-
     public static hknpBodyCinfo GetBodyCollisionInfo(this hkRootLevelContainer container, int index)
     {
-        hknpPhysicsSystemData systemData = GetPhysicsSystemData(container, 0);
+        hkReferencedObject sceneData = GetReferencedObject(container, 0);
+        if (sceneData is not hknpPhysicsSceneData data) return new hknpBodyCinfo();
+        hknpPhysicsSystemData systemData = data.m_systemDatas.ElementAtOrDefault(0) ?? new hknpPhysicsSystemData();
         return systemData.m_bodyCinfos.ElementAtOrDefault(index) ?? new hknpBodyCinfo();
     }
 

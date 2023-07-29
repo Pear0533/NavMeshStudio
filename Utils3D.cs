@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using HKLib.hk2018;
+using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 
@@ -6,6 +7,21 @@ namespace NavMeshStudio;
 
 public static class Utils3D
 {
+    public static System.Numerics.Vector3 Decompress(dynamic vertex, Vector3 scale, Vector3 offset)
+    {
+        float x = (vertex & 0x7FF) * scale.X + offset.X;
+        float y = (vertex >> 11 & 0x7FF) * scale.Y + offset.Y;
+        float z = (vertex >> 22 & 0x3FF) * scale.Z + offset.Z;
+        return new System.Numerics.Vector3(x, y, z);
+    }
+
+    public static Vector3 TransformVert(this System.Numerics.Vector3 vertex, hknpBodyCinfo collisionInfo)
+    {
+        Vector3 newVert = new(vertex.X, vertex.Y, vertex.Z);
+        Vector3 trans = new(collisionInfo.m_position.X, collisionInfo.m_position.Y, collisionInfo.m_position.Z);
+        return Vector3.Transform(newVert, collisionInfo.m_orientation) + trans;
+    }
+
     public static List<VertexPositionColor> GetVertices(IReadOnlyList<Vector3> vertices, Color facesetColor)
     {
         List<VertexPositionColor> vertexPositions = new();

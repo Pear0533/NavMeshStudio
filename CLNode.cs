@@ -19,6 +19,7 @@ public sealed class CLNode : GeoNode
         Process();
     }
 
+    // TODO: We'll need to get collisions to render as bounding boxes
     // TODO: Double-check this method to ensure that no oversights have been made
 
     private void TryAddVertexAndIndex(ICollection<Vector3> vertices, ICollection<int> indices, int indicesIndex)

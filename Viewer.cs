@@ -82,10 +82,11 @@ public class Viewer : Game
     {
         VertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, Vertices.Count, BufferUsage.None);
         VertexBuffer.SetData(Vertices.ToArray());
-        FacesetBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, Facesets.Count, BufferUsage.None);
-        FacesetBuffer.SetData(Facesets.ToArray());
         IndexBuffer = new IndexBuffer(GraphicsDevice, IndexElementSize.ThirtyTwoBits, Indices.Count, BufferUsage.None);
         IndexBuffer.SetData(Indices.ToArray());
+        if (Facesets.Count <= 0) return;
+        FacesetBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, Facesets.Count, BufferUsage.None);
+        FacesetBuffer.SetData(Facesets.ToArray());
     }
 
     protected override void Initialize()
@@ -207,7 +208,7 @@ public class Viewer : Game
             GraphicsDevice.SetVertexBuffer(VertexBuffer);
             GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, Vertices.Count / 2);
         }
-        if (Facesets.Count <= 0) return;
+        if (Facesets.Count == 0) return;
         GraphicsDevice.SetVertexBuffer(FacesetBuffer);
         GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, Facesets.Count / 3);
     }
@@ -253,8 +254,9 @@ public class Viewer : Game
     public void BuildGeometry()
     {
         Vertices.Clear();
-        AddNodesGeometry(Cache.SceneGraph.NVNodes);
-        AddNodesGeometry(Cache.SceneGraph.MPNodes);
+        // AddNodesGeometry(Cache.SceneGraph.NVNodes);
+        AddNodesGeometry(Cache.SceneGraph.CLNodes);
+        // AddNodesGeometry(Cache.SceneGraph.MPNodes);
         Indices = Utils3D.GetIndices(Vertices);
     }
 }

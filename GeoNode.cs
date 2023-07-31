@@ -9,7 +9,7 @@ public abstract class GeoNode : GraphNode
     public List<VertexPositionColor> Facesets = new();
     public List<VertexPositionColor> Vertices = new();
 
-    protected void AddVerticesWithFacesets(Vector3[] vertices, Color facesetColor)
+    protected void AddVertices(Vector3[] vertices, Color facesetColor, bool generateFacesets = true)
     {
         Vector3 vectorA = vertices[1] - vertices[0];
         Vector3 vectorB = vertices[2] - vertices[0];
@@ -23,7 +23,7 @@ public abstract class GeoNode : GraphNode
         vertices[1].FlipYZ();
         vertices[2].FlipYZ();
         Vertices.AddRange(Utils3D.GetVertices(vertices, facesetColor));
-        Facesets.AddRange(Utils3D.GetFacesets(vertices, facesetColor));
+        if (generateFacesets) Facesets.AddRange(Utils3D.GetFacesets(vertices, facesetColor));
     }
 
     protected virtual void Process()

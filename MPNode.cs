@@ -23,7 +23,7 @@ public sealed class MPNode : GeoNode
             List<FLVER.Vertex[]> faces = i.GetFaces();
             faces.ForEach(x =>
             {
-                AddVerticesWithFacesets(new Vector3[]
+                AddVertices(new Vector3[]
                 {
                     x[0].Position, x[1].Position, x[2].Position
                 }, Color.Gray);

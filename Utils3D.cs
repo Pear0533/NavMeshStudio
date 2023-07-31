@@ -7,7 +7,18 @@ namespace NavMeshStudio;
 
 public static class Utils3D
 {
-    public static System.Numerics.Vector3 Decompress(dynamic vertex, Vector3 scale, Vector3 offset)
+    public static System.Numerics.Vector3 DecompressSharedVertex(ulong vertex, Vector4 bbMin, Vector4 bbMax)
+    {
+        float scaleX = (bbMax.X - bbMin.X) / ((1 << 21) - 1);
+        float scaleY = (bbMax.Y - bbMin.Y) / ((1 << 21) - 1);
+        float scaleZ = (bbMax.Z - bbMin.Z) / ((1 << 22) - 1);
+        float x = (vertex & 0x1FFFFF) * scaleX + bbMin.X;
+        float y = (vertex >> 21 & 0x1FFFFF) * scaleY + bbMin.Y;
+        float z = (vertex >> 42 & 0x3FFFFF) * scaleZ + bbMin.Z;
+        return new System.Numerics.Vector3(x, y, z);
+    }
+
+    public static System.Numerics.Vector3 DecompressPackedVertex(uint vertex, Vector3 scale, Vector3 offset)
     {
         float x = (vertex & 0x7FF) * scale.X + offset.X;
         float y = (vertex >> 11 & 0x7FF) * scale.Y + offset.Y;
@@ -15,7 +26,7 @@ public static class Utils3D
         return new System.Numerics.Vector3(x, y, z);
     }
 
-    public static Vector3 TransformVert(this System.Numerics.Vector3 vertex, hknpBodyCinfo collisionInfo)
+    public static Vector3 TransformVertex(this System.Numerics.Vector3 vertex, hknpBodyCinfo collisionInfo)
     {
         Vector3 newVert = new(vertex.X, vertex.Y, vertex.Z);
         Vector3 trans = new(collisionInfo.m_position.X, collisionInfo.m_position.Y, collisionInfo.m_position.Z);

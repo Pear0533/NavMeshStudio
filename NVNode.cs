@@ -28,7 +28,7 @@ public sealed class NVNode : GeoNode
                 Vector3 vert1 = Mesh.m_vertices[Mesh.m_edges[startEdgeIndices].m_a].ToVector3();
                 Vector3 vert2 = Mesh.m_vertices[Mesh.m_edges[startEdgeIndices + i + 1].m_a].ToVector3();
                 Vector3 vert3 = Mesh.m_vertices[Mesh.m_edges[end].m_a].ToVector3();
-                AddVerticesWithFacesets(new[] { vert1, vert2, vert3 }, facesetColor);
+                AddVertices(new[] { vert1, vert2, vert3 }, facesetColor);
             }
         }
     }

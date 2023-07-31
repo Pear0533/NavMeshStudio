@@ -8,7 +8,7 @@ namespace NavMeshStudio;
 public sealed class CLNode : GeoNode
 {
     private readonly hknpBodyCinfo Collision;
-    private hknpCompressedMeshShapeData CollisionData = null!;
+    private hknpCompressedMeshShapeData MeshShapeData = null!;
     private Section CurrentSection = null!;
     private Primitive CurrentTri = null!;
 
@@ -19,65 +19,73 @@ public sealed class CLNode : GeoNode
         Process();
     }
 
-    private void TryAddVertexAndFaceset(ICollection<Vector3> vertices, ICollection<int> indices, int facesetIndex)
+    // TODO: Double-check this method to ensure that no oversights have been made
+
+    private void TryAddVertexAndIndex(ICollection<Vector3> vertices, ICollection<int> indices, int indicesIndex)
     {
-        if (CurrentTri.m_indices[facesetIndex] < CollisionData.m_meshTree.m_sharedVertices.Count)
+        Vector3 smallVertexOffset = new(CurrentSection.m_codecParms[0], CurrentSection.m_codecParms[1], CurrentSection.m_codecParms[2]);
+        Vector3 smallVertexScale = new(CurrentSection.m_codecParms[3], CurrentSection.m_codecParms[4], CurrentSection.m_codecParms[5]);
+        if (CurrentTri.m_indices[indicesIndex] < MeshShapeData.m_meshTree.m_sharedVertices.Count)
         {
-            // Double-check m_firstPackedVertexIndex
-            ushort index = (ushort)(CurrentTri.m_indices[facesetIndex] + CurrentSection.m_firstPackedVertexIndex);
+            ushort index = (ushort)(CurrentTri.m_indices[indicesIndex] + CurrentSection.m_firstPackedVertexIndex);
             indices.Add(vertices.Count);
-            System.Numerics.Vector3 vert = Utils3D.Decompress(CollisionData.m_meshTree.m_packedVertices.ElementAtOrDefault(index), CurrentSection.SmallVertexScale,
-                CurrentSection.SmallVertexOffset);
-            vertices.Add(vert.TransformVert(Collision));
+            System.Numerics.Vector3 vertex =
+                Utils3D.DecompressPackedVertex(MeshShapeData.m_meshTree.m_packedVertices.ElementAtOrDefault(index), smallVertexScale, smallVertexOffset);
+            vertices.Add(vertex.TransformVertex(Collision));
         }
         else
         {
-            ushort index = (ushort)CollisionData.m_meshTree.m_sharedVertices.ElementAtOrDefault((int)(CurrentTri.m_indices[facesetIndex]
+            ushort index = MeshShapeData.m_meshTree.m_sharedVerticesIndex.ElementAtOrDefault((int)(CurrentTri.m_indices[indicesIndex]
                 + CurrentSection.m_firstSharedVertexIndex
-                - CollisionData.m_meshTree.m_sharedVertices.Count));
+                - MeshShapeData.m_meshTree.m_sharedVertices.Count));
             indices.Add(vertices.Count);
-            var vert = Utils3D.Decompress(CollisionData.m_meshTree.m_sharedVertices.ElementAtOrDefault(index), CollisionData.BoundingBoxMin, CollisionData.BoundingBoxMax);
-            vertices.Add(vert.TransformVert(Collision));
+            System.Numerics.Vector3 vertex = Utils3D.DecompressSharedVertex(MeshShapeData.m_meshTree.m_sharedVertices.ElementAtOrDefault(index),
+                MeshShapeData.m_meshTree.m_domain.m_min, MeshShapeData.m_meshTree.m_domain.m_max);
+            vertices.Add(vertex.TransformVertex(Collision));
         }
     }
 
+    // TODO: Might need to account for m_firstPrimitiveIndex
+
     protected override void Process()
     {
+        if (Collision.m_shape == null) return;
+        Color facesetColor = Color.Blue;
         List<Vector3> vertices = new();
         List<int> indices = new();
-        fsnpCustomParamCompressedMeshShape meshShape = (fsnpCustomParamCompressedMeshShape)Collision.m_shape!;
-        CollisionData = (hknpCompressedMeshShapeData)meshShape.m_data!;
-        foreach (Section section in CollisionData.m_meshTree.m_sections)
+        fsnpCustomParamCompressedMeshShape meshShape = (fsnpCustomParamCompressedMeshShape)Collision.m_shape;
+        if (meshShape.m_data == null) return;
+        MeshShapeData = (hknpCompressedMeshShapeData)meshShape.m_data;
+        foreach (Section section in MeshShapeData.m_meshTree.m_sections)
         {
             CurrentSection = section;
             for (int i = 0; i < CurrentSection.m_numPrimitives; i++)
             {
-                // Double-check m_firstPrimitiveIndex
-                CurrentTri = CollisionData.m_meshTree.m_primitives.ElementAtOrDefault((int)(i + CurrentSection.m_firstPrimitiveIndex)) ?? new Primitive();
-                // Don't know what to do with this shape yet
+                Primitive? tri = MeshShapeData.m_meshTree.m_primitives.ElementAtOrDefault((int)(i + CurrentSection.m_firstPrimitiveIndex));
+                if (tri == null) continue;
+                CurrentTri = tri;
+                // TODO: Might need to eliminate or modify this comparison to avoid artifacts
                 if (CurrentTri.m_indices[0] == 0xDE && CurrentTri.m_indices[1] == 0xAD && CurrentTri.m_indices[2] == 0xDE && CurrentTri.m_indices[3] == 0xAD)
                 {
                     continue;
                 }
-                TryAddVertexAndFaceset(vertices, indices, 0);
-                TryAddVertexAndFaceset(vertices, indices, 1);
-                TryAddVertexAndFaceset(vertices, indices, 2);
-                if (CurrentTri.m_indices[2] != CurrentTri.m_indices[3])
-                {
-                    indices.Add(vertices.Count);
-                    vertices.Add(vertices[^3]);
-                    indices.Add(vertices.Count);
-                    vertices.Add(vertices[^2]);
-                    TryAddVertexAndFaceset(vertices, indices, 3);
-                }
-                for (int n = 0; n < indices.Count; n += 3)
-                {
-                    Vector3 vert1 = vertices[indices[i]];
-                    Vector3 vert2 = vertices[indices[i + 1]];
-                    Vector3 vert3 = vertices[indices[i + 2]];
-                    AddVerticesWithFacesets(new[] { vert1, vert2, vert3 }, Color.Yellow);
-                }
+                TryAddVertexAndIndex(vertices, indices, 0);
+                TryAddVertexAndIndex(vertices, indices, 1);
+                TryAddVertexAndIndex(vertices, indices, 2);
+                if (CurrentTri.m_indices[2] == CurrentTri.m_indices[3]) continue;
+                indices.Add(vertices.Count);
+                vertices.Add(vertices[^3]);
+                indices.Add(vertices.Count);
+                vertices.Add(vertices[^2]);
+                TryAddVertexAndIndex(vertices, indices, 3);
             }
+        }
+        for (int i = 0; i < indices.Count; i += 3)
+        {
+            Vector3 vert1 = vertices[indices[i]];
+            Vector3 vert2 = vertices[indices[i + 1]];
+            Vector3 vert3 = vertices[indices[i + 2]];
+            AddVertices(new[] { vert1, vert2, vert3 }, facesetColor, false);
         }
     }
 }

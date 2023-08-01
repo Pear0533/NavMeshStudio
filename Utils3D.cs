@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
+using Vector4 = System.Numerics.Vector4;
 
 namespace NavMeshStudio;
 

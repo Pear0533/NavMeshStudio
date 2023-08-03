@@ -1,6 +1,5 @@
 ﻿using HKLib.hk2018;
 using HKLib.hk2018.hkcdStaticMeshTree;
-using Microsoft.Xna.Framework;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 
@@ -20,7 +19,6 @@ public sealed class CLNode : GeoNode
         Process();
     }
 
-    // TODO: We'll need to get collisions to render as bounding boxes
     // TODO: Double-check this method to ensure that no oversights have been made
 
     private void TryAddVertexAndIndex(ICollection<Vector3> vertices, ICollection<int> indices, int indicesIndex)
@@ -52,12 +50,12 @@ public sealed class CLNode : GeoNode
     protected override void Process()
     {
         if (Collision.m_shape == null) return;
-        Color facesetColor = Color.Blue;
         List<Vector3> vertices = new();
         List<int> indices = new();
         fsnpCustomParamCompressedMeshShape meshShape = (fsnpCustomParamCompressedMeshShape)Collision.m_shape;
         if (meshShape.m_data == null) return;
         MeshShapeData = (hknpCompressedMeshShapeData)meshShape.m_data;
+        Color facesetColor = Color.DarkGreen;
         foreach (Section section in MeshShapeData.m_meshTree.m_sections)
         {
             CurrentSection = section;
@@ -87,9 +85,7 @@ public sealed class CLNode : GeoNode
             Vector3 vert1 = vertices[indices[i]];
             Vector3 vert2 = vertices[indices[i + 1]];
             Vector3 vert3 = vertices[indices[i + 2]];
-            AddVertices(new[] { vert1, vert2, vert3 }, facesetColor, false);
+            AddVertices(new[] { vert1, vert2, vert3 }, facesetColor);
         }
-        BoundingBox boundingBox = BoundingBox.CreateFromPoints(vertices);
-        this.SetVerticesFromBoundingBox(boundingBox);
     }
 }

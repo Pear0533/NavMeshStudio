@@ -254,9 +254,9 @@ public class Viewer : Game
     public void BuildGeometry()
     {
         Vertices.Clear();
-        // AddNodesGeometry(Cache.SceneGraph.NVNodes);
+        AddNodesGeometry(Cache.SceneGraph.NVNodes);
         AddNodesGeometry(Cache.SceneGraph.CLNodes);
-        // AddNodesGeometry(Cache.SceneGraph.MPNodes);
+        AddNodesGeometry(Cache.SceneGraph.MPNodes);
         Indices = Utils3D.GetIndices(Vertices);
     }
 }

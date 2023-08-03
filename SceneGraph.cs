@@ -1,6 +1,4 @@
-﻿using HKLib.hk2018;
-
-namespace NavMeshStudio;
+﻿namespace NavMeshStudio;
 
 public class SceneGraph
 {
@@ -25,8 +23,7 @@ public class SceneGraph
         TreeNode collisionsRootNode = new("Collisions");
         TreeNode mapPiecesRootNode = new("Map Pieces");
         Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode(NVNodes.Count, i)));
-        List<hknpBodyCinfo> collisions = Cache.Collisions.Skip(Cache.Collisions.Count - 25).ToList();
-        collisions.ForEach(i => CLNodes.Add(new CLNode(CLNodes.Count, i)));
+        Cache.Collisions.ForEach(i => CLNodes.Add(new CLNode(CLNodes.Count, i)));
         studio.Invoke(() => studio.UpdateStatus("Reading map piece geometry..."));
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode(i)));
         studio.Invoke(() => studio.ToggleStudioControls(true));

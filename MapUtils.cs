@@ -21,9 +21,10 @@ public class MapUtils
         return true;
     }
 
-    public static T GetDependencyFile<T>(string fileName) where T : StudioFile
+    public static T? GetDependencyFile<T>(string fileName) where T : StudioFile
     {
         string? filePath = Directory.GetFiles(MapDependenciesPath, fileName).ElementAtOrDefault(0);
+        if (filePath == null) return null;
         return (T)Activator.CreateInstance(typeof(T), filePath ?? "")!;
     }
 

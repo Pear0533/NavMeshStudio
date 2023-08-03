@@ -11,6 +11,11 @@ public class NavMeshUtils
     public static async Task ReadNavMeshGeometry(NavMeshStudio studio)
     {
         Cache.NvmHktBnd = MapUtils.GetDependencyFile<FromSoftFile<BND4>>($"{Cache.Msb?.Name}.nvmhktbnd.dcx");
+        if (Cache.NvmHktBnd == null)
+        {
+            await studio.UpdateStatus("This map doesn't contain navmesh, skipping...", 1000);
+            return;
+        }
         studio.UpdateStatus("Reading navmesh geometry...");
         await Task.Run(() =>
         {

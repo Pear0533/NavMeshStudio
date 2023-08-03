@@ -30,6 +30,12 @@ public static class StudioUtils
         studio.statusLabel.Text = @"Ready";
     }
 
+    public static async Task UpdateStatus(this NavMeshStudio studio, string message, int delay)
+    {
+        studio.statusLabel.Text = message;
+        await Task.Delay(delay);
+    }
+
     public static void UpdateStatus(this NavMeshStudio studio, string message)
     {
         studio.statusLabel.Text = message;
@@ -60,7 +66,8 @@ public static class StudioUtils
             }
             else Cache.Viewer.BuildGeometry();
         }).Start();
-        Cache.Console.Write("Started main thread for viewer");
+        if (!Cache.Viewer.IsInitialized)
+            Cache.Console.Write("Started main thread for viewer");
     }
 
     private static async Task Open(this NavMeshStudio studio)

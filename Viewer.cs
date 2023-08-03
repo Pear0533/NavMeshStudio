@@ -67,7 +67,6 @@ public class Viewer : Game
         Window.Title = "NavMesh Viewer";
         Window.AllowUserResizing = true;
         IsMouseVisible = true;
-        IsInitialized = true;
         Content.RootDirectory = "Content";
         studio.viewer.Invoke(() => DrawSurface = studio.viewer.Handle);
     }
@@ -78,7 +77,7 @@ public class Viewer : Game
         BasicEffect.VertexColorEnabled = true;
     }
 
-    private void InitializePrimitiveBuffers()
+    private void RefreshPrimitiveBuffers()
     {
         VertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, Vertices.Count, BufferUsage.None);
         VertexBuffer.SetData(Vertices.ToArray());
@@ -92,7 +91,7 @@ public class Viewer : Game
     protected override void Initialize()
     {
         InitializeBasicEffect();
-        InitializePrimitiveBuffers();
+        RefreshPrimitiveBuffers();
         base.Initialize();
     }
 
@@ -254,9 +253,12 @@ public class Viewer : Game
     public void BuildGeometry()
     {
         Vertices.Clear();
+        Facesets.Clear();
         AddNodesGeometry(Cache.SceneGraph.NVNodes);
         AddNodesGeometry(Cache.SceneGraph.CLNodes);
         AddNodesGeometry(Cache.SceneGraph.MPNodes);
         Indices = Utils3D.GetIndices(Vertices);
+        if (IsInitialized) RefreshPrimitiveBuffers();
+        else IsInitialized = true;
     }
 }

@@ -64,7 +64,6 @@ public sealed class CLNode : GeoNode
                 Primitive? tri = MeshShapeData.m_meshTree.m_primitives.ElementAtOrDefault((int)(i + CurrentSection.m_firstPrimitiveIndex));
                 if (tri == null) continue;
                 CurrentTri = tri;
-                // TODO: Might need to eliminate or modify this comparison to avoid artifacts
                 if (CurrentTri.m_indices[0] == 0xDE && CurrentTri.m_indices[1] == 0xAD && CurrentTri.m_indices[2] == 0xDE && CurrentTri.m_indices[3] == 0xAD)
                 {
                     continue;

@@ -23,29 +23,24 @@ public sealed class CLNode : GeoNode
     {
         Vector3 smallVertexOffset = new(CurrentSection.m_codecParms[0], CurrentSection.m_codecParms[1], CurrentSection.m_codecParms[2]);
         Vector3 smallVertexScale = new(CurrentSection.m_codecParms[3], CurrentSection.m_codecParms[4], CurrentSection.m_codecParms[5]);
-        // uint sharedVerticesLength = section.m_sharedVertices.m_data & 0xFF;
-        // uint sharedVerticesIndex = section.m_sharedVertices.m_data >> 8;
-        // if (CurrentTri.m_indices[indicesIndex] < sharedVerticesLength)
-        if (CurrentTri.m_indices[indicesIndex] < MeshShapeData.m_meshTree.m_sharedVertices.Count)
+        // TODO: We might need to use m_sharedVertices.Count instead...
+        uint vertexIndices = (uint)MeshShapeData.m_meshTree.m_sharedVerticesIndex.Count;
+        uint sharedVerticesLength = vertexIndices & 0xFF;
+        uint sharedVerticesIndex = vertexIndices >> 8;
+        if (CurrentTri.m_indices[indicesIndex] < sharedVerticesLength)
         {
-            // 1
             ushort index = (ushort)(CurrentTri.m_indices[indicesIndex] + CurrentSection.m_firstPackedVertexIndex);
             indices.Add(vertices.Count);
-            // 2
             System.Numerics.Vector3 vertex =
                 Utils3D.DecompressPackedVertex(MeshShapeData.m_meshTree.m_packedVertices.ElementAtOrDefault(index), smallVertexScale, smallVertexOffset);
             vertices.Add(vertex.TransformVertex(Collision));
         }
         else
         {
-            // ushort index = MeshShapeData.m_meshTree.m_sharedVerticesIndex.ElementAtOrDefault((int)(CurrentTri.m_indices[indicesIndex]
-            // + sharedVerticesIndex
-            // - sharedVerticesLength));
             ushort index = MeshShapeData.m_meshTree.m_sharedVerticesIndex.ElementAtOrDefault((int)(CurrentTri.m_indices[indicesIndex]
-                + CurrentSection.m_firstSharedVertexIndex
-                - MeshShapeData.m_meshTree.m_sharedVertices.Count));
+                + sharedVerticesIndex
+                - sharedVerticesLength));
             indices.Add(vertices.Count);
-            // 3
             System.Numerics.Vector3 vertex = Utils3D.DecompressSharedVertex(MeshShapeData.m_meshTree.m_sharedVertices.ElementAtOrDefault(index),
                 MeshShapeData.m_meshTree.m_domain.m_min, MeshShapeData.m_meshTree.m_domain.m_max);
             vertices.Add(vertex.TransformVertex(Collision));

@@ -23,7 +23,7 @@ public sealed class CLNode : GeoNode
     {
         Vector3 smallVertexOffset = new(CurrentSection.m_codecParms[0], CurrentSection.m_codecParms[1], CurrentSection.m_codecParms[2]);
         Vector3 smallVertexScale = new(CurrentSection.m_codecParms[3], CurrentSection.m_codecParms[4], CurrentSection.m_codecParms[5]);
-        // TODO: We might need to use m_sharedVertices.Count instead...
+        // TODO: WIP
         uint vertexIndices = (uint)MeshShapeData.m_meshTree.m_sharedVerticesIndex.Count;
         uint sharedVerticesLength = vertexIndices & 0xFF;
         uint sharedVerticesIndex = vertexIndices >> 8;
@@ -47,8 +47,6 @@ public sealed class CLNode : GeoNode
         }
     }
 
-    // TODO: Might need to account for m_firstPrimitiveIndex
-
     protected override void Process()
     {
         if (Collision.m_shape == null) return;
@@ -61,10 +59,8 @@ public sealed class CLNode : GeoNode
         foreach (Section section in MeshShapeData.m_meshTree.m_sections)
         {
             CurrentSection = section;
-            // for (int i = 0; i < section.m_primitives.m_data & 0xFF; i++)
             for (int i = 0; i < CurrentSection.m_numPrimitives; i++)
             {
-                // Primitive? tri = MeshShapeData.m_meshTree.m_primitives.ElementAtOrDefault((int)(i + section.m_primitives.m_data >> 8));
                 Primitive? tri = MeshShapeData.m_meshTree.m_primitives.ElementAtOrDefault((int)(i + CurrentSection.m_firstPrimitiveIndex));
                 if (tri == null) continue;
                 CurrentTri = tri;

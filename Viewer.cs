@@ -255,7 +255,7 @@ public class Viewer : Game
         Vertices.Clear();
         Facesets.Clear();
         AddNodesGeometry(Cache.SceneGraph.NVNodes);
-        // AddNodesGeometry(Cache.SceneGraph.CLNodes);
+        AddNodesGeometry(Cache.SceneGraph.CLNodes);
         AddNodesGeometry(Cache.SceneGraph.MPNodes);
         Indices = Utils3D.GetIndices(Vertices);
         if (IsInitialized) RefreshPrimitiveBuffers();

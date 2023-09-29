@@ -23,9 +23,7 @@ public sealed class CLNode : GeoNode
     {
         Vector3 smallVertexOffset = new(CurrentSection.m_codecParms[0], CurrentSection.m_codecParms[1], CurrentSection.m_codecParms[2]);
         Vector3 smallVertexScale = new(CurrentSection.m_codecParms[3], CurrentSection.m_codecParms[4], CurrentSection.m_codecParms[5]);
-        // From what we can tell, m_numPackedVertices should be equivalent to the value of the deprecated m_sharedVertices m_data member AND masked by 0xFF
         uint sharedVerticesLength = CurrentSection.m_numPackedVertices;
-        // TODO: Determine how to find sharedVerticesIndex
         uint sharedVerticesIndex = CurrentSection.m_firstSharedVertexIndex;
         if (CurrentTri.m_indices[indicesIndex] < sharedVerticesLength)
         {

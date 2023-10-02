@@ -137,36 +137,38 @@ public class Viewer : Game
         }
     }
 
-    private void UpdateMoveCameraForwardBackward(GameTime gameTime, bool forwards)
+    private void UpdateMoveCameraForwardBackward(GameTime gameTime, bool forwards, int movementSpeed)
     {
         Vector3 forwardVector = Camera.NormalizeNumericsVector3();
-        CameraOffset -= 50 * (float)gameTime.ElapsedGameTime.TotalSeconds * forwardVector * (forwards ? 1 : -1);
+        CameraOffset -= movementSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds * forwardVector * (forwards ? 1 : -1);
     }
 
-    private void UpdateMoveCameraLeftRight(GameTime gameTime, bool left)
+    private void UpdateMoveCameraLeftRight(GameTime gameTime, bool left, int movementSpeed)
     {
         Vector3 upVector = new(0, 0, 1);
         Vector3 rightVector = Utils3D.CrossProduct(upVector, Camera).NormalizeNumericsVector3();
-        CameraOffset -= 50 * (float)gameTime.ElapsedGameTime.TotalSeconds * rightVector * (left ? 1 : -1);
+        CameraOffset -= movementSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds * rightVector * (left ? 1 : -1);
     }
 
     private void UpdateKeyboardInput(GameTime gameTime)
     {
         CurrentKeyboardState = Keyboard.GetState();
         Key pressedKey = CurrentKeyboardState.GetPressedKeys().ElementAtOrDefault(0);
+        bool shift = CurrentKeyboardState.IsKeyDown(Key.LeftShift) || CurrentKeyboardState.IsKeyDown(Key.RightShift);
+        int movementSpeed = shift ? 200 : 50;
         switch (pressedKey)
         {
             case Key.W:
-                UpdateMoveCameraForwardBackward(gameTime, true);
+                UpdateMoveCameraForwardBackward(gameTime, true, movementSpeed);
                 break;
             case Key.A:
-                UpdateMoveCameraLeftRight(gameTime, true);
+                UpdateMoveCameraLeftRight(gameTime, true, movementSpeed);
                 break;
             case Key.S:
-                UpdateMoveCameraForwardBackward(gameTime, false);
+                UpdateMoveCameraForwardBackward(gameTime, false, movementSpeed);
                 break;
             case Key.D:
-                UpdateMoveCameraLeftRight(gameTime, false);
+                UpdateMoveCameraLeftRight(gameTime, false, movementSpeed);
                 break;
         }
     }

@@ -8,7 +8,7 @@ namespace NavMeshStudio;
 public static class StudioUtils
 {
     private const string AppName = "NavMesh Studio";
-    private const string Version = "1.0";
+    private const string Version = "1.1";
 
     public static void SetVersionString(this NavMeshStudio studio)
     {

@@ -45,6 +45,7 @@
             navMeshCollisionEditingListView = new ListView();
             splitContainer2 = new SplitContainer();
             viewerGroupBox = new GroupBox();
+            viewerOpenMapLabel = new Label();
             viewer = new PictureBox();
             splitContainer3 = new SplitContainer();
             attributesGroupBox = new GroupBox();
@@ -240,6 +241,7 @@
             // 
             // viewerGroupBox
             // 
+            viewerGroupBox.Controls.Add(viewerOpenMapLabel);
             viewerGroupBox.Controls.Add(viewer);
             viewerGroupBox.Dock = DockStyle.Fill;
             viewerGroupBox.Location = new Point(0, 0);
@@ -248,6 +250,16 @@
             viewerGroupBox.TabIndex = 0;
             viewerGroupBox.TabStop = false;
             viewerGroupBox.Text = "Viewer";
+            // 
+            // viewerOpenMapLabel
+            // 
+            viewerOpenMapLabel.Anchor = AnchorStyles.None;
+            viewerOpenMapLabel.AutoSize = true;
+            viewerOpenMapLabel.Location = new Point(178, 218);
+            viewerOpenMapLabel.Name = "viewerOpenMapLabel";
+            viewerOpenMapLabel.Size = new Size(200, 15);
+            viewerOpenMapLabel.TabIndex = 1;
+            viewerOpenMapLabel.Text = "Open a map file to view scene data...";
             // 
             // viewer
             // 
@@ -393,6 +405,7 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
             splitContainer2.ResumeLayout(false);
             viewerGroupBox.ResumeLayout(false);
+            viewerGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)viewer).EndInit();
             splitContainer3.Panel1.ResumeLayout(false);
             splitContainer3.Panel2.ResumeLayout(false);
@@ -439,5 +452,6 @@
         public ToolStripButton saveAsToolStripButton;
         private Panel panel1;
         public PictureBox viewer;
+        public Label viewerOpenMapLabel;
     }
 }

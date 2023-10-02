@@ -143,7 +143,7 @@ public static class StudioUtils
     {
         if (!new[] { Keys.W, Keys.A, Keys.S, Keys.D }.Contains(e.KeyCode)) return;
         e.SuppressKeyPress = true;
-        Cache.Viewer.ViewerWindow.Invoke(Cache.Viewer.ViewerWindow.Focus);
+        if (Cache.Viewer.IsInitialized) Cache.Viewer.ViewerWindow.Invoke(Cache.Viewer.ViewerWindow.Focus);
     }
 
     public static void RegisterFormEvents(this NavMeshStudio studio)

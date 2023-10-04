@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
 using Key = Microsoft.Xna.Framework.Input.Keys;
+using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
+using Mouse = Microsoft.Xna.Framework.Input.Mouse;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Vector3 = System.Numerics.Vector3;
 
@@ -252,15 +254,18 @@ public class Viewer : Game
         });
     }
 
-    public void BuildGeometry()
+    public void BuildGeometry(NavMeshStudio studio)
     {
         Vertices.Clear();
         Facesets.Clear();
+        studio.Invoke(() => studio.UpdateStatus("Rendering scene data..."));
         AddNodesGeometry(Cache.SceneGraph.NVNodes);
         AddNodesGeometry(Cache.SceneGraph.CLNodes);
         AddNodesGeometry(Cache.SceneGraph.MPNodes);
         Indices = Utils3D.GetIndices(Vertices);
         if (IsInitialized) RefreshPrimitiveBuffers();
         else IsInitialized = true;
+        studio.viewerOpenMapLabel.Invoke(() => studio.viewerOpenMapLabel.Visible = false);
+        studio.Invoke(studio.ResetStatus);
     }
 }

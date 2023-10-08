@@ -26,7 +26,6 @@ public class SceneGraph
         Cache.Collisions.ForEach(i => CLNodes.Add(new CLNode(CLNodes.Count, i)));
         studio.Invoke(() => studio.UpdateStatus("Reading map piece geometry..."));
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode(i)));
-        studio.Invoke(() => studio.ToggleStudioControls(true));
         studio.Invoke(studio.ResetStatus);
         View.Invoke(View.Nodes.Clear);
         navMeshesRootNode.Populate(NVNodes);

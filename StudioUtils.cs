@@ -41,7 +41,13 @@ public static class StudioUtils
         studio.statusLabel.Text = message;
     }
 
-    public static void ToggleStudioControls(this NavMeshStudio studio, bool enabled = false)
+    public static void ToggleOpenFileMenuOption(this NavMeshStudio studio, bool enabled = false)
+    {
+        studio.openToolStripMenuItem.Enabled = enabled;
+        studio.openToolStripButton.Enabled = enabled;
+    }
+
+    public static void ToggleSaveAsFileMenuOption(this NavMeshStudio studio, bool enabled = false)
     {
         studio.saveAsToolStripMenuItem.Enabled = enabled;
         studio.saveAsToolStripButton.Enabled = enabled;
@@ -78,10 +84,12 @@ public static class StudioUtils
             ResetStatus(studio);
             return;
         }
-        Cache.Clear();
         Cache.Console.Write($"Read {Cache.Msb?.Path}");
+        if (!studio.SetMapDependenciesPath()) return;
+        Cache.Clear();
+        ToggleOpenFileMenuOption(studio);
+        ToggleSaveAsFileMenuOption(studio);
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
-        MapUtils.SetMapDependenciesPath();
         await NavMeshUtils.ReadNavMeshGeometry(studio);
         await CollisionUtils.ReadCollisionGeometry(studio);
         MapUtils.ReadMapPieceGeometry();

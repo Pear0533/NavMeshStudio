@@ -267,5 +267,7 @@ public class Viewer : Game
         else IsInitialized = true;
         studio.viewerOpenMapLabel.Invoke(() => studio.viewerOpenMapLabel.Visible = false);
         studio.Invoke(studio.ResetStatus);
+        studio.Invoke(() => studio.ToggleOpenFileMenuOption(true));
+        studio.Invoke(() => studio.ToggleSaveAsFileMenuOption(true));
     }
 }

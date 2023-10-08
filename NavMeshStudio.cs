@@ -11,7 +11,7 @@ public partial class NavMeshStudio : Form
         RegisterCharacterEncodings();
         this.RegisterFormEvents();
         this.RegisterConsole();
-        this.ToggleStudioControls();
+        this.ToggleSaveAsFileMenuOption();
         this.SetVersionString();
     }
 }

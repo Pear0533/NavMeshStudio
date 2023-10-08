@@ -1,13 +1,12 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Color = Microsoft.Xna.Framework.Color;
+﻿using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 
 namespace NavMeshStudio;
 
 public abstract class GeoNode : GraphNode
 {
-    public List<VertexPositionColor> Facesets = new();
-    public List<VertexPositionColor> Vertices = new();
+    public List<GeoElement> Facesets = new();
+    public List<GeoElement> Vertices = new();
 
     protected void AddVertices(Vector3[] vertices, Color facesetColor, bool generateFacesets = true)
     {

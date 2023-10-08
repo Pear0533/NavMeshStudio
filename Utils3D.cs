@@ -34,35 +34,35 @@ public static class Utils3D
         return Vector3.Transform(newVert, collisionInfo.m_orientation) + trans;
     }
 
-    public static List<VertexPositionColor> GetVertices(IReadOnlyList<Vector3> vertices, Color facesetColor)
+    public static List<GeoElement> GetVertices(IReadOnlyList<Vector3> vertices, Color facesetColor)
     {
-        List<VertexPositionColor> vertexPositions = new();
+        List<GeoElement> vertexPositions = new();
         vertexPositions.AddRange(new[]
         {
-            new VertexPositionColor(vertices[0], facesetColor),
-            new VertexPositionColor(vertices[1], facesetColor),
-            new VertexPositionColor(vertices[0], facesetColor),
-            new VertexPositionColor(vertices[2], facesetColor),
-            new VertexPositionColor(vertices[1], facesetColor),
-            new VertexPositionColor(vertices[2], facesetColor)
+            new GeoElement(new VertexPositionColor(vertices[0], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[1], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[0], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[2], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[1], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[2], facesetColor))
         });
         return vertexPositions;
     }
 
-    public static List<VertexPositionColor> GetFacesets(IReadOnlyList<Vector3> vertices, Color facesetColor)
+    public static List<GeoElement> GetFacesets(IReadOnlyList<Vector3> vertices, Color facesetColor)
     {
-        List<VertexPositionColor> facesets = new();
+        List<GeoElement> facesets = new();
         facesets.AddRange(new[]
         {
-            new VertexPositionColor(vertices[0], facesetColor),
-            new VertexPositionColor(vertices[2], facesetColor),
-            new VertexPositionColor(vertices[1], facesetColor),
-            new VertexPositionColor(vertices[0], facesetColor),
-            new VertexPositionColor(vertices[2], facesetColor),
-            new VertexPositionColor(vertices[1], facesetColor),
-            new VertexPositionColor(vertices[0], facesetColor),
-            new VertexPositionColor(vertices[1], facesetColor),
-            new VertexPositionColor(vertices[2], facesetColor)
+            new GeoElement(new VertexPositionColor(vertices[0], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[2], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[1], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[0], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[2], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[1], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[0], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[1], facesetColor)),
+            new GeoElement(new VertexPositionColor(vertices[2], facesetColor))
         });
         return facesets;
     }
@@ -72,7 +72,7 @@ public static class Utils3D
         return new Vector3(vector.X, vector.Y, vector.Z);
     }
 
-    public static List<int> GetIndices(List<VertexPositionColor> vertices)
+    public static List<int> GetIndices(List<GeoElement> vertices)
     {
         int index = 0;
         List<int> indices = new();

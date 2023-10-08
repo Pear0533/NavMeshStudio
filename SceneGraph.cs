@@ -12,7 +12,21 @@ public class SceneGraph
     public SceneGraph(NavMeshStudio studio)
     {
         View = studio.sceneGraphTreeView;
+        RegisterSceneGraphEvents();
         Populate(studio);
+    }
+
+    private void RegisterSceneGraphEvents()
+    {
+        View.NodeMouseClick += (_, e) =>
+        {
+            if (e.Node.Tag is not NVNode node) return;
+            NVNodes.ForEach(i => i.Vertices.ForEach(x => x.Data.Color = x.BaseColorData.Color));
+            NVNodes.ForEach(i => i.Facesets.ForEach(x => x.Data.Color = x.BaseColorData.Color));
+            node.Vertices.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            Cache.Viewer.RefreshGeometry();
+        };
     }
 
     // TODO: Improve performance when reading collisions/map pieces

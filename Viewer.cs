@@ -15,8 +15,8 @@ namespace NavMeshStudio;
 
 public class Viewer : Game
 {
-    public readonly List<VertexPositionColor> Facesets = new();
-    public readonly List<VertexPositionColor> Vertices = new();
+    public readonly List<GeoElement> Facesets = new();
+    public readonly List<GeoElement> Vertices = new();
     private readonly string ViewerBGFilePath = $"{Utils.ResourcesPath}\\bg.png";
     private BasicEffect BasicEffect = null!;
     private Vector3 Camera = new(0, 4, 2);
@@ -79,15 +79,22 @@ public class Viewer : Game
         BasicEffect.VertexColorEnabled = true;
     }
 
-    private void RefreshPrimitiveBuffers()
+    public void RefreshGeometry()
+    {
+        // TODO: Improve performance
+        VertexBuffer.SetData(Vertices.Select(i => i.Data).ToArray());
+        FacesetBuffer.SetData(Facesets.Select(i => i.Data).ToArray());
+    }
+
+    public void RefreshPrimitiveBuffers()
     {
         VertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, Vertices.Count, BufferUsage.None);
-        VertexBuffer.SetData(Vertices.ToArray());
+        VertexBuffer.SetData(Vertices.Select(i => i.Data).ToArray());
         IndexBuffer = new IndexBuffer(GraphicsDevice, IndexElementSize.ThirtyTwoBits, Indices.Count, BufferUsage.None);
         IndexBuffer.SetData(Indices.ToArray());
         if (Facesets.Count <= 0) return;
         FacesetBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, Facesets.Count, BufferUsage.None);
-        FacesetBuffer.SetData(Facesets.ToArray());
+        FacesetBuffer.SetData(Facesets.Select(i => i.Data).ToArray());
     }
 
     protected override void Initialize()

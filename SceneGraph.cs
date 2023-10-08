@@ -16,15 +16,21 @@ public class SceneGraph
         Populate(studio);
     }
 
+    public static void Deselect<T>(List<T> nodes) where T : GeoNode
+    {
+        nodes.ForEach(i => i.Vertices.ForEach(x => x.Data.Color = x.BaseColorData.Color));
+        nodes.ForEach(i => i.Facesets.ForEach(x => x.Data.Color = x.BaseColorData.Color));
+    }
+
     private void RegisterSceneGraphEvents()
     {
-        View.NodeMouseClick += (_, e) =>
+        View.AfterSelect += (_, e) =>
         {
-            if (e.Node.Tag is not NVNode node) return;
-            NVNodes.ForEach(i => i.Vertices.ForEach(x => x.Data.Color = x.BaseColorData.Color));
-            NVNodes.ForEach(i => i.Facesets.ForEach(x => x.Data.Color = x.BaseColorData.Color));
-            node.Vertices.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
-            node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            if (e.Node?.Tag == null || e.Node.Tag is MPNode) return;
+            Deselect(NVNodes);
+            Deselect(CLNodes);
+            ((GeoNode)e.Node.Tag).Vertices.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            ((GeoNode)e.Node.Tag).Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
             Cache.Viewer.RefreshGeometry();
         };
     }

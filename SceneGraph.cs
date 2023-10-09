@@ -26,11 +26,13 @@ public class SceneGraph
     {
         View.AfterSelect += (_, e) =>
         {
-            if (e.Node?.Tag == null || e.Node.Tag is MPNode) return;
             Deselect(NVNodes);
             Deselect(CLNodes);
-            ((GeoNode)e.Node.Tag).Vertices.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
-            ((GeoNode)e.Node.Tag).Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            if (e.Node?.Tag != null && e.Node.Tag is not MPNode)
+            {
+                ((GeoNode)e.Node.Tag).Vertices.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+                ((GeoNode)e.Node.Tag).Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            }
             Cache.Viewer.RefreshGeometry();
         };
     }

@@ -50,8 +50,9 @@ public sealed class CLNode : GeoNode
         if (Collision.m_shape == null) return;
         List<Vector3> vertices = new();
         List<int> indices = new();
-        fsnpCustomParamCompressedMeshShape meshShape = (fsnpCustomParamCompressedMeshShape)Collision.m_shape;
-        if (meshShape.m_data == null) return;
+        // TODO: Account for hknpBoxShape
+        fsnpCustomParamCompressedMeshShape? meshShape = Collision.m_shape as fsnpCustomParamCompressedMeshShape;
+        if (meshShape?.m_data == null) return;
         MeshShapeData = (hknpCompressedMeshShapeData)meshShape.m_data;
         Color facesetColor = Color.DarkGreen;
         foreach (Section section in MeshShapeData.m_meshTree.m_sections)

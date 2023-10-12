@@ -26,6 +26,7 @@ public class SceneGraph
     {
         View.AfterSelect += (_, e) =>
         {
+            if (e.Action is not (TreeViewAction.ByKeyboard or TreeViewAction.ByMouse)) return;
             Deselect(NVNodes);
             Deselect(CLNodes);
             if (e.Node?.Tag != null && e.Node.Tag is not MPNode)

@@ -247,7 +247,7 @@ public class Viewer : Game
         BasicEffect.View = Matrix.CreateLookAt(cameraPosition, CameraOffset, Vector3.UnitZ);
         BasicEffect.VertexColorEnabled = true;
         float viewerAspectRatio = GraphicsManager.PreferredBackBufferWidth / (float)GraphicsManager.PreferredBackBufferHeight;
-        BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, viewerAspectRatio, 0.1f, 500);
+        BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, viewerAspectRatio, 0.1f, 5000);
         BasicEffect.TextureEnabled = false;
         BasicEffect.CurrentTechnique.Passes.ToList().ForEach(i => i.Apply());
     }

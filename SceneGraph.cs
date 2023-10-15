@@ -21,6 +21,8 @@ public class SceneGraph
         nodes.ForEach(i => i.Facesets.ForEach(x => x.Data.Color = x.BaseColorData.Color));
     }
 
+    // TODO: Implement raycasting to allow for direct interaction within the viewer
+
     private void RegisterSceneGraphEvents()
     {
         View.AfterSelect += (_, e) =>

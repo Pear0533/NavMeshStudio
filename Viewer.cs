@@ -82,7 +82,6 @@ public class Viewer : Game
     public void RefreshGeometry()
     {
         // TODO: Improve performance
-        VertexBuffer.SetData(Vertices.Select(i => i.Data).ToArray());
         FacesetBuffer.SetData(Facesets.Select(i => i.Data).ToArray());
     }
 

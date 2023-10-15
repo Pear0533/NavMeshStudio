@@ -21,7 +21,7 @@ public abstract class GeoNode : GraphNode
         vertices[0].FlipYZ();
         vertices[1].FlipYZ();
         vertices[2].FlipYZ();
-        Vertices.AddRange(Utils3D.GetVertices(vertices, facesetColor));
+        Vertices.AddRange(Utils3D.GetVertices(vertices, Color.Black));
         if (generateFacesets) Facesets.AddRange(Utils3D.GetFacesets(vertices, facesetColor));
     }
 

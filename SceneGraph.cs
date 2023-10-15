@@ -18,7 +18,6 @@ public class SceneGraph
 
     public static void Deselect<T>(List<T> nodes) where T : GeoNode
     {
-        nodes.ForEach(i => i.Vertices.ForEach(x => x.Data.Color = x.BaseColorData.Color));
         nodes.ForEach(i => i.Facesets.ForEach(x => x.Data.Color = x.BaseColorData.Color));
     }
 
@@ -30,10 +29,7 @@ public class SceneGraph
             Deselect(NVNodes);
             Deselect(CLNodes);
             if (e.Node?.Tag != null && e.Node.Tag is not MPNode)
-            {
-                ((GeoNode)e.Node.Tag).Vertices.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
                 ((GeoNode)e.Node.Tag).Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
-            }
             Cache.Viewer.RefreshGeometry();
         };
     }

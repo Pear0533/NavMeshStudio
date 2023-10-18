@@ -7,6 +7,7 @@ using Key = Microsoft.Xna.Framework.Input.Keys;
 using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
 using Mouse = Microsoft.Xna.Framework.Input.Mouse;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 using Vector3 = System.Numerics.Vector3;
 
 // ReSharper disable CollectionNeverUpdated.Local
@@ -109,12 +110,33 @@ public class Viewer : Game
         ViewerBGTexture = Texture2D.FromFile(GraphicsDevice, ViewerBGFilePath);
     }
 
+    public Ray GetMouseRay()
+    {
+        System.Numerics.Vector2 mousePosition = new(PreviousMouseState.Position.X, PreviousMouseState.Position.Y);
+        Microsoft.Xna.Framework.Vector3 nearPoint = new(mousePosition, 0);
+        Microsoft.Xna.Framework.Vector3 farPoint = new(mousePosition, 1);
+        nearPoint = GraphicsDevice.Viewport.Unproject(nearPoint, BasicEffect.Projection, BasicEffect.View, Matrix.Identity);
+        farPoint = GraphicsDevice.Viewport.Unproject(farPoint, BasicEffect.Projection, BasicEffect.View, Matrix.Identity);
+        Microsoft.Xna.Framework.Vector3 direction = farPoint - nearPoint;
+        direction.Normalize();
+        return new Ray(nearPoint, direction);
+    }
+
     private void UpdateLeftMouseButtonClick()
     {
-        Camera = Camera.RotatePoint(0, 0, -(CurrentMouseState.Position.X - PreviousMouseState.Position.X) * 0.01f);
-        Vector3 direction = new(Camera.Y, -Camera.X, 0);
-        float theta = (CurrentMouseState.Position.Y - PreviousMouseState.Position.Y) * 0.01f;
-        Camera = Utils3D.RotateLine(Camera, new Vector3(0, 0, 0), direction, theta);
+        if (PreviousMouseState.LeftButton == ButtonState.Released && CurrentMouseState.LeftButton == ButtonState.Pressed)
+        {
+            UpdatePreviousMouseState();
+            Ray mouseRay = GetMouseRay();
+            System.Console.WriteLine(mouseRay);
+        }
+        else
+        {
+            Camera = Camera.RotatePoint(0, 0, -(CurrentMouseState.Position.X - PreviousMouseState.Position.X) * 0.01f);
+            Vector3 direction = new(Camera.Y, -Camera.X, 0);
+            float theta = (CurrentMouseState.Position.Y - PreviousMouseState.Position.Y) * 0.01f;
+            Camera = Utils3D.RotateLine(Camera, new Vector3(0, 0, 0), direction, theta);
+        }
     }
 
     private void UpdateMiddleMouseButtonClick()

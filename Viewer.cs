@@ -124,11 +124,23 @@ public class Viewer : Game
 
     private void UpdateLeftMouseButtonClick()
     {
+        // TODO: WIP
         if (PreviousMouseState.LeftButton == ButtonState.Released && CurrentMouseState.LeftButton == ButtonState.Pressed)
         {
-            UpdatePreviousMouseState();
             Ray mouseRay = GetMouseRay();
-            System.Console.WriteLine(mouseRay);
+            mouseRay.Position.FlipYZ();
+            mouseRay.Direction.FlipYZ();
+            Microsoft.Xna.Framework.Vector3 hoveredVertex = new();
+            float closestDistance = float.MaxValue;
+            foreach (GeoElement vertex in Vertices)
+            {
+                Microsoft.Xna.Framework.Vector3 rayToVertex = vertex.Data.Position - mouseRay.Position;
+                float distance = rayToVertex.Length();
+                if (!(distance < closestDistance)) continue;
+                closestDistance = distance;
+                hoveredVertex = vertex.Data.Position;
+            }
+            System.Console.WriteLine(hoveredVertex);
         }
         else
         {

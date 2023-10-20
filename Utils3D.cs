@@ -1,8 +1,6 @@
 ﻿using HKLib.hk2018;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
-using Vector2 = System.Numerics.Vector2;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Vector4 = System.Numerics.Vector4;
 

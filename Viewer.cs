@@ -8,6 +8,7 @@ using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
 using Mouse = Microsoft.Xna.Framework.Input.Mouse;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Vector3 = System.Numerics.Vector3;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 // ReSharper disable CollectionNeverUpdated.Local
 
@@ -128,6 +129,28 @@ public class Viewer : Game
         CameraOffset += new Vector3(cameraUpVector.X * mouseY * 0.01f, cameraUpVector.Y * mouseY * 0.01f, cameraUpVector.Z * mouseY * 0.01f);
     }
 
+    private Ray CreateRayFromMousePosition()
+    {
+        Vector2 mousePosition = new(CurrentMouseState.X, CurrentMouseState.Y);
+        Microsoft.Xna.Framework.Vector3 nearPoint =
+            GraphicsDevice.Viewport.Unproject(new Microsoft.Xna.Framework.Vector3(mousePosition, 0), BasicEffect.Projection, BasicEffect.View, Matrix.Identity);
+        Microsoft.Xna.Framework.Vector3 farPoint =
+            GraphicsDevice.Viewport.Unproject(new Microsoft.Xna.Framework.Vector3(mousePosition, 1), BasicEffect.Projection, BasicEffect.View, Matrix.Identity);
+        Microsoft.Xna.Framework.Vector3 direction = farPoint - nearPoint;
+        direction.Normalize();
+        Ray ray = new(nearPoint, direction);
+        return ray;
+    }
+
+    private void UpdateRightMouseButtonClick()
+    {
+        Ray ray = CreateRayFromMousePosition();
+        BoundingBox boundingBox = Cache.SceneGraph.CLNodes[10].BoundingBox;
+        float? intersection = ray.Intersects(boundingBox);
+        bool intersects = intersection.HasValue;
+        System.Console.WriteLine(intersects);
+    }
+
     private void UpdateMouseScrollWheel()
     {
         switch (CurrentMouseState.ScrollWheelValue - PreviousMouseState.ScrollWheelValue)
@@ -196,6 +219,10 @@ public class Viewer : Game
         else if (CurrentMouseState.MiddleButton == ButtonState.Pressed)
         {
             UpdateMiddleMouseButtonClick();
+        }
+        else if (CurrentMouseState.RightButton == ButtonState.Pressed)
+        {
+            UpdateRightMouseButtonClick();
         }
         UpdateMouseScrollWheel();
         UpdatePreviousMouseState();

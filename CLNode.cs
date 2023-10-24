@@ -1,5 +1,6 @@
 ﻿using HKLib.hk2018;
 using HKLib.hk2018.hkcdStaticMeshTree;
+using Microsoft.Xna.Framework;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 
@@ -11,6 +12,7 @@ public sealed class CLNode : GeoNode
     private hknpCompressedMeshShapeData MeshShapeData = null!;
     private Section CurrentSection = null!;
     private Primitive CurrentTri = null!;
+    public BoundingBox BoundingBox;
 
     public CLNode(int clNodesCount, hknpBodyCinfo collision)
     {
@@ -85,5 +87,6 @@ public sealed class CLNode : GeoNode
             Vector3 vert3 = vertices[indices[i + 2]];
             AddVertices(new[] { vert1, vert2, vert3 }, facesetColor);
         }
+        BoundingBox = BoundingBox.CreateFromPoints(vertices.ToArray());
     }
 }

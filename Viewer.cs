@@ -131,6 +131,7 @@ public class Viewer : Game
 
     private Ray CreateRayFromMousePosition()
     {
+        // TODO: We need to get the mouse position relative to the PictureBox control
         Vector2 mousePosition = new(CurrentMouseState.X, CurrentMouseState.Y);
         Microsoft.Xna.Framework.Vector3 nearPoint =
             GraphicsDevice.Viewport.Unproject(new Microsoft.Xna.Framework.Vector3(mousePosition, 0), BasicEffect.Projection, BasicEffect.View, Matrix.Identity);

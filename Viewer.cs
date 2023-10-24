@@ -36,6 +36,7 @@ public class Viewer : Game
     private VertexBuffer VertexBuffer = null!;
     private Rectangle ViewerBGArea;
     private Texture2D ViewerBGTexture = null!;
+    private PictureBox ViewerPictureBox = null!;
     public Form ViewerWindow = null!;
 
     public Viewer() { }
@@ -61,6 +62,7 @@ public class Viewer : Game
         };
         studio.viewer.MouseEnter += (_, _) => IsFocused = true;
         studio.viewer.MouseLeave += (_, _) => IsFocused = false;
+        ViewerPictureBox = studio.viewer;
         ViewerWindow = (Control.FromHandle(Window.Handle) as Form)!;
         ViewerWindow.Opacity = 0;
     }
@@ -131,8 +133,8 @@ public class Viewer : Game
 
     private Ray CreateRayFromMousePosition()
     {
-        // TODO: We need to get the mouse position relative to the PictureBox control
-        Vector2 mousePosition = new(CurrentMouseState.X, CurrentMouseState.Y);
+        System.Drawing.Point mousePositionPoint = ViewerPictureBox.Invoke(() => ViewerPictureBox.PointToClient(Cursor.Position));
+        Vector2 mousePosition = new(mousePositionPoint.X, mousePositionPoint.Y);
         Microsoft.Xna.Framework.Vector3 nearPoint =
             GraphicsDevice.Viewport.Unproject(new Microsoft.Xna.Framework.Vector3(mousePosition, 0), BasicEffect.Projection, BasicEffect.View, Matrix.Identity);
         Microsoft.Xna.Framework.Vector3 farPoint =
@@ -140,13 +142,15 @@ public class Viewer : Game
         Microsoft.Xna.Framework.Vector3 direction = farPoint - nearPoint;
         direction.Normalize();
         Ray ray = new(nearPoint, direction);
+        ray.Position.FlipYZ();
+        ray.Direction.FlipYZ();
         return ray;
     }
 
     private void UpdateRightMouseButtonClick()
     {
         Ray ray = CreateRayFromMousePosition();
-        BoundingBox boundingBox = Cache.SceneGraph.CLNodes[10].BoundingBox;
+        BoundingBox boundingBox = Cache.SceneGraph.CLNodes[13].BoundingBox;
         float? intersection = ray.Intersects(boundingBox);
         bool intersects = intersection.HasValue;
         System.Console.WriteLine(intersects);

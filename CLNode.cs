@@ -12,7 +12,6 @@ public sealed class CLNode : GeoNode
     private hknpCompressedMeshShapeData MeshShapeData = null!;
     private Section CurrentSection = null!;
     private Primitive CurrentTri = null!;
-    public BoundingBox BoundingBox;
 
     public CLNode(int clNodesCount, hknpBodyCinfo collision)
     {
@@ -87,6 +86,7 @@ public sealed class CLNode : GeoNode
             Vector3 vert3 = vertices[indices[i + 2]];
             AddVertices(new[] { vert1, vert2, vert3 }, facesetColor);
         }
+        // TODO: We might want to create the bounding box before flipping the vertex orientation
         BoundingBox = BoundingBox.CreateFromPoints(vertices.ToArray());
     }
 }

@@ -112,24 +112,7 @@ public class Viewer : Game
         ViewerBGTexture = Texture2D.FromFile(GraphicsDevice, ViewerBGFilePath);
     }
 
-    private void UpdateLeftMouseButtonClick()
-    {
-        Camera = Camera.RotatePoint(0, 0, -(CurrentMouseState.Position.X - PreviousMouseState.Position.X) * 0.01f);
-        Vector3 direction = new(Camera.Y, -Camera.X, 0);
-        float theta = (CurrentMouseState.Position.Y - PreviousMouseState.Position.Y) * 0.01f;
-        Camera = Utils3D.RotateLine(Camera, new Vector3(0, 0, 0), direction, theta);
-    }
-
-    private void UpdateMiddleMouseButtonClick()
-    {
-        Vector3 upVector = new(0, 0, 1);
-        Vector3 rightVector = Utils3D.CrossProduct(upVector, Camera).NormalizeNumericsVector3();
-        Microsoft.Xna.Framework.Vector3 cameraUpVector = Utils3D.CrossProduct(Camera, rightVector).NormalizeNumericsVector3();
-        float mouseX = CurrentMouseState.Position.X - PreviousMouseState.Position.X;
-        float mouseY = CurrentMouseState.Position.Y - PreviousMouseState.Position.Y;
-        CameraOffset -= new Vector3(rightVector.X * mouseX * 0.01f, rightVector.Y * mouseX * 0.01f, rightVector.Z * mouseX * 0.01f);
-        CameraOffset += new Vector3(cameraUpVector.X * mouseY * 0.01f, cameraUpVector.Y * mouseY * 0.01f, cameraUpVector.Z * mouseY * 0.01f);
-    }
+    // TODO: Cleanup
 
     private Ray CreateRayFromMousePosition()
     {
@@ -147,13 +130,55 @@ public class Viewer : Game
         return ray;
     }
 
-    private void UpdateRightMouseButtonClick()
+    private bool IsSingleLeftMouseButtonClick()
     {
+        return PreviousMouseState.LeftButton == ButtonState.Released && CurrentMouseState.LeftButton == ButtonState.Pressed;
+    }
+
+    // TODO: Temporary
+    private bool IsSingleRightMouseButtonClick()
+    {
+        return PreviousMouseState.RightButton == ButtonState.Released && CurrentMouseState.RightButton == ButtonState.Pressed;
+    }
+
+    private void UpdateSceneGraphNodeSelection()
+    {
+        // if (!IsSingleLeftMouseButtonClick()) return;
+        if (!IsSingleRightMouseButtonClick()) return;
+        List<NVNode> nvNodes = Cache.SceneGraph.NVNodes.ToArray().Reverse().ToList();
+        List<CLNode> clNodes = Cache.SceneGraph.CLNodes.ToArray().Reverse().ToList();
+        List<GeoNode> nodes = nvNodes.Concat<GeoNode>(clNodes).ToList();
         Ray ray = CreateRayFromMousePosition();
-        BoundingBox boundingBox = Cache.SceneGraph.CLNodes[13].BoundingBox;
-        float? intersection = ray.Intersects(boundingBox);
-        bool intersects = intersection.HasValue;
-        System.Console.WriteLine(intersects);
+        bool doesRayIntersect = false;
+        foreach (GeoNode node in nodes)
+        {
+            float? intersection = ray.Intersects(node.BoundingBox);
+            if (intersection == null) continue;
+            doesRayIntersect = true;
+            Cache.SceneGraph.Select(node);
+            break;
+        }
+        if (!doesRayIntersect) Cache.SceneGraph.DeselectAll();
+    }
+
+    private void UpdateLeftMouseButtonClick()
+    {
+        // UpdateSceneGraphNodeSelection();
+        Camera = Camera.RotatePoint(0, 0, -(CurrentMouseState.Position.X - PreviousMouseState.Position.X) * 0.01f);
+        Vector3 direction = new(Camera.Y, -Camera.X, 0);
+        float theta = (CurrentMouseState.Position.Y - PreviousMouseState.Position.Y) * 0.01f;
+        Camera = Utils3D.RotateLine(Camera, new Vector3(0, 0, 0), direction, theta);
+    }
+
+    private void UpdateMiddleMouseButtonClick()
+    {
+        Vector3 upVector = new(0, 0, 1);
+        Vector3 rightVector = Utils3D.CrossProduct(upVector, Camera).NormalizeNumericsVector3();
+        Microsoft.Xna.Framework.Vector3 cameraUpVector = Utils3D.CrossProduct(Camera, rightVector).NormalizeNumericsVector3();
+        float mouseX = CurrentMouseState.Position.X - PreviousMouseState.Position.X;
+        float mouseY = CurrentMouseState.Position.Y - PreviousMouseState.Position.Y;
+        CameraOffset -= new Vector3(rightVector.X * mouseX * 0.01f, rightVector.Y * mouseX * 0.01f, rightVector.Z * mouseX * 0.01f);
+        CameraOffset += new Vector3(cameraUpVector.X * mouseY * 0.01f, cameraUpVector.Y * mouseY * 0.01f, cameraUpVector.Z * mouseY * 0.01f);
     }
 
     private void UpdateMouseScrollWheel()
@@ -225,9 +250,10 @@ public class Viewer : Game
         {
             UpdateMiddleMouseButtonClick();
         }
+        // TODO: Temporary
         else if (CurrentMouseState.RightButton == ButtonState.Pressed)
         {
-            UpdateRightMouseButtonClick();
+            UpdateSceneGraphNodeSelection();
         }
         UpdateMouseScrollWheel();
         UpdatePreviousMouseState();

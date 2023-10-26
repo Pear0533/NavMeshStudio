@@ -21,18 +21,32 @@ public class SceneGraph
         nodes.ForEach(i => i.Facesets.ForEach(x => x.Data.Color = x.BaseColorData.Color));
     }
 
-    // TODO: Implement raycasting to allow for direct interaction within the viewer
+    public void DeselectAll(bool refreshGeo = true)
+    {
+        Deselect(NVNodes);
+        Deselect(CLNodes);
+        View.Invoke(() => View.SelectedNode = null);
+        if (refreshGeo) Cache.Viewer.RefreshGeometry();
+    }
+
+    public void Select(GeoNode node)
+    {
+        bool isNodeSelected = node.Facesets.All(i => i.Data.Color == Microsoft.Xna.Framework.Color.Yellow);
+        DeselectAll(false);
+        if (!isNodeSelected && node is not MPNode)
+            node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+        Cache.Viewer.RefreshGeometry();
+        View.Invoke(() => View.SelectedNode = isNodeSelected ? null : node.View);
+    }
 
     private void RegisterSceneGraphEvents()
     {
         View.AfterSelect += (_, e) =>
         {
             if (e.Action is not (TreeViewAction.ByKeyboard or TreeViewAction.ByMouse)) return;
-            Deselect(NVNodes);
-            Deselect(CLNodes);
-            if (e.Node?.Tag != null && e.Node.Tag is not MPNode)
-                ((GeoNode)e.Node.Tag).Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
-            Cache.Viewer.RefreshGeometry();
+            if (e.Node?.Tag == null) return;
+            GeoNode node = (GeoNode)e.Node.Tag;
+            Select(node);
         };
     }
 

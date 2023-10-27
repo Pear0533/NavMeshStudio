@@ -156,17 +156,6 @@ public class Viewer : Game
         if (!doesRayIntersect) Cache.SceneGraph.DeselectAll();
     }
 
-    private void UpdateMiddleMouseButtonClick()
-    {
-        Vector3 upVector = new(0, 0, 1);
-        Vector3 rightVector = Utils3D.CrossProduct(upVector, Camera).NormalizeNumericsVector3();
-        Microsoft.Xna.Framework.Vector3 cameraUpVector = Utils3D.CrossProduct(Camera, rightVector).NormalizeNumericsVector3();
-        float mouseX = CurrentMouseState.Position.X - PreviousMouseState.Position.X;
-        float mouseY = CurrentMouseState.Position.Y - PreviousMouseState.Position.Y;
-        CameraOffset -= new Vector3(rightVector.X * mouseX * 0.01f, rightVector.Y * mouseX * 0.01f, rightVector.Z * mouseX * 0.01f);
-        CameraOffset += new Vector3(cameraUpVector.X * mouseY * 0.01f, cameraUpVector.Y * mouseY * 0.01f, cameraUpVector.Z * mouseY * 0.01f);
-    }
-
     private void UpdateRightMouseButtonClick()
     {
         Camera = Camera.RotatePoint(0, 0, -(CurrentMouseState.Position.X - PreviousMouseState.Position.X) * 0.01f);
@@ -239,10 +228,6 @@ public class Viewer : Game
         if (CurrentMouseState.LeftButton == ButtonState.Pressed)
         {
             UpdateLeftMouseButtonClick();
-        }
-        else if (CurrentMouseState.MiddleButton == ButtonState.Pressed)
-        {
-            UpdateMiddleMouseButtonClick();
         }
         else if (CurrentMouseState.RightButton == ButtonState.Pressed)
         {

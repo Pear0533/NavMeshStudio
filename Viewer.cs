@@ -134,11 +134,13 @@ public class Viewer : Game
     private void UpdateLeftMouseButtonClick()
     {
         if (!IsSingleLeftMouseButtonClick()) return;
-        List<NVNode> nvNodes = Cache.SceneGraph.NVNodes.ToArray().Reverse().ToList();
         List<CLNode> clNodes = Cache.SceneGraph.CLNodes.ToArray().Reverse().ToList();
-        List<GeoNode> nodes = nvNodes.Concat<GeoNode>(clNodes).ToList();
+        List<NVNode> nvNodes = Cache.SceneGraph.NVNodes.ToArray().Reverse().ToList();
+        List<GeoNode> nodes = clNodes.Concat<GeoNode>(nvNodes).ToList();
         Ray ray = CreateRayFromMousePosition();
         bool doesRayIntersect = false;
+        GeoNode? closestIntersectedNode = null;
+        float closestDistance = float.MaxValue;
         foreach (GeoNode node in nodes)
         {
             List<Microsoft.Xna.Framework.Vector3> vertices = node.GetVertexPositions();
@@ -146,14 +148,16 @@ public class Viewer : Game
             {
                 List<Microsoft.Xna.Framework.Vector3> group = vertices.GetRange(i, 6);
                 List<Microsoft.Xna.Framework.Vector3> tri = group.Distinct().ToList();
-                if (!Utils3D.RayIntersectsTriangle(ray, tri)) continue;
+                if (!Utils3D.RayIntersectsTriangle(ray, tri, out Microsoft.Xna.Framework.Vector3 intersection)) continue;
                 doesRayIntersect = true;
-                Cache.SceneGraph.Select(node);
-                break;
+                float distance = Microsoft.Xna.Framework.Vector3.Distance(ray.Position, intersection);
+                if (!(distance < closestDistance)) continue;
+                closestDistance = distance;
+                closestIntersectedNode = node;
             }
-            if (doesRayIntersect) break;
         }
-        if (!doesRayIntersect) Cache.SceneGraph.DeselectAll();
+        if (closestIntersectedNode != null && doesRayIntersect) Cache.SceneGraph.Select(closestIntersectedNode);
+        else Cache.SceneGraph.DeselectAll();
     }
 
     private void UpdateRightMouseButtonClick()

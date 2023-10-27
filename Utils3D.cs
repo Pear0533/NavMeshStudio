@@ -9,8 +9,9 @@ namespace NavMeshStudio;
 
 public static class Utils3D
 {
-    public static bool RayIntersectsTriangle(Ray ray, List<Vector3> vertices)
+    public static bool RayIntersectsTriangle(Ray ray, List<Vector3> vertices, out Vector3 intersection)
     {
+        intersection = Vector3.Zero;
         Vector3 e1 = vertices[1] - vertices[0];
         Vector3 e2 = vertices[2] - vertices[0];
         Vector3 h = Vector3.Cross(ray.Direction, e2);
@@ -24,7 +25,9 @@ public static class Utils3D
         float v = f * Vector3.Dot(ray.Direction, q);
         if (v < 0.0f || u + v > 1.0f) return false;
         float t = f * Vector3.Dot(e2, q);
-        return t > float.Epsilon;
+        if (!(t > float.Epsilon)) return false;
+        intersection = ray.Position + ray.Direction * t;
+        return true;
     }
 
     public static System.Numerics.Vector3 DecompressSharedVertex(ulong vertex, Vector4 bbMin, Vector4 bbMax)

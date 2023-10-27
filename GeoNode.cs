@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Color = Microsoft.Xna.Framework.Color;
+﻿using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 
 namespace NavMeshStudio;
@@ -8,7 +7,6 @@ public abstract class GeoNode : GraphNode
 {
     public List<GeoElement> Facesets = new();
     public List<GeoElement> Vertices = new();
-    public BoundingBox BoundingBox;
 
     protected void AddVertices(Vector3[] vertices, Color facesetColor, bool generateFacesets = true)
     {
@@ -25,6 +23,11 @@ public abstract class GeoNode : GraphNode
         vertices[2].FlipYZ();
         Vertices.AddRange(Utils3D.GetVertices(vertices, Color.Black));
         if (generateFacesets) Facesets.AddRange(Utils3D.GetFacesets(vertices, facesetColor));
+    }
+
+    public List<Vector3> GetVertexPositions()
+    {
+        return Vertices.Select(i => i.Data.Position).ToList();
     }
 
     protected virtual void Process()

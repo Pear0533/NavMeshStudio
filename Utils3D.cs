@@ -1,4 +1,5 @@
 ﻿using HKLib.hk2018;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
@@ -8,6 +9,24 @@ namespace NavMeshStudio;
 
 public static class Utils3D
 {
+    public static bool RayIntersectsTriangle(Ray ray, List<Vector3> vertices)
+    {
+        Vector3 e1 = vertices[1] - vertices[0];
+        Vector3 e2 = vertices[2] - vertices[0];
+        Vector3 h = Vector3.Cross(ray.Direction, e2);
+        float a = Vector3.Dot(e1, h);
+        if (a is > -float.Epsilon and < float.Epsilon) return false;
+        float f = 1.0f / a;
+        Vector3 s = ray.Position - vertices[0];
+        float u = f * Vector3.Dot(s, h);
+        if (u is < 0.0f or > 1.0f) return false;
+        Vector3 q = Vector3.Cross(s, e1);
+        float v = f * Vector3.Dot(ray.Direction, q);
+        if (v < 0.0f || u + v > 1.0f) return false;
+        float t = f * Vector3.Dot(e2, q);
+        return t > float.Epsilon;
+    }
+
     public static System.Numerics.Vector3 DecompressSharedVertex(ulong vertex, Vector4 bbMin, Vector4 bbMax)
     {
         float scaleX = (bbMax.X - bbMin.X) / ((1 << 21) - 1);

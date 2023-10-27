@@ -1,6 +1,5 @@
 ﻿using HKLib.hk2018;
 using HKLib.hk2018.hkcdStaticMeshTree;
-using Microsoft.Xna.Framework;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 
@@ -86,7 +85,5 @@ public sealed class CLNode : GeoNode
             Vector3 vert3 = vertices[indices[i + 2]];
             AddVertices(new[] { vert1, vert2, vert3 }, facesetColor);
         }
-        // TODO: We might want to create the bounding box before flipping the vertex orientation
-        BoundingBox = BoundingBox.CreateFromPoints(vertices.ToArray());
     }
 }

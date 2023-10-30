@@ -11,6 +11,7 @@ public class Cache
     public static BXF4File? HHkxBhd;
     public static FromSoftFile<MSBE>? Msb;
     public static SceneGraph SceneGraph = new();
+    public static Attributes Attributes = new();
     public static Viewer Viewer = new();
     public static Console Console = new();
     public static List<hkaiNavMesh> NavMeshes = new();

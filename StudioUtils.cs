@@ -8,7 +8,7 @@ namespace NavMeshStudio;
 public static class StudioUtils
 {
     private const string AppName = "NavMesh Studio";
-    private const string Version = "1.1";
+    private const string Version = "1.2";
 
     public static void SetVersionString(this NavMeshStudio studio)
     {
@@ -56,6 +56,11 @@ public static class StudioUtils
     public static void RegisterConsole(this NavMeshStudio studio)
     {
         Cache.Console = new Console(studio);
+    }
+
+    public static void RegisterAttributes(this NavMeshStudio studio)
+    {
+        Cache.Attributes = new Attributes(studio);
     }
 
     private static void RunViewer(this NavMeshStudio studio)

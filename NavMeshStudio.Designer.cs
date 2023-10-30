@@ -49,13 +49,13 @@
             viewer = new PictureBox();
             splitContainer3 = new SplitContainer();
             attributesGroupBox = new GroupBox();
-            attributesListView = new ListView();
             splitContainer4 = new SplitContainer();
             consoleGroupBox = new GroupBox();
             panel1 = new Panel();
             consoleTextBox = new RichTextBox();
             statusRibbon = new StatusStrip();
             statusLabel = new ToolStripStatusLabel();
+            attributesTreeView = new TreeView();
             menuRibbon.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -289,7 +289,7 @@
             // 
             // attributesGroupBox
             // 
-            attributesGroupBox.Controls.Add(attributesListView);
+            attributesGroupBox.Controls.Add(attributesTreeView);
             attributesGroupBox.Dock = DockStyle.Fill;
             attributesGroupBox.Location = new Point(0, 0);
             attributesGroupBox.Name = "attributesGroupBox";
@@ -297,15 +297,6 @@
             attributesGroupBox.TabIndex = 0;
             attributesGroupBox.TabStop = false;
             attributesGroupBox.Text = "Attributes";
-            // 
-            // attributesListView
-            // 
-            attributesListView.Dock = DockStyle.Fill;
-            attributesListView.Location = new Point(3, 19);
-            attributesListView.Name = "attributesListView";
-            attributesListView.Size = new Size(192, 410);
-            attributesListView.TabIndex = 0;
-            attributesListView.UseCompatibleStateImageBehavior = false;
             // 
             // splitContainer4
             // 
@@ -372,6 +363,14 @@
             statusLabel.Name = "statusLabel";
             statusLabel.Size = new Size(39, 17);
             statusLabel.Text = "Ready";
+            // 
+            // attributesTreeView
+            // 
+            attributesTreeView.Dock = DockStyle.Fill;
+            attributesTreeView.Location = new Point(3, 19);
+            attributesTreeView.Name = "attributesTreeView";
+            attributesTreeView.Size = new Size(192, 410);
+            attributesTreeView.TabIndex = 0;
             // 
             // NavMeshStudio
             // 
@@ -441,7 +440,6 @@
         private SplitContainer splitContainer3;
         private SplitContainer splitContainer4;
         private GroupBox attributesGroupBox;
-        private ListView attributesListView;
         private GroupBox consoleGroupBox;
         public RichTextBox consoleTextBox;
         private GroupBox viewerGroupBox;
@@ -453,5 +451,6 @@
         private Panel panel1;
         public PictureBox viewer;
         public Label viewerOpenMapLabel;
+        public TreeView attributesTreeView;
     }
 }

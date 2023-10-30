@@ -45,6 +45,7 @@ public class SceneGraph
         {
             if (e.Action is not (TreeViewAction.ByKeyboard or TreeViewAction.ByMouse)) return;
             if (e.Node?.Tag == null) return;
+            // TODO: Load the selected node's properties in the attributes panel
             GeoNode node = (GeoNode)e.Node.Tag;
             Select(node);
         };

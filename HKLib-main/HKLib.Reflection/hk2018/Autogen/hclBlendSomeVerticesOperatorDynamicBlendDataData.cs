@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBlendSomeVerticesOperatorDynamicBlendDataData : HavokData<hclBlendSomeVerticesOperator.DynamicBlendData> 
+internal class hclBlendSomeVerticesOperatorDynamicBlendDataData : HavokData<hclBlendSomeVerticesOperator.DynamicBlendData>
 {
-    public hclBlendSomeVerticesOperatorDynamicBlendDataData(HavokType type, hclBlendSomeVerticesOperator.DynamicBlendData instance) : base(type, instance) {}
+    public hclBlendSomeVerticesOperatorDynamicBlendDataData(HavokType type, hclBlendSomeVerticesOperator.DynamicBlendData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -36,7 +36,7 @@ internal class hclBlendSomeVerticesOperatorDynamicBlendDataData : HavokData<hclB
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -66,8 +66,7 @@ internal class hclBlendSomeVerticesOperatorDynamicBlendDataData : HavokData<hclB
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

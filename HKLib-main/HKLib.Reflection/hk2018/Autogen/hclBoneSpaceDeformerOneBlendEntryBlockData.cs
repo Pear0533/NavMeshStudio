@@ -5,11 +5,12 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBoneSpaceDeformerOneBlendEntryBlockData : HavokData<hclBoneSpaceDeformer.OneBlendEntryBlock> 
+internal class hclBoneSpaceDeformerOneBlendEntryBlockData : HavokData<hclBoneSpaceDeformer.OneBlendEntryBlock>
 {
     private static readonly System.Reflection.FieldInfo _vertexIndicesInfo = typeof(hclBoneSpaceDeformer.OneBlendEntryBlock).GetField("m_vertexIndices")!;
     private static readonly System.Reflection.FieldInfo _boneIndicesInfo = typeof(hclBoneSpaceDeformer.OneBlendEntryBlock).GetField("m_boneIndices")!;
-    public hclBoneSpaceDeformerOneBlendEntryBlockData(HavokType type, hclBoneSpaceDeformer.OneBlendEntryBlock instance) : base(type, instance) {}
+
+    public hclBoneSpaceDeformerOneBlendEntryBlockData(HavokType type, hclBoneSpaceDeformer.OneBlendEntryBlock instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -31,7 +32,7 @@ internal class hclBoneSpaceDeformerOneBlendEntryBlockData : HavokData<hclBoneSpa
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -68,8 +69,7 @@ internal class hclBoneSpaceDeformerOneBlendEntryBlockData : HavokData<hclBoneSpa
                 }
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

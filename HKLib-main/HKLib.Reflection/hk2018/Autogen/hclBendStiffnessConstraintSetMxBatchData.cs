@@ -5,7 +5,7 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBendStiffnessConstraintSetMxBatchData : HavokData<hclBendStiffnessConstraintSetMx.Batch> 
+internal class hclBendStiffnessConstraintSetMxBatchData : HavokData<hclBendStiffnessConstraintSetMx.Batch>
 {
     private static readonly System.Reflection.FieldInfo _weightsAInfo = typeof(hclBendStiffnessConstraintSetMx.Batch).GetField("m_weightsA")!;
     private static readonly System.Reflection.FieldInfo _weightsBInfo = typeof(hclBendStiffnessConstraintSetMx.Batch).GetField("m_weightsB")!;
@@ -21,7 +21,8 @@ internal class hclBendStiffnessConstraintSetMxBatchData : HavokData<hclBendStiff
     private static readonly System.Reflection.FieldInfo _particlesBInfo = typeof(hclBendStiffnessConstraintSetMx.Batch).GetField("m_particlesB")!;
     private static readonly System.Reflection.FieldInfo _particlesCInfo = typeof(hclBendStiffnessConstraintSetMx.Batch).GetField("m_particlesC")!;
     private static readonly System.Reflection.FieldInfo _particlesDInfo = typeof(hclBendStiffnessConstraintSetMx.Batch).GetField("m_particlesD")!;
-    public hclBendStiffnessConstraintSetMxBatchData(HavokType type, hclBendStiffnessConstraintSetMx.Batch instance) : base(type, instance) {}
+
+    public hclBendStiffnessConstraintSetMxBatchData(HavokType type, hclBendStiffnessConstraintSetMx.Batch instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -127,7 +128,7 @@ internal class hclBendStiffnessConstraintSetMxBatchData : HavokData<hclBendStiff
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -332,8 +333,7 @@ internal class hclBendStiffnessConstraintSetMxBatchData : HavokData<hclBendStiff
                 }
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

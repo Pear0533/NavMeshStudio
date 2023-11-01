@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclAntiPinchConstraintSetData : HavokData<hclAntiPinchConstraintSet> 
+internal class hclAntiPinchConstraintSetData : HavokData<hclAntiPinchConstraintSet>
 {
-    public hclAntiPinchConstraintSetData(HavokType type, hclAntiPinchConstraintSet instance) : base(type, instance) {}
+    public hclAntiPinchConstraintSetData(HavokType type, hclAntiPinchConstraintSet instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -78,7 +78,7 @@ internal class hclAntiPinchConstraintSetData : HavokData<hclAntiPinchConstraintS
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -151,8 +151,7 @@ internal class hclAntiPinchConstraintSetData : HavokData<hclAntiPinchConstraintS
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

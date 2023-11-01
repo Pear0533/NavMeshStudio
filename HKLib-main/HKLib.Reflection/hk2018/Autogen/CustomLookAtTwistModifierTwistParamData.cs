@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class CustomLookAtTwistModifierTwistParamData : HavokData<CustomLookAtTwistModifier.TwistParam> 
+internal class CustomLookAtTwistModifierTwistParamData : HavokData<CustomLookAtTwistModifier.TwistParam>
 {
-    public CustomLookAtTwistModifierTwistParamData(HavokType type, CustomLookAtTwistModifier.TwistParam instance) : base(type, instance) {}
+    public CustomLookAtTwistModifierTwistParamData(HavokType type, CustomLookAtTwistModifier.TwistParam instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -57,7 +57,7 @@ internal class CustomLookAtTwistModifierTwistParamData : HavokData<CustomLookAtT
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -108,8 +108,7 @@ internal class CustomLookAtTwistModifierTwistParamData : HavokData<CustomLookAtT
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

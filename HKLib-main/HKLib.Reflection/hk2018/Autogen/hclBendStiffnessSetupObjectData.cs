@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBendStiffnessSetupObjectData : HavokData<hclBendStiffnessSetupObject> 
+internal class hclBendStiffnessSetupObjectData : HavokData<hclBendStiffnessSetupObject>
 {
-    public hclBendStiffnessSetupObjectData(HavokType type, hclBendStiffnessSetupObject instance) : base(type, instance) {}
+    public hclBendStiffnessSetupObjectData(HavokType type, hclBendStiffnessSetupObject instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -71,7 +71,7 @@ internal class hclBendStiffnessSetupObjectData : HavokData<hclBendStiffnessSetup
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -138,8 +138,7 @@ internal class hclBendStiffnessSetupObjectData : HavokData<hclBendStiffnessSetup
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

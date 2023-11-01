@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class CustomTransitionEffectData : HavokData<CustomTransitionEffect> 
+internal class CustomTransitionEffectData : HavokData<CustomTransitionEffect>
 {
-    public CustomTransitionEffectData(HavokType type, CustomTransitionEffect instance) : base(type, instance) {}
+    public CustomTransitionEffectData(HavokType type, CustomTransitionEffect instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -153,7 +153,7 @@ internal class CustomTransitionEffectData : HavokData<CustomTransitionEffect>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -302,8 +302,7 @@ internal class CustomTransitionEffectData : HavokData<CustomTransitionEffect>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class fsnpCustomParamCompressedMeshShapeData : HavokData<fsnpCustomParamCompressedMeshShape> 
+internal class fsnpCustomParamCompressedMeshShapeData : HavokData<fsnpCustomParamCompressedMeshShape>
 {
-    public fsnpCustomParamCompressedMeshShapeData(HavokType type, fsnpCustomParamCompressedMeshShape instance) : base(type, instance) {}
+    public fsnpCustomParamCompressedMeshShapeData(HavokType type, fsnpCustomParamCompressedMeshShape instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -172,7 +172,7 @@ internal class fsnpCustomParamCompressedMeshShapeData : HavokData<fsnpCustomPara
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -342,8 +342,7 @@ internal class fsnpCustomParamCompressedMeshShapeData : HavokData<fsnpCustomPara
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

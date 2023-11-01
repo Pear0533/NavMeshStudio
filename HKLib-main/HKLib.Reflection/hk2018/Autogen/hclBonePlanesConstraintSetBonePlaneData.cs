@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBonePlanesConstraintSetBonePlaneData : HavokData<hclBonePlanesConstraintSet.BonePlane> 
+internal class hclBonePlanesConstraintSetBonePlaneData : HavokData<hclBonePlanesConstraintSet.BonePlane>
 {
-    public hclBonePlanesConstraintSetBonePlaneData(HavokType type, hclBonePlanesConstraintSet.BonePlane instance) : base(type, instance) {}
+    public hclBonePlanesConstraintSetBonePlaneData(HavokType type, hclBonePlanesConstraintSet.BonePlane instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -43,7 +43,7 @@ internal class hclBonePlanesConstraintSetBonePlaneData : HavokData<hclBonePlanes
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -80,8 +80,7 @@ internal class hclBonePlanesConstraintSetBonePlaneData : HavokData<hclBonePlanes
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

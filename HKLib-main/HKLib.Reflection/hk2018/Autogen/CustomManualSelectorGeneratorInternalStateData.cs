@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class CustomManualSelectorGeneratorInternalStateData : HavokData<CustomManualSelectorGeneratorInternalState> 
+internal class CustomManualSelectorGeneratorInternalStateData : HavokData<CustomManualSelectorGeneratorInternalState>
 {
-    public CustomManualSelectorGeneratorInternalStateData(HavokType type, CustomManualSelectorGeneratorInternalState instance) : base(type, instance) {}
+    public CustomManualSelectorGeneratorInternalStateData(HavokType type, CustomManualSelectorGeneratorInternalState instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -43,7 +43,7 @@ internal class CustomManualSelectorGeneratorInternalStateData : HavokData<Custom
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -80,8 +80,7 @@ internal class CustomManualSelectorGeneratorInternalStateData : HavokData<Custom
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

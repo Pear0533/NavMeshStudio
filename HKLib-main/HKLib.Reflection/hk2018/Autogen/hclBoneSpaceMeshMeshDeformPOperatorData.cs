@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBoneSpaceMeshMeshDeformPOperatorData : HavokData<hclBoneSpaceMeshMeshDeformPOperator> 
+internal class hclBoneSpaceMeshMeshDeformPOperatorData : HavokData<hclBoneSpaceMeshMeshDeformPOperator>
 {
-    public hclBoneSpaceMeshMeshDeformPOperatorData(HavokType type, hclBoneSpaceMeshMeshDeformPOperator instance) : base(type, instance) {}
+    public hclBoneSpaceMeshMeshDeformPOperatorData(HavokType type, hclBoneSpaceMeshMeshDeformPOperator instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -114,7 +114,7 @@ internal class hclBoneSpaceMeshMeshDeformPOperatorData : HavokData<hclBoneSpaceM
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -223,8 +223,7 @@ internal class hclBoneSpaceMeshMeshDeformPOperatorData : HavokData<hclBoneSpaceM
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

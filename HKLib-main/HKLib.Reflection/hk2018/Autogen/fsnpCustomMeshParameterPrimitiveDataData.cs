@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class fsnpCustomMeshParameterPrimitiveDataData : HavokData<fsnpCustomMeshParameter.PrimitiveData> 
+internal class fsnpCustomMeshParameterPrimitiveDataData : HavokData<fsnpCustomMeshParameter.PrimitiveData>
 {
-    public fsnpCustomMeshParameterPrimitiveDataData(HavokType type, fsnpCustomMeshParameter.PrimitiveData instance) : base(type, instance) {}
+    public fsnpCustomMeshParameterPrimitiveDataData(HavokType type, fsnpCustomMeshParameter.PrimitiveData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -43,7 +43,7 @@ internal class fsnpCustomMeshParameterPrimitiveDataData : HavokData<fsnpCustomMe
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -80,8 +80,7 @@ internal class fsnpCustomMeshParameterPrimitiveDataData : HavokData<fsnpCustomMe
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

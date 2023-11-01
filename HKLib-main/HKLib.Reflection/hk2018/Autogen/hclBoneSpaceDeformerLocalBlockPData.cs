@@ -5,10 +5,11 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBoneSpaceDeformerLocalBlockPData : HavokData<hclBoneSpaceDeformer.LocalBlockP> 
+internal class hclBoneSpaceDeformerLocalBlockPData : HavokData<hclBoneSpaceDeformer.LocalBlockP>
 {
     private static readonly System.Reflection.FieldInfo _localPositionInfo = typeof(hclBoneSpaceDeformer.LocalBlockP).GetField("m_localPosition")!;
-    public hclBoneSpaceDeformerLocalBlockPData(HavokType type, hclBoneSpaceDeformer.LocalBlockP instance) : base(type, instance) {}
+
+    public hclBoneSpaceDeformerLocalBlockPData(HavokType type, hclBoneSpaceDeformer.LocalBlockP instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -23,7 +24,7 @@ internal class hclBoneSpaceDeformerLocalBlockPData : HavokData<hclBoneSpaceDefor
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,8 +47,7 @@ internal class hclBoneSpaceDeformerLocalBlockPData : HavokData<hclBoneSpaceDefor
                 }
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

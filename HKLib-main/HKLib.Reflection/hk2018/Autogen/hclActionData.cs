@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclActionData : HavokData<hclAction> 
+internal class hclActionData : HavokData<hclAction>
 {
-    public hclActionData(HavokType type, hclAction instance) : base(type, instance) {}
+    public hclActionData(HavokType type, hclAction instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -22,7 +22,7 @@ internal class hclActionData : HavokData<hclAction>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -38,8 +38,7 @@ internal class hclActionData : HavokData<hclAction>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

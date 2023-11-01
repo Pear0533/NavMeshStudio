@@ -6,9 +6,9 @@ using HKLib.hk2018.castTest;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class castTestWithInterfacesData : HavokData<WithInterfaces> 
+internal class castTestWithInterfacesData : HavokData<WithInterfaces>
 {
-    public castTestWithInterfacesData(HavokType type, WithInterfaces instance) : base(type, instance) {}
+    public castTestWithInterfacesData(HavokType type, WithInterfaces instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -23,7 +23,7 @@ internal class castTestWithInterfacesData : HavokData<WithInterfaces>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,8 +39,7 @@ internal class castTestWithInterfacesData : HavokData<WithInterfaces>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

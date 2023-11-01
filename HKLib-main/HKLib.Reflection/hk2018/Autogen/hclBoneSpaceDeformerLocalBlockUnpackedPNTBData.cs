@@ -5,13 +5,14 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBoneSpaceDeformerLocalBlockUnpackedPNTBData : HavokData<hclBoneSpaceDeformer.LocalBlockUnpackedPNTB> 
+internal class hclBoneSpaceDeformerLocalBlockUnpackedPNTBData : HavokData<hclBoneSpaceDeformer.LocalBlockUnpackedPNTB>
 {
     private static readonly System.Reflection.FieldInfo _localPositionInfo = typeof(hclBoneSpaceDeformer.LocalBlockUnpackedPNTB).GetField("m_localPosition")!;
     private static readonly System.Reflection.FieldInfo _localNormalInfo = typeof(hclBoneSpaceDeformer.LocalBlockUnpackedPNTB).GetField("m_localNormal")!;
     private static readonly System.Reflection.FieldInfo _localTangentInfo = typeof(hclBoneSpaceDeformer.LocalBlockUnpackedPNTB).GetField("m_localTangent")!;
     private static readonly System.Reflection.FieldInfo _localBiTangentInfo = typeof(hclBoneSpaceDeformer.LocalBlockUnpackedPNTB).GetField("m_localBiTangent")!;
-    public hclBoneSpaceDeformerLocalBlockUnpackedPNTBData(HavokType type, hclBoneSpaceDeformer.LocalBlockUnpackedPNTB instance) : base(type, instance) {}
+
+    public hclBoneSpaceDeformerLocalBlockUnpackedPNTBData(HavokType type, hclBoneSpaceDeformer.LocalBlockUnpackedPNTB instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -47,7 +48,7 @@ internal class hclBoneSpaceDeformerLocalBlockUnpackedPNTBData : HavokData<hclBon
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -112,8 +113,7 @@ internal class hclBoneSpaceDeformerLocalBlockUnpackedPNTBData : HavokData<hclBon
                 }
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

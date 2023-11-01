@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class CustomPreDeleteIndexSelectorData : HavokData<CustomPreDeleteIndexSelector> 
+internal class CustomPreDeleteIndexSelectorData : HavokData<CustomPreDeleteIndexSelector>
 {
-    public CustomPreDeleteIndexSelectorData(HavokType type, CustomPreDeleteIndexSelector instance) : base(type, instance) {}
+    public CustomPreDeleteIndexSelectorData(HavokType type, CustomPreDeleteIndexSelector instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -22,7 +22,7 @@ internal class CustomPreDeleteIndexSelectorData : HavokData<CustomPreDeleteIndex
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -38,8 +38,7 @@ internal class CustomPreDeleteIndexSelectorData : HavokData<CustomPreDeleteIndex
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

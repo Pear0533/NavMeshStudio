@@ -5,7 +5,7 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBendLinkConstraintSetMxBatchData : HavokData<hclBendLinkConstraintSetMx.Batch> 
+internal class hclBendLinkConstraintSetMxBatchData : HavokData<hclBendLinkConstraintSetMx.Batch>
 {
     private static readonly System.Reflection.FieldInfo _bendMinLengthsInfo = typeof(hclBendLinkConstraintSetMx.Batch).GetField("m_bendMinLengths")!;
     private static readonly System.Reflection.FieldInfo _stretchMaxLengthsInfo = typeof(hclBendLinkConstraintSetMx.Batch).GetField("m_stretchMaxLengths")!;
@@ -15,7 +15,8 @@ internal class hclBendLinkConstraintSetMxBatchData : HavokData<hclBendLinkConstr
     private static readonly System.Reflection.FieldInfo _invMassesBInfo = typeof(hclBendLinkConstraintSetMx.Batch).GetField("m_invMassesB")!;
     private static readonly System.Reflection.FieldInfo _particlesAInfo = typeof(hclBendLinkConstraintSetMx.Batch).GetField("m_particlesA")!;
     private static readonly System.Reflection.FieldInfo _particlesBInfo = typeof(hclBendLinkConstraintSetMx.Batch).GetField("m_particlesB")!;
-    public hclBendLinkConstraintSetMxBatchData(HavokType type, hclBendLinkConstraintSetMx.Batch instance) : base(type, instance) {}
+
+    public hclBendLinkConstraintSetMxBatchData(HavokType type, hclBendLinkConstraintSetMx.Batch instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -79,7 +80,7 @@ internal class hclBendLinkConstraintSetMxBatchData : HavokData<hclBendLinkConstr
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -200,8 +201,7 @@ internal class hclBendLinkConstraintSetMxBatchData : HavokData<hclBendLinkConstr
                 }
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

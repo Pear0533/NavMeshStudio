@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class AfterReflectNewTestObjData : HavokData<AfterReflectNewTestObj> 
+internal class AfterReflectNewTestObjData : HavokData<AfterReflectNewTestObj>
 {
-    public AfterReflectNewTestObjData(HavokType type, AfterReflectNewTestObj instance) : base(type, instance) {}
+    public AfterReflectNewTestObjData(HavokType type, AfterReflectNewTestObj instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -22,7 +22,7 @@ internal class AfterReflectNewTestObjData : HavokData<AfterReflectNewTestObj>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -38,8 +38,7 @@ internal class AfterReflectNewTestObjData : HavokData<AfterReflectNewTestObj>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

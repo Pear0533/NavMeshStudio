@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBendLinkConstraintSetMxSingleData : HavokData<hclBendLinkConstraintSetMx.Single> 
+internal class hclBendLinkConstraintSetMxSingleData : HavokData<hclBendLinkConstraintSetMx.Single>
 {
-    public hclBendLinkConstraintSetMxSingleData(HavokType type, hclBendLinkConstraintSetMx.Single instance) : base(type, instance) {}
+    public hclBendLinkConstraintSetMxSingleData(HavokType type, hclBendLinkConstraintSetMx.Single instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -71,7 +71,7 @@ internal class hclBendLinkConstraintSetMxSingleData : HavokData<hclBendLinkConst
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -136,8 +136,7 @@ internal class hclBendLinkConstraintSetMxSingleData : HavokData<hclBendLinkConst
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

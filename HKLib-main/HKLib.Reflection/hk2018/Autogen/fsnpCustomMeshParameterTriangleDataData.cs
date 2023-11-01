@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class fsnpCustomMeshParameterTriangleDataData : HavokData<fsnpCustomMeshParameter.TriangleData> 
+internal class fsnpCustomMeshParameterTriangleDataData : HavokData<fsnpCustomMeshParameter.TriangleData>
 {
-    public fsnpCustomMeshParameterTriangleDataData(HavokType type, fsnpCustomMeshParameter.TriangleData instance) : base(type, instance) {}
+    public fsnpCustomMeshParameterTriangleDataData(HavokType type, fsnpCustomMeshParameter.TriangleData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -50,7 +50,7 @@ internal class fsnpCustomMeshParameterTriangleDataData : HavokData<fsnpCustomMes
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -94,8 +94,7 @@ internal class fsnpCustomMeshParameterTriangleDataData : HavokData<fsnpCustomMes
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

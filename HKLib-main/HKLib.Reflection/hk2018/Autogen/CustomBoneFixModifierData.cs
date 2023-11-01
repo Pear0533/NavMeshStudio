@@ -5,9 +5,9 @@ using HKLib.hk2018;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class CustomBoneFixModifierData : HavokData<CustomBoneFixModifier> 
+internal class CustomBoneFixModifierData : HavokData<CustomBoneFixModifier>
 {
-    public CustomBoneFixModifierData(HavokType type, CustomBoneFixModifier instance) : base(type, instance) {}
+    public CustomBoneFixModifierData(HavokType type, CustomBoneFixModifier instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -106,7 +106,7 @@ internal class CustomBoneFixModifierData : HavokData<CustomBoneFixModifier>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -208,8 +208,7 @@ internal class CustomBoneFixModifierData : HavokData<CustomBoneFixModifier>
                 return true;
             }
             default:
-            return false;
+                return false;
         }
     }
-
 }

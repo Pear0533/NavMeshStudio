@@ -6,7 +6,7 @@ namespace NavMeshStudio;
 
 public sealed class NVNode : GeoNode
 {
-    private readonly hkaiNavMesh Mesh;
+    public readonly hkaiNavMesh Mesh;
 
     public NVNode(int nvNodesCount, hkaiNavMesh mesh)
     {

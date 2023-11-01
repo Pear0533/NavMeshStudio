@@ -7,14 +7,14 @@ namespace NavMeshStudio;
 
 public sealed class CLNode : GeoNode
 {
-    private readonly hknpBodyCinfo Collision;
+    public readonly hknpBodyCinfo Collision;
     private hknpCompressedMeshShapeData MeshShapeData = null!;
     private Section CurrentSection = null!;
     private Primitive CurrentTri = null!;
 
-    public CLNode(int clNodesCount, hknpBodyCinfo collision)
+    public CLNode(string name, hknpBodyCinfo collision)
     {
-        Name = (clNodesCount + 1).ToString();
+        Name = name;
         Collision = collision;
         Process();
     }

@@ -36,6 +36,7 @@ public class SceneGraph
         if (!isNodeSelected && node is not MPNode)
             node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
         Cache.Viewer.RefreshGeometry();
+        Cache.Attributes.Populate(node);
         View.Invoke(() => View.SelectedNode = isNodeSelected ? null : node.View);
     }
 
@@ -59,7 +60,7 @@ public class SceneGraph
         TreeNode collisionsRootNode = new("Collisions");
         TreeNode mapPiecesRootNode = new("Map Pieces");
         Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode(NVNodes.Count, i)));
-        Cache.Collisions.ForEach(i => CLNodes.Add(new CLNode(CLNodes.Count, i)));
+        Cache.Collisions.ForEach(i => CLNodes.Add(new CLNode(i.m_name ?? "", i)));
         studio.Invoke(() => studio.UpdateStatus("Reading map piece geometry..."));
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode(i)));
         studio.Invoke(studio.ResetStatus);

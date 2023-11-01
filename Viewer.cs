@@ -131,6 +131,8 @@ public class Viewer : Game
         return PreviousMouseState.LeftButton == ButtonState.Released && CurrentMouseState.LeftButton == ButtonState.Pressed;
     }
 
+    // TODO: Improve accuracy of raycasting
+
     private void UpdateLeftMouseButtonClick()
     {
         if (!IsSingleLeftMouseButtonClick()) return;
@@ -225,6 +227,9 @@ public class Viewer : Game
     {
         PreviousMouseState = CurrentMouseState;
     }
+
+    // TODO: Check to see if the window is focused before responding to inputs
+    // TODO: Implement support for DSMS inputs
 
     private void UpdateMouseInput()
     {

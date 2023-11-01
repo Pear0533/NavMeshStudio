@@ -81,6 +81,8 @@ public static class StudioUtils
             Cache.Console.Write("Started main thread for viewer");
     }
 
+    // TODO: Allow for modded map files to be opened
+
     private static async Task Open(this NavMeshStudio studio)
     {
         ActivateWaitingStatus(studio);

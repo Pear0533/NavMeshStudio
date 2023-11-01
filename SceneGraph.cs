@@ -47,7 +47,6 @@ public class SceneGraph
             if (e.Node?.Tag == null) return;
             // TODO: Load the selected node's properties in the attributes panel
             GeoNode node = (GeoNode)e.Node.Tag;
-            Cache.Attributes.Populate(node);
             Select(node);
         };
     }

@@ -25,8 +25,19 @@ public class SceneGraph
     {
         Deselect(NVNodes);
         Deselect(CLNodes);
+        Cache.Attributes.Clear();
         View.Invoke(() => View.SelectedNode = null);
         if (refreshGeo) Cache.Viewer.RefreshGeometry();
+    }
+
+    private static bool IsActionByMouse(TreeViewAction action)
+    {
+        return action is TreeViewAction.ByMouse;
+    }
+
+    private static bool IsActionByKeyboard(TreeViewAction action)
+    {
+        return action is TreeViewAction.ByKeyboard;
     }
 
     public void Select(GeoNode node)
@@ -34,17 +45,20 @@ public class SceneGraph
         bool isNodeSelected = node.Facesets.All(i => i.Data.Color == Microsoft.Xna.Framework.Color.Yellow);
         DeselectAll(false);
         if (!isNodeSelected && node is not MPNode)
+        {
             node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            Cache.Attributes.Populate(node);
+        }
         Cache.Viewer.RefreshGeometry();
-        Cache.Attributes.Populate(node);
-        View.Invoke(() => View.SelectedNode = isNodeSelected ? null : node.View);
+        View.Invoke(() => View.SelectedNode = isNodeSelected && node.Facesets.Count > 0 ? null : node.View);
+        if (node.Facesets.Count == 0) Cache.Console.Write("The selected node contains no geometry");
     }
 
     private void RegisterSceneGraphEvents()
     {
         View.AfterSelect += (_, e) =>
         {
-            if (e.Action is not (TreeViewAction.ByKeyboard or TreeViewAction.ByMouse)) return;
+            if (!IsActionByMouse(e.Action) && !IsActionByKeyboard(e.Action)) return;
             if (e.Node?.Tag == null) return;
             // TODO: Load the selected node's properties in the attributes panel
             GeoNode node = (GeoNode)e.Node.Tag;

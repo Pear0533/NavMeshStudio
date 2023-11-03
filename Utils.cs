@@ -18,7 +18,9 @@ public static class Utils
 
     public static void ShowInformationDialog(string message)
     {
+        Cache.Viewer.IsFocused = false;
         MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        Cache.Viewer.IsFocused = true;
     }
 
     public static string ShowOpenFileDialog(string filter = "")

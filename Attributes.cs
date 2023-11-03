@@ -1,8 +1,9 @@
-﻿namespace NavMeshStudio;
+﻿using static NavMeshStudio.AttributeUtils;
+
+namespace NavMeshStudio;
 
 public class Attributes
 {
-    public readonly List<AttributeNode> AttributeNodes = new();
     private readonly TreeView View = new();
 
     public Attributes() { }
@@ -10,6 +11,34 @@ public class Attributes
     public Attributes(NavMeshStudio studio)
     {
         View = studio.attributesTreeView;
+        RegisterAttributesPanelEvents();
+    }
+
+    private static void ExpandAttributeNode(TreeNode? node)
+    {
+        if (node?.Tag == null || node.Nodes.Count > 0) return;
+        node.Nodes.AddRange(((List<TreeNode>)node.Tag).ToArray());
+        node.Expand();
+    }
+
+    private void CollapseAttributeNode(TreeNode? node)
+    {
+        if (node == null) return;
+        node.Nodes.Clear();
+        View.SelectedNode = null;
+    }
+
+    private void RegisterAttributesPanelEvents()
+    {
+        View.AfterSelect += (_, e) => ExpandAttributeNode(e.Node);
+        View.AfterExpand += (_, e) => ExpandAttributeNode(e.Node);
+        View.AfterCollapse += (_, e) => CollapseAttributeNode(e.Node);
+    }
+
+    public void Clear()
+    {
+        View.Invoke(View.Nodes.Clear);
+        // AttributeNodes.Clear();
     }
 
     // TODO: Use the AttributeNode class + AttributeNodes
@@ -17,19 +46,12 @@ public class Attributes
     public void Populate(GeoNode node)
     {
         View.Invoke(View.Nodes.Clear);
-        Type type = node.GetType();
-        AttributeNodeGenerator generator = new();
-        if (type == typeof(CLNode))
+        TreeNode[] attributeNodes = node switch
         {
-            CLNode clNode = (CLNode)node;
-            TreeNode attrClNode = generator.GenerateTreeNodes(clNode.Collision);
-            View.Invoke(() => View.Nodes.Add(attrClNode));
-        }
-        else if (type == typeof(NVNode))
-        {
-            NVNode nvNode = (NVNode)node;
-            TreeNode attrNvNode = generator.GenerateTreeNodes(nvNode.Mesh);
-            View.Invoke(() => View.Nodes.Add(attrNvNode));
-        }
+            CLNode clNode => GetAttributeNodes(clNode.Collision).ToArray(),
+            NVNode nvNode => GetAttributeNodes(nvNode.Mesh).ToArray(),
+            _ => Array.Empty<TreeNode>()
+        };
+        View.Invoke(() => View.Nodes.AddRange(attributeNodes));
     }
 }

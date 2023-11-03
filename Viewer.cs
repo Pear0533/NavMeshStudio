@@ -29,7 +29,7 @@ public class Viewer : Game
     public GraphicsDeviceManager GraphicsManager = null!;
     private IndexBuffer IndexBuffer = null!;
     public List<int> Indices = new();
-    private bool IsFocused;
+    public bool IsFocused;
     public bool IsInitialized;
     private MouseState PreviousMouseState;
     private SpriteBatch SpriteBatch = null!;
@@ -140,9 +140,7 @@ public class Viewer : Game
         List<NVNode> nvNodes = Cache.SceneGraph.NVNodes.ToArray().Reverse().ToList();
         List<GeoNode> nodes = clNodes.Concat<GeoNode>(nvNodes).ToList();
         Ray ray = CreateRayFromMousePosition();
-        bool doesRayIntersect = false;
-        GeoNode? closestIntersectedNode = null;
-        float closestDistance = float.MaxValue;
+        List<(GeoNode node, float distance)> intersectedNodes = new();
         foreach (GeoNode node in nodes)
         {
             List<Microsoft.Xna.Framework.Vector3> vertices = node.GetVertexPositions();
@@ -151,14 +149,16 @@ public class Viewer : Game
                 List<Microsoft.Xna.Framework.Vector3> group = vertices.GetRange(i, 6);
                 List<Microsoft.Xna.Framework.Vector3> tri = group.Distinct().ToList();
                 if (!Utils3D.RayIntersectsTriangle(ray, tri, out Microsoft.Xna.Framework.Vector3 intersection)) continue;
-                doesRayIntersect = true;
                 float distance = Microsoft.Xna.Framework.Vector3.Distance(ray.Position, intersection);
-                if (!(distance < closestDistance)) continue;
-                closestDistance = distance;
-                closestIntersectedNode = node;
+                intersectedNodes.Add((node, distance));
             }
         }
-        if (closestIntersectedNode != null && doesRayIntersect) Cache.SceneGraph.Select(closestIntersectedNode);
+        if (intersectedNodes.Count > 0)
+        {
+            intersectedNodes.Sort((a, b) => a.distance.CompareTo(b.distance));
+            GeoNode closestIntersectedNode = intersectedNodes[0].node;
+            Cache.SceneGraph.Select(closestIntersectedNode);
+        }
         else Cache.SceneGraph.DeselectAll();
     }
 

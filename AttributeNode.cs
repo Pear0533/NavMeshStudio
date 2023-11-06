@@ -2,9 +2,9 @@
 
 public sealed class AttributeNode : GraphNode
 {
-    public AttributeNode(string name, TreeNode view)
+    public AttributeNode(TreeNode view)
     {
         View = view;
-        Name = name;
+        Name = View.Name;
     }
 }

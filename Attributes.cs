@@ -4,6 +4,7 @@ namespace NavMeshStudio;
 
 public class Attributes
 {
+    private readonly List<AttributeNode> AttributeNodes = new();
     private readonly TreeView View = new();
 
     public Attributes() { }
@@ -38,10 +39,14 @@ public class Attributes
     public void Clear()
     {
         View.Invoke(View.Nodes.Clear);
-        // AttributeNodes.Clear();
+        AttributeNodes.Clear();
     }
 
-    // TODO: Use the AttributeNode class + AttributeNodes
+    private void ProcessAttributeNodes(IEnumerable<TreeNode> attributeNodes)
+    {
+        attributeNodes.ToList().ForEach(i => AttributeNodes.Add(new AttributeNode(i)));
+        AttributeNodes.ForEach(i => View.Invoke(() => View.Nodes.Add(i.View)));
+    }
 
     public void Populate(GeoNode node)
     {
@@ -52,6 +57,6 @@ public class Attributes
             NVNode nvNode => GetAttributeNodes(nvNode.Mesh).ToArray(),
             _ => Array.Empty<TreeNode>()
         };
-        View.Invoke(() => View.Nodes.AddRange(attributeNodes));
+        ProcessAttributeNodes(attributeNodes);
     }
 }

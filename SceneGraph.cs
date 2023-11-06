@@ -60,7 +60,6 @@ public class SceneGraph
         {
             if (!IsActionByMouse(e.Action) && !IsActionByKeyboard(e.Action)) return;
             if (e.Node?.Tag == null) return;
-            // TODO: Load the selected node's properties in the attributes panel
             GeoNode node = (GeoNode)e.Node.Tag;
             Select(node);
         };

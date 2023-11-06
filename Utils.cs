@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -51,11 +52,26 @@ public static class Utils
 
     public static bool IsMouseOverControl(Control control)
     {
-        return control.ClientRectangle.Contains(control.PointToClient(Cursor.Position));
+        return control.Focused && control.ClientRectangle.Contains(control.PointToClient(Cursor.Position));
     }
 
     public static JObject? ToJson(object? obj)
     {
         return JsonConvert.DeserializeObject<JObject>(JsonConvert.SerializeObject(obj));
     }
+
+    public static bool IsMainWindowFocused()
+    {
+        IntPtr activatedHandle = GetForegroundWindow();
+        if (activatedHandle == IntPtr.Zero) return false;
+        int procId = Process.GetCurrentProcess().Id;
+        GetWindowThreadProcessId(activatedHandle, out int activeProcId);
+        return activeProcId == procId;
+    }
+
+    [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+    private static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    private static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
 }

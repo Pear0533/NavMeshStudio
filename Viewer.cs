@@ -200,8 +200,15 @@ public class Viewer : Game
         CameraOffset -= movementSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds * rightVector * (left ? 1 : -1);
     }
 
+    private void UpdateMoveCameraUpDown(GameTime gameTime, bool up, int movementSpeed)
+    {
+        Vector3 upVector = new(0, 0, 1);
+        CameraOffset -= movementSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds * upVector * (up ? 1 : -1);
+    }
+
     private void UpdateKeyboardInput(GameTime gameTime)
     {
+        if (!Utils.IsMainWindowFocused()) return;
         CurrentKeyboardState = Keyboard.GetState();
         Key pressedKey = CurrentKeyboardState.GetPressedKeys().ElementAtOrDefault(0);
         bool shift = CurrentKeyboardState.IsKeyDown(Key.LeftShift) || CurrentKeyboardState.IsKeyDown(Key.RightShift);
@@ -220,6 +227,12 @@ public class Viewer : Game
             case Key.D:
                 UpdateMoveCameraLeftRight(gameTime, false, movementSpeed);
                 break;
+            case Key.Q:
+                UpdateMoveCameraUpDown(gameTime, true, movementSpeed);
+                break;
+            case Key.E:
+                UpdateMoveCameraUpDown(gameTime, false, movementSpeed);
+                break;
         }
     }
 
@@ -228,8 +241,8 @@ public class Viewer : Game
         PreviousMouseState = CurrentMouseState;
     }
 
-    // TODO: Check to see if the window is focused before responding to inputs
-    // TODO: Implement support for DSMS inputs
+    // TODO: Implement support for combining W and D to move at a 45 degree offset
+    // TODO: Suppress the Windows modal sound when pressing the Q or E keys
 
     private void UpdateMouseInput()
     {

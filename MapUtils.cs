@@ -14,8 +14,8 @@ public static class MapUtils
 
     public static bool SetMapDependenciesPath(this NavMeshStudio studio)
     {
-        string mapFolderPath = Utils.MoveUpDirectory(Cache.Msb?.Path ?? "", 2);
-        string[] mapDirectories = Directory.GetDirectories(mapFolderPath, Cache.Msb?.Name ?? "", SearchOption.AllDirectories);
+        string mapFolderPath = $"{Utils.GameFolderPath}\\map";
+        string[] mapDirectories = Utils.TryDirectoryGetDirectories(mapFolderPath, Cache.Msb?.Name ?? "");
         MapDependenciesPath = mapDirectories.ElementAtOrDefault(0) ?? "";
         if (Directory.Exists(MapDependenciesPath)) return true;
         Cache.Console.Write($"{Utils.RemoveFileExtensions(Path.GetFileName(Cache.Msb?.Path ?? ""))} has no scene data");

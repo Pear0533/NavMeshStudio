@@ -210,29 +210,32 @@ public class Viewer : Game
     {
         if (!Utils.IsMainWindowFocused()) return;
         CurrentKeyboardState = Keyboard.GetState();
-        Key pressedKey = CurrentKeyboardState.GetPressedKeys().ElementAtOrDefault(0);
+        Key[] pressedKeys = CurrentKeyboardState.GetPressedKeys();
         bool shift = CurrentKeyboardState.IsKeyDown(Key.LeftShift) || CurrentKeyboardState.IsKeyDown(Key.RightShift);
         int movementSpeed = shift ? 200 : 50;
-        switch (pressedKey)
+        foreach (Key key in pressedKeys)
         {
-            case Key.W:
-                UpdateMoveCameraForwardBackward(gameTime, true, movementSpeed);
-                break;
-            case Key.A:
-                UpdateMoveCameraLeftRight(gameTime, true, movementSpeed);
-                break;
-            case Key.S:
-                UpdateMoveCameraForwardBackward(gameTime, false, movementSpeed);
-                break;
-            case Key.D:
-                UpdateMoveCameraLeftRight(gameTime, false, movementSpeed);
-                break;
-            case Key.Q:
-                UpdateMoveCameraUpDown(gameTime, true, movementSpeed);
-                break;
-            case Key.E:
-                UpdateMoveCameraUpDown(gameTime, false, movementSpeed);
-                break;
+            switch (key)
+            {
+                case Key.W:
+                    UpdateMoveCameraForwardBackward(gameTime, true, movementSpeed);
+                    break;
+                case Key.A:
+                    UpdateMoveCameraLeftRight(gameTime, true, movementSpeed);
+                    break;
+                case Key.S:
+                    UpdateMoveCameraForwardBackward(gameTime, false, movementSpeed);
+                    break;
+                case Key.D:
+                    UpdateMoveCameraLeftRight(gameTime, false, movementSpeed);
+                    break;
+                case Key.Q:
+                    UpdateMoveCameraUpDown(gameTime, true, movementSpeed);
+                    break;
+                case Key.E:
+                    UpdateMoveCameraUpDown(gameTime, false, movementSpeed);
+                    break;
+            }
         }
     }
 
@@ -241,7 +244,6 @@ public class Viewer : Game
         PreviousMouseState = CurrentMouseState;
     }
 
-    // TODO: Implement support for combining W and D to move at a 45 degree offset
     // TODO: Suppress the Windows modal sound when pressing the Q or E keys
 
     private void UpdateMouseInput()

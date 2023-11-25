@@ -42,20 +42,20 @@
             sceneGraphGroupBox = new GroupBox();
             sceneGraphTreeView = new TreeView();
             navMeshCollisionEditingGroupBox = new GroupBox();
-            navMeshCollisionEditingListView = new ListView();
+            navMeshEditingPanel = new FlowLayoutPanel();
             splitContainer2 = new SplitContainer();
             viewerGroupBox = new GroupBox();
             viewerOpenMapLabel = new Label();
             viewer = new PictureBox();
             splitContainer3 = new SplitContainer();
             attributesGroupBox = new GroupBox();
+            attributesTreeView = new TreeView();
             splitContainer4 = new SplitContainer();
             consoleGroupBox = new GroupBox();
             panel1 = new Panel();
             consoleTextBox = new RichTextBox();
             statusRibbon = new StatusStrip();
             statusLabel = new ToolStripStatusLabel();
-            attributesTreeView = new TreeView();
             menuRibbon.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -204,7 +204,7 @@
             // 
             // navMeshCollisionEditingGroupBox
             // 
-            navMeshCollisionEditingGroupBox.Controls.Add(navMeshCollisionEditingListView);
+            navMeshCollisionEditingGroupBox.Controls.Add(navMeshEditingPanel);
             navMeshCollisionEditingGroupBox.Dock = DockStyle.Fill;
             navMeshCollisionEditingGroupBox.Location = new Point(0, 0);
             navMeshCollisionEditingGroupBox.Name = "navMeshCollisionEditingGroupBox";
@@ -213,14 +213,17 @@
             navMeshCollisionEditingGroupBox.TabStop = false;
             navMeshCollisionEditingGroupBox.Text = "NavMesh/Collision Editing";
             // 
-            // navMeshCollisionEditingListView
+            // navMeshEditingPanel
             // 
-            navMeshCollisionEditingListView.Dock = DockStyle.Fill;
-            navMeshCollisionEditingListView.Location = new Point(3, 19);
-            navMeshCollisionEditingListView.Name = "navMeshCollisionEditingListView";
-            navMeshCollisionEditingListView.Size = new Size(276, 192);
-            navMeshCollisionEditingListView.TabIndex = 0;
-            navMeshCollisionEditingListView.UseCompatibleStateImageBehavior = false;
+            navMeshEditingPanel.AutoScroll = true;
+            navMeshEditingPanel.BorderStyle = BorderStyle.FixedSingle;
+            navMeshEditingPanel.Dock = DockStyle.Fill;
+            navMeshEditingPanel.FlowDirection = FlowDirection.TopDown;
+            navMeshEditingPanel.Location = new Point(3, 19);
+            navMeshEditingPanel.Name = "navMeshEditingPanel";
+            navMeshEditingPanel.Size = new Size(276, 192);
+            navMeshEditingPanel.TabIndex = 2;
+            navMeshEditingPanel.WrapContents = false;
             // 
             // splitContainer2
             // 
@@ -298,6 +301,14 @@
             attributesGroupBox.TabStop = false;
             attributesGroupBox.Text = "Attributes";
             // 
+            // attributesTreeView
+            // 
+            attributesTreeView.Dock = DockStyle.Fill;
+            attributesTreeView.Location = new Point(3, 19);
+            attributesTreeView.Name = "attributesTreeView";
+            attributesTreeView.Size = new Size(192, 410);
+            attributesTreeView.TabIndex = 0;
+            // 
             // splitContainer4
             // 
             splitContainer4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -364,14 +375,6 @@
             statusLabel.Size = new Size(39, 17);
             statusLabel.Text = "Ready";
             // 
-            // attributesTreeView
-            // 
-            attributesTreeView.Dock = DockStyle.Fill;
-            attributesTreeView.Location = new Point(3, 19);
-            attributesTreeView.Name = "attributesTreeView";
-            attributesTreeView.Size = new Size(192, 410);
-            attributesTreeView.TabIndex = 0;
-            // 
             // NavMeshStudio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -435,7 +438,6 @@
         private GroupBox sceneGraphGroupBox;
         private GroupBox navMeshCollisionEditingGroupBox;
         public TreeView sceneGraphTreeView;
-        private ListView navMeshCollisionEditingListView;
         private SplitContainer splitContainer2;
         private SplitContainer splitContainer3;
         private SplitContainer splitContainer4;
@@ -452,5 +454,6 @@
         public PictureBox viewer;
         public Label viewerOpenMapLabel;
         public TreeView attributesTreeView;
+        public FlowLayoutPanel navMeshEditingPanel;
     }
 }

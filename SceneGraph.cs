@@ -6,6 +6,7 @@ public class SceneGraph
     public readonly List<NVNode> NVNodes = new();
     public readonly List<CLNode> CLNodes = new();
     private readonly TreeView View = new();
+    private NavMeshStudio Studio = null!;
 
     public SceneGraph() { }
 
@@ -25,6 +26,7 @@ public class SceneGraph
     {
         Deselect(NVNodes);
         Deselect(CLNodes);
+        Studio.navMeshEditingPanel.Invoke(Studio.navMeshEditingPanel.Controls.Clear);
         View.Invoke(() => View.SelectedNode = null);
         if (refreshGeo) Cache.Viewer.RefreshGeometry();
     }
@@ -43,7 +45,15 @@ public class SceneGraph
     {
         bool isNodeSelected = node.Facesets.All(i => i.Data.Color == Microsoft.Xna.Framework.Color.Yellow);
         DeselectAll(false);
-        if (!isNodeSelected && node is not MPNode) node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+        if (!isNodeSelected && node is not MPNode)
+        {
+            node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            if (node is CLNode)
+            {
+                Button bakeNavMeshesButton = new() { Text = @"Bake NavMeshes", AutoSize = true };
+                Studio.navMeshEditingPanel.Invoke(() => Studio.navMeshEditingPanel.Controls.Add(bakeNavMeshesButton));
+            }
+        }
         Cache.Viewer.RefreshGeometry();
         View.Invoke(() => View.SelectedNode = isNodeSelected && node.Facesets.Count > 0 ? null : node.View);
         if (node.Facesets.Count == 0) Cache.Console.Write("The selected node contains no geometry");
@@ -64,6 +74,7 @@ public class SceneGraph
 
     private void Populate(NavMeshStudio studio)
     {
+        Studio = studio;
         TreeNode navMeshesRootNode = new("NavMeshes");
         TreeNode collisionsRootNode = new("Collisions");
         TreeNode mapPiecesRootNode = new("Map Pieces");

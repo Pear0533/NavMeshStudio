@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using System.Text;
-using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Color = Microsoft.Xna.Framework.Color;
@@ -10,15 +9,7 @@ namespace NavMeshStudio;
 
 public static class Utils
 {
-    public static readonly string[] SteamFolderPaths =
-    {
-        $"{Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Valve\\Steam", "SteamPath", "")}\\steamapps\\common\\ELDEN RING\\Game",
-        $"{Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", "")}\\steamapps\\common\\ELDEN RING\\Game",
-        $"{Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Valve\\Steam", "InstallPath", "")}\\steamapps\\common\\ELDEN RING\\Game",
-        $"{Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Wow6432Node\\Valve\\Steam", "SteamPath", "")}\\steamapps\\common\\ELDEN RING\\Game"
-    };
     public static string AppRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
-    public static string GameFolderPath = SteamFolderPaths.FirstOrDefault(Directory.Exists) ?? "";
     public static string ResourcesPath = $"{AppRootPath}\\Resources";
 
     public static void RegisterCharacterEncodings()
@@ -69,6 +60,18 @@ public static class Utils
         return JsonConvert.DeserializeObject<JObject>(JsonConvert.SerializeObject(obj));
     }
 
+    public static string[] TryDirectoryGetFolders(string folderPath, string searchPattern, SearchOption searchOption)
+    {
+        try
+        {
+            return Directory.GetDirectories(folderPath, searchPattern, searchOption);
+        }
+        catch
+        {
+            return Array.Empty<string>();
+        }
+    }
+
     public static bool IsMainWindowFocused()
     {
         IntPtr activatedHandle = GetForegroundWindow();
@@ -83,22 +86,4 @@ public static class Utils
 
     [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
     private static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
-
-    /// <summary>
-    ///     Attempts to retrieve all folders from the specified path.
-    /// </summary>
-    /// <param name="folderPath"></param>
-    /// <param name="searchPattern"></param>
-    /// <returns></returns>
-    public static string[] TryDirectoryGetDirectories(string folderPath, string searchPattern = "*.*")
-    {
-        try
-        {
-            return Directory.GetDirectories(folderPath, searchPattern, SearchOption.AllDirectories);
-        }
-        catch
-        {
-            return Array.Empty<string>();
-        }
-    }
 }

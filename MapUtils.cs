@@ -14,11 +14,16 @@ public static class MapUtils
 
     public static bool SetMapDependenciesPath(this NavMeshStudio studio)
     {
-        string mapFolderPath = $"{Utils.GameFolderPath}\\map";
-        string[] mapDirectories = Utils.TryDirectoryGetDirectories(mapFolderPath, Cache.Msb?.Name ?? "");
-        MapDependenciesPath = mapDirectories.ElementAtOrDefault(0) ?? "";
-        if (Directory.Exists(MapDependenciesPath)) return true;
-        Cache.Console.Write($"{Utils.RemoveFileExtensions(Path.GetFileName(Cache.Msb?.Path ?? ""))} has no scene data");
+        string mapFolderPath = Utils.MoveUpDirectory(Cache.Msb?.Path ?? "", 2);
+        string mapName = Utils.RemoveFileExtensions(Path.GetFileName(Cache.Msb?.Path ?? ""));
+        string[] mapDirectories = Utils.TryDirectoryGetFolders(mapFolderPath, Cache.Msb?.Name ?? "", SearchOption.AllDirectories);
+        if (mapDirectories.Length != 0)
+        {
+            MapDependenciesPath = mapDirectories.ElementAtOrDefault(0) ?? "";
+            if (Directory.Exists(MapDependenciesPath)) return true;
+            Cache.Console.Write($"{mapName} has no scene data");
+        }
+        else Cache.Console.Write($"{mapName} isn't in the mapstudio folder");
         studio.ResetStatus();
         return false;
     }

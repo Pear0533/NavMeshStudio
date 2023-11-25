@@ -58,11 +58,6 @@ public static class StudioUtils
         Cache.Console = new Console(studio);
     }
 
-    public static void RegisterAttributes(this NavMeshStudio studio)
-    {
-        Cache.Attributes = new Attributes(studio);
-    }
-
     private static void RunViewer(this NavMeshStudio studio)
     {
         new Thread(() =>

@@ -50,7 +50,14 @@ public class SceneGraph
             node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
             if (node is CLNode)
             {
-                Button bakeNavMeshesButton = new() { Text = @"Bake NavMeshes", AutoSize = true };
+                // TODO: Cleanup
+                Font buttonFont = new(FontFamily.GenericSansSerif, 12, FontStyle.Bold);
+                Button bakeNavMeshesButton = new()
+                {
+                    Text = @"Bake Navmesh",
+                    AutoSize = true,
+                    Font = buttonFont
+                };
                 Studio.navMeshEditingPanel.Invoke(() => Studio.navMeshEditingPanel.Controls.Add(bakeNavMeshesButton));
             }
         }

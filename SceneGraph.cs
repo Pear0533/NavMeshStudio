@@ -51,10 +51,10 @@ public class SceneGraph
             if (node is CLNode)
             {
                 // TODO: Cleanup
-                Font buttonFont = new(FontFamily.GenericSansSerif, 12, FontStyle.Bold);
+                Font buttonFont = new(FontFamily.GenericSansSerif, 10);
                 Button bakeNavMeshesButton = new()
                 {
-                    Text = @"Bake Navmesh",
+                    Text = @"Bake NavMesh",
                     AutoSize = true,
                     Font = buttonFont
                 };

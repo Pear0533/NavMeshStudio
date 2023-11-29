@@ -19,7 +19,7 @@ public class SceneGraph
 
     public static void Deselect<T>(List<T> nodes) where T : GeoNode
     {
-        nodes.ForEach(i => i.Facesets.ForEach(x => x.Data.Color = x.BaseColorData.Color));
+        nodes.ForEach(i => i.DispFacesets.ForEach(x => x.Data.Color = x.BaseColorData.Color));
     }
 
     public void DeselectAll(bool refreshGeo = true)
@@ -43,27 +43,21 @@ public class SceneGraph
 
     public void Select(GeoNode node)
     {
-        bool isNodeSelected = node.Facesets.All(i => i.Data.Color == Microsoft.Xna.Framework.Color.Yellow);
+        bool isNodeSelected = node.DispFacesets.All(i => i.Data.Color == Microsoft.Xna.Framework.Color.Yellow);
         DeselectAll(false);
         if (!isNodeSelected && node is not MPNode)
         {
-            node.Facesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
-            if (node is CLNode)
+            node.DispFacesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
+            if (node is CLNode clNode)
             {
-                // TODO: Cleanup
-                Font buttonFont = new(FontFamily.GenericSansSerif, 10);
-                Button bakeNavMeshesButton = new()
-                {
-                    Text = @"Bake NavMesh",
-                    AutoSize = true,
-                    Font = buttonFont
-                };
+                Button bakeNavMeshesButton = new() { Text = @"Bake NavMeshes", AutoSize = true };
+                bakeNavMeshesButton.Click += (_, _) => NavMeshUtils.BakeNavMeshes(clNode);
                 Studio.navMeshEditingPanel.Invoke(() => Studio.navMeshEditingPanel.Controls.Add(bakeNavMeshesButton));
             }
         }
         Cache.Viewer.RefreshGeometry();
-        View.Invoke(() => View.SelectedNode = isNodeSelected && node.Facesets.Count > 0 ? null : node.View);
-        if (node.Facesets.Count == 0) Cache.Console.Write("The selected node contains no geometry");
+        View.Invoke(() => View.SelectedNode = isNodeSelected && node.DispFacesets.Count > 0 ? null : node.View);
+        if (node.DispFacesets.Count == 0) Cache.Console.Write("The selected node contains no geometry");
     }
 
     private void RegisterSceneGraphEvents()

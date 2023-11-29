@@ -315,8 +315,8 @@ public class Viewer : Game
     {
         nodes.ForEach(i =>
         {
-            Vertices.AddRange(i.Vertices);
-            Facesets.AddRange(i.Facesets);
+            Vertices.AddRange(i.DispVertices);
+            Facesets.AddRange(i.DispFacesets);
         });
     }
 

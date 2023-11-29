@@ -5,8 +5,11 @@ namespace NavMeshStudio;
 
 public abstract class GeoNode : GraphNode
 {
-    public List<GeoElement> Facesets = new();
-    public List<GeoElement> Vertices = new();
+    public List<GeoElement> DispFacesets = new();
+    public List<GeoElement> DispVertices = new();
+    // TODO: Navmeshes and map pieces
+    public List<Vector3> Vertices = new();
+    public List<int> Facesets = new();
 
     protected void AddVertices(Vector3[] vertices, Color facesetColor, bool generateFacesets = true)
     {
@@ -21,13 +24,13 @@ public abstract class GeoNode : GraphNode
         vertices[0].FlipYZ();
         vertices[1].FlipYZ();
         vertices[2].FlipYZ();
-        Vertices.AddRange(Utils3D.GetVertices(vertices, Color.Black));
-        if (generateFacesets) Facesets.AddRange(Utils3D.GetFacesets(vertices, facesetColor));
+        DispVertices.AddRange(Utils3D.GetVertices(vertices, Color.Black));
+        if (generateFacesets) DispFacesets.AddRange(Utils3D.GetFacesets(vertices, facesetColor));
     }
 
     public List<Vector3> GetVertexPositions()
     {
-        return Vertices.Select(i => i.Data.Position).ToList();
+        return DispVertices.Select(i => i.Data.Position).ToList();
     }
 
     protected virtual void Process()

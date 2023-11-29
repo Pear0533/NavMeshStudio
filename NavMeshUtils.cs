@@ -8,6 +8,16 @@ namespace NavMeshStudio;
 
 public class NavMeshUtils
 {
+    public static void BakeNavMeshes(CLNode node)
+    {
+        hkaiNavMeshBuilder builder = new();
+        hkaiNavMeshBuilder.BuildParams buildParams = hkaiNavMeshBuilder.BuildParams.DefaultParams();
+        List<Vector3> vertices = node.Vertices.Select(i => i.ToNumerics()).ToList();
+        // TODO: For some reason navmesh building doesn't work for some collisions, needs investigation
+        hkaiNavMesh navMesh = builder.BuildNavmesh(buildParams, vertices, node.Facesets).GetNavMesh();
+        System.Console.WriteLine(navMesh);
+    }
+
     public static async Task ReadNavMeshGeometry(NavMeshStudio studio)
     {
         Cache.NvmHktBnd = MapUtils.GetDependencyFile<FromSoftFile<BND4>>($"{Cache.Msb?.Name}.nvmhktbnd.dcx");

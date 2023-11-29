@@ -85,5 +85,7 @@ public sealed class CLNode : GeoNode
             Vector3 vert3 = vertices[indices[i + 2]];
             AddVertices(new[] { vert1, vert2, vert3 }, facesetColor);
         }
+        Vertices.AddRange(vertices);
+        Facesets.AddRange(indices);
     }
 }

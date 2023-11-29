@@ -11,6 +11,11 @@ public static class HavokUtils
         return container.m_namedVariants.ElementAtOrDefault(index)?.m_variant ?? new hkReferencedObject();
     }
 
+    public static hkaiNavMesh GetNavMesh(this hkRootLevelContainer container)
+    {
+        return (hkaiNavMesh)container.GetReferencedObject(0);
+    }
+
     public static hknpBodyCinfo GetBodyCollisionInfo(this hkRootLevelContainer container, int index)
     {
         hkReferencedObject sceneData = GetReferencedObject(container, 0);

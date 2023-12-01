@@ -67,10 +67,10 @@ public static class StudioUtils
             if (!Cache.Viewer.IsInitialized)
             {
                 Cache.Viewer = new Viewer(studio);
-                Cache.Viewer.BuildGeometry(studio);
+                Cache.Viewer.RefreshGeometry(true);
                 Cache.Viewer.Run();
             }
-            else Cache.Viewer.BuildGeometry(studio);
+            else Cache.Viewer.RefreshGeometry(true);
         }).Start();
         if (!Cache.Viewer.IsInitialized)
             Cache.Console.Write("Started main thread for viewer");

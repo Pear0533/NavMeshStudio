@@ -38,14 +38,16 @@ public class Viewer : Game
     private Texture2D ViewerBGTexture = null!;
     private PictureBox ViewerPictureBox = null!;
     public Form ViewerWindow = null!;
+    private readonly NavMeshStudio Studio = null!;
 
     public Viewer() { }
 
     public Viewer(NavMeshStudio studio)
     {
-        ConfigureViewerSettings(studio);
+        Studio = studio;
+        ConfigureViewerSettings();
         InitializeGraphicsManager();
-        RegisterViewerEvents(studio);
+        RegisterViewerEvents();
     }
 
     private void InitializeGraphicsManager()
@@ -53,39 +55,33 @@ public class Viewer : Game
         GraphicsManager = new GraphicsDeviceManager(this);
     }
 
-    private void RegisterViewerEvents(NavMeshStudio studio)
+    private void RegisterViewerEvents()
     {
         GraphicsManager.PreparingDeviceSettings += (_, e) =>
         {
             e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = DrawSurface;
-            IsFocused = studio.viewer.Invoke(() => Utils.IsMouseOverControl(studio.viewer));
+            IsFocused = Studio.viewer.Invoke(() => Utils.IsMouseOverControl(Studio.viewer));
         };
-        studio.viewer.MouseEnter += (_, _) => IsFocused = true;
-        studio.viewer.MouseLeave += (_, _) => IsFocused = false;
-        ViewerPictureBox = studio.viewer;
+        Studio.viewer.MouseEnter += (_, _) => IsFocused = true;
+        Studio.viewer.MouseLeave += (_, _) => IsFocused = false;
+        ViewerPictureBox = Studio.viewer;
         ViewerWindow = (Control.FromHandle(Window.Handle) as Form)!;
         ViewerWindow.Opacity = 0;
     }
 
-    private void ConfigureViewerSettings(NavMeshStudio studio)
+    private void ConfigureViewerSettings()
     {
         Window.Title = "NavMesh Viewer";
         Window.AllowUserResizing = true;
         IsMouseVisible = true;
         Content.RootDirectory = "Content";
-        studio.viewer.Invoke(() => DrawSurface = studio.viewer.Handle);
+        Studio.viewer.Invoke(() => DrawSurface = Studio.viewer.Handle);
     }
 
     private void InitializeBasicEffect()
     {
         BasicEffect = new BasicEffect(GraphicsDevice);
         BasicEffect.VertexColorEnabled = true;
-    }
-
-    public void RefreshGeometry()
-    {
-        // TODO: Improve performance
-        FacesetBuffer.SetData(Facesets.Select(i => i.Data).ToArray());
     }
 
     public void RefreshPrimitiveBuffers()
@@ -320,20 +316,28 @@ public class Viewer : Game
         });
     }
 
-    public void BuildGeometry(NavMeshStudio studio)
+    public void RefreshGeometry(bool hardRefresh = false)
     {
-        Vertices.Clear();
-        Facesets.Clear();
-        studio.Invoke(() => studio.UpdateStatus("Rendering scene data..."));
-        AddNodesGeometry(Cache.SceneGraph.NVNodes);
-        AddNodesGeometry(Cache.SceneGraph.CLNodes);
-        AddNodesGeometry(Cache.SceneGraph.MPNodes);
-        Indices = Utils3D.GetIndices(Vertices);
-        if (IsInitialized) RefreshPrimitiveBuffers();
-        else IsInitialized = true;
-        studio.viewerOpenMapLabel.Invoke(() => studio.viewerOpenMapLabel.Visible = false);
-        studio.Invoke(studio.ResetStatus);
-        studio.Invoke(() => studio.ToggleOpenFileMenuOption(true));
-        studio.Invoke(() => studio.ToggleSaveAsFileMenuOption(true));
+        if (hardRefresh)
+        {
+            Vertices.Clear();
+            Facesets.Clear();
+            Studio.Invoke(() => Studio.UpdateStatus("Rendering scene data..."));
+            AddNodesGeometry(Cache.SceneGraph.NVNodes);
+            AddNodesGeometry(Cache.SceneGraph.CLNodes);
+            AddNodesGeometry(Cache.SceneGraph.MPNodes);
+            Indices = Utils3D.GetIndices(Vertices);
+            if (IsInitialized) RefreshPrimitiveBuffers();
+            else IsInitialized = true;
+            Studio.viewerOpenMapLabel.Invoke(() => Studio.viewerOpenMapLabel.Visible = false);
+            Studio.Invoke(Studio.ResetStatus);
+            Studio.Invoke(() => Studio.ToggleOpenFileMenuOption(true));
+            Studio.Invoke(() => Studio.ToggleSaveAsFileMenuOption(true));
+        }
+        else
+        {
+            // TODO: Improve performance
+            FacesetBuffer.SetData(Facesets.Select(i => i.Data).ToArray());
+        }
     }
 }

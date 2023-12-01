@@ -6,16 +6,28 @@ using static NavMeshStudio.Utils;
 
 namespace NavMeshStudio;
 
-public class NavMeshUtils
+public static class NavMeshUtils
 {
+    private static void AddNavMeshDataToMap(hkRootLevelContainer container, bool updateSceneGraph = true)
+    {
+        hkReferencedObject navMesh = container.GetReferencedObject(0);
+        hkReferencedObject queryMediator = container.GetReferencedObject(1);
+        hkReferencedObject userEdgeSetup = container.GetReferencedObject(2);
+        if (navMesh is not hkaiNavMesh mesh) return;
+        Cache.NavMeshes.Add(mesh);
+        Cache.QueryMediators.Add(queryMediator);
+        Cache.UserEdgeSetups.Add(userEdgeSetup);
+        if (updateSceneGraph) Cache.SceneGraph.MapNVNode(mesh);
+    }
+
     public static void BakeNavMeshes(CLNode node)
     {
         hkaiNavMeshBuilder builder = new();
         hkaiNavMeshBuilder.BuildParams buildParams = hkaiNavMeshBuilder.BuildParams.DefaultParams();
         List<Vector3> vertices = node.Vertices.Select(i => i.ToNumerics()).ToList();
         // TODO: For some reason navmesh building doesn't work for some collisions, needs investigation
-        hkaiNavMesh navMesh = builder.BuildNavmesh(buildParams, vertices, node.Facesets).GetNavMesh();
-        System.Console.WriteLine(navMesh);
+        hkRootLevelContainer container = builder.BuildNavmesh(buildParams, vertices, node.Facesets);
+        AddNavMeshDataToMap(container);
     }
 
     public static async Task ReadNavMeshGeometry(NavMeshStudio studio)
@@ -33,13 +45,7 @@ public class NavMeshUtils
             foreach (BinderFile file in Cache.NvmHktBnd.Data.Files)
             {
                 hkRootLevelContainer container = serializer.GetRootLevelContainer(file.Bytes);
-                hkReferencedObject navMesh = container.GetReferencedObject(0);
-                hkReferencedObject queryMediator = container.GetReferencedObject(1);
-                hkReferencedObject userEdgeSetup = container.GetReferencedObject(2);
-                if (navMesh is not hkaiNavMesh mesh) continue;
-                Cache.NavMeshes.Add(mesh);
-                Cache.QueryMediators.Add(queryMediator);
-                Cache.UserEdgeSetups.Add(userEdgeSetup);
+                AddNavMeshDataToMap(container, false);
             }
         });
     }

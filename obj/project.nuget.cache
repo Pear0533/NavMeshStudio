@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0Q5AbbXJTag5bg0J3spVx26ocEZvp3c5iF69sTkIPU4a12GPkXda3DJ98LTvczOb7B1hPQ5twRzeEmqtMPligA==",
+  "dgSpecHash": "SLAqbMqqN5f6WqgMKgoZyNXTLeF4MT06d5bhA8oAdcYYG9YpydLytDy021hVMwWxHNRD+220rw/uq1PUgZji6A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Isaac Fisher\\Downloads\\NavMeshStudio\\NavMeshStudio.csproj",
+  "projectFilePath": "C:\\Users\\Isaac Fisher\\Downloads\\Syncthing Shared\\Game Mods & Tools\\Tools\\FromSoftware\\Repositories\\Active\\NavMeshStudio\\NavMeshStudio.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Isaac Fisher\\.nuget\\packages\\libuv\\1.9.1\\libuv.1.9.1.nupkg.sha512",
     "C:\\Users\\Isaac Fisher\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\1.1.0\\microsoft.codeanalysis.analyzers.1.1.0.nupkg.sha512",

@@ -1,4 +1,6 @@
-﻿namespace NavMeshStudio;
+﻿using HKLib.hk2018;
+
+namespace NavMeshStudio;
 
 public class SceneGraph
 {
@@ -6,15 +8,17 @@ public class SceneGraph
     public readonly List<NVNode> NVNodes = new();
     public readonly List<CLNode> CLNodes = new();
     private readonly TreeView View = new();
-    private NavMeshStudio Studio = null!;
+    // TODO: Store the Studio instance in Cache
+    private readonly NavMeshStudio Studio = null!;
 
     public SceneGraph() { }
 
     public SceneGraph(NavMeshStudio studio)
     {
         View = studio.sceneGraphTreeView;
+        Studio = studio;
         RegisterSceneGraphEvents();
-        Populate(studio);
+        Populate();
     }
 
     public static void Deselect<T>(List<T> nodes) where T : GeoNode
@@ -71,19 +75,27 @@ public class SceneGraph
         };
     }
 
+    public void MapNVNode(hkaiNavMesh mesh)
+    {
+        NVNodes.Add(new NVNode(NVNodes.Count, mesh));
+        // TODO: Store the name of the root node into a constant variable
+        TreeNode? root = View.Nodes.Cast<TreeNode>().ToList().Find(i => i.Text == @"NavMeshes");
+        root?.Populate(new List<NVNode> { NVNodes[^1] });
+        Cache.Viewer.RefreshGeometry(true);
+    }
+
     // TODO: Improve performance when reading collisions/map pieces
 
-    private void Populate(NavMeshStudio studio)
+    private void Populate()
     {
-        Studio = studio;
         TreeNode navMeshesRootNode = new("NavMeshes");
         TreeNode collisionsRootNode = new("Collisions");
         TreeNode mapPiecesRootNode = new("Map Pieces");
         Cache.NavMeshes.ForEach(i => NVNodes.Add(new NVNode(NVNodes.Count, i)));
         Cache.Collisions.ForEach(i => CLNodes.Add(new CLNode(i.m_name ?? "", i)));
-        studio.Invoke(() => studio.UpdateStatus("Reading map piece geometry..."));
+        Studio.Invoke(() => Studio.UpdateStatus("Reading map piece geometry..."));
         Cache.MapPieces.ForEach(i => MPNodes.Add(new MPNode(i)));
-        studio.Invoke(studio.ResetStatus);
+        Studio.Invoke(Studio.ResetStatus);
         View.Invoke(View.Nodes.Clear);
         navMeshesRootNode.Populate(NVNodes);
         collisionsRootNode.Populate(CLNodes);

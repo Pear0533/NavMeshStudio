@@ -7265,11 +7265,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Isaac Fisher\\Downloads\\NavMeshStudio\\NavMeshStudio.csproj",
+      "projectUniqueName": "C:\\Users\\Isaac Fisher\\Downloads\\Syncthing Shared\\Game Mods & Tools\\Tools\\FromSoftware\\Repositories\\Active\\NavMeshStudio\\NavMeshStudio.csproj",
       "projectName": "NavMeshStudio",
-      "projectPath": "C:\\Users\\Isaac Fisher\\Downloads\\NavMeshStudio\\NavMeshStudio.csproj",
+      "projectPath": "C:\\Users\\Isaac Fisher\\Downloads\\Syncthing Shared\\Game Mods & Tools\\Tools\\FromSoftware\\Repositories\\Active\\NavMeshStudio\\NavMeshStudio.csproj",
       "packagesPath": "C:\\Users\\Isaac Fisher\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Isaac Fisher\\Downloads\\NavMeshStudio\\obj\\",
+      "outputPath": "C:\\Users\\Isaac Fisher\\Downloads\\Syncthing Shared\\Game Mods & Tools\\Tools\\FromSoftware\\Repositories\\Active\\NavMeshStudio\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Isaac Fisher\\AppData\\Roaming\\NuGet\\NuGet.Config",

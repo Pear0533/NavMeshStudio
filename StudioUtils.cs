@@ -1,4 +1,5 @@
-﻿using HKLib.Serialization.hk2018.Binary;
+﻿using HKLib.hk2018;
+using HKLib.Serialization.hk2018.Binary;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SoulsFormats;
@@ -105,20 +106,34 @@ public static class StudioUtils
         return await NavMeshUtils.GenerateNvmJson();
     }
 
+    // TODO: Cleanup
+
     private static async Task SaveNvmHktBnd(this NavMeshStudio studio, FileDialog dialog)
     {
         UpdateStatus(studio, "Saving nvmhktbnd to file...");
         HavokBinarySerializer serializer = new();
         await Task.Run(() =>
         {
-            for (int i = 0; i < Cache.NvmHktBnd?.Data.Files.Count; i++)
+            BND4 bnd = new();
+            for (int i = 0; i < Cache.NavMeshes.Count; i++)
             {
-                BinderFile file = Cache.NvmHktBnd.Data.Files[i];
+                hkaiNavMesh mesh = Cache.NavMeshes[i];
+                BinderFile file = new();
+                hkRootLevelContainer container = new();
+                hkRootLevelContainer.NamedVariant namedVariant = new()
+                {
+                    m_name = "hkaiNavMesh",
+                    m_className = "hkaiNavMesh",
+                    m_variant = mesh
+                };
+                container.m_namedVariants.Add(namedVariant);
                 MemoryStream stream = new();
-                serializer.Write(Cache.NavMeshes[i], stream);
+                serializer.Write(container, stream);
+                file.Name = $"{i + 1}.hkx";
                 file.Bytes = stream.ToArray();
+                bnd.Files.Add(file);
             }
-            Cache.NvmHktBnd?.Data.Write(dialog.FileName);
+            bnd.Write(dialog.FileName);
         });
     }
 

@@ -20,7 +20,7 @@ public static class NavMeshUtils
         if (updateSceneGraph) Cache.SceneGraph.MapNVNode(mesh);
     }
 
-    public static void BakeNavMeshes(CLNode node)
+    public static void BakeNavMesh(CLNode node)
     {
         hkaiNavMeshBuilder builder = new();
         hkaiNavMeshBuilder.BuildParams buildParams = hkaiNavMeshBuilder.BuildParams.DefaultParams();

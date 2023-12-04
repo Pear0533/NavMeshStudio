@@ -54,9 +54,9 @@ public class SceneGraph
             node.DispFacesets.ForEach(i => i.Data.Color = Microsoft.Xna.Framework.Color.Yellow);
             if (node is CLNode clNode)
             {
-                Button bakeNavMeshesButton = new() { Text = @"Bake NavMeshes", AutoSize = true };
-                bakeNavMeshesButton.Click += (_, _) => NavMeshUtils.BakeNavMeshes(clNode);
-                Studio.navMeshEditingPanel.Invoke(() => Studio.navMeshEditingPanel.Controls.Add(bakeNavMeshesButton));
+                Button bakeNavMeshButton = new() { Text = @"Bake NavMesh", AutoSize = true };
+                bakeNavMeshButton.Click += (_, _) => NavMeshUtils.BakeNavMesh(clNode);
+                Studio.navMeshEditingPanel.Invoke(() => Studio.navMeshEditingPanel.Controls.Add(bakeNavMeshButton));
             }
         }
         Cache.Viewer.RefreshGeometry();

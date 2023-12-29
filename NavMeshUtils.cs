@@ -20,13 +20,18 @@ public static class NavMeshUtils
         if (updateSceneGraph) Cache.SceneGraph.MapNVNode(mesh);
     }
 
-    public static void BakeNavMesh(CLNode node)
+    public static async Task BakeNavMesh(NavMeshStudio studio, CLNode node)
     {
-        hkaiNavMeshBuilder builder = new();
-        hkaiNavMeshBuilder.BuildParams buildParams = hkaiNavMeshBuilder.BuildParams.DefaultParams();
-        List<Vector3> vertices = node.Vertices.Select(i => i.ToNumerics()).ToList();
-        // TODO: For some reason navmesh building doesn't work for some collisions, needs investigation
-        hkRootLevelContainer container = builder.BuildNavmesh(buildParams, vertices, node.Facesets);
+        hkRootLevelContainer container = new();
+        await Task.Run(() =>
+        {
+            hkaiNavMeshBuilder builder = new();
+            hkaiNavMeshBuilder.BuildParams buildParams = hkaiNavMeshBuilder.BuildParams.DefaultParams();
+            List<Vector3> vertices = node.Vertices.Select(i => i.ToNumerics()).ToList();
+            studio.UpdateStatus($"Building navmesh for {node.Name}...");
+            // TODO: For some reason navmesh building doesn't work for some collisions, needs investigation
+            container = builder.BuildNavmesh(buildParams, vertices, node.Facesets);
+        });
         AddNavMeshDataToMap(container);
     }
 

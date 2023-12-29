@@ -144,6 +144,7 @@ public class Viewer : Game
             {
                 List<Microsoft.Xna.Framework.Vector3> group = vertices.GetRange(i, 6);
                 List<Microsoft.Xna.Framework.Vector3> tri = group.Distinct().ToList();
+                if (tri.Count < 3) continue;
                 if (!Utils3D.RayIntersectsTriangle(ray, tri, out Microsoft.Xna.Framework.Vector3 intersection)) continue;
                 float distance = Microsoft.Xna.Framework.Vector3.Distance(ray.Position, intersection);
                 intersectedNodes.Add((node, distance));
@@ -153,7 +154,7 @@ public class Viewer : Game
         {
             intersectedNodes.Sort((a, b) => a.distance.CompareTo(b.distance));
             GeoNode closestIntersectedNode = intersectedNodes[0].node;
-            Cache.SceneGraph.Select(closestIntersectedNode);
+            Cache.SceneGraph.Select(Studio, closestIntersectedNode);
         }
         else Cache.SceneGraph.DeselectAll();
     }
@@ -259,8 +260,8 @@ public class Viewer : Game
 
     protected override void Update(GameTime gameTime)
     {
-        UpdateKeyboardInput(gameTime);
         if (!IsFocused) return;
+        UpdateKeyboardInput(gameTime);
         UpdateMouseInput();
         base.Update(gameTime);
     }

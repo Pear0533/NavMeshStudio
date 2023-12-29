@@ -90,8 +90,9 @@ public static class StudioUtils
         Cache.Console.Write($"Read {Cache.Msb?.Path}");
         if (!studio.SetMapDependenciesPath()) return;
         Cache.Clear();
-        ToggleOpenFileMenuOption(studio);
-        ToggleSaveAsFileMenuOption(studio);
+        // TODO: Determine a way to automatically invoke UI operations
+        studio.Invoke(() => ToggleOpenFileMenuOption(studio));
+        studio.Invoke(() => ToggleSaveAsFileMenuOption(studio));
         SetWindowTitleFilePath(studio, Cache.Msb?.Path!);
         await NavMeshUtils.ReadNavMeshGeometry(studio);
         await CollisionUtils.ReadCollisionGeometry(studio);

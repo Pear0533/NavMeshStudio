@@ -45,7 +45,7 @@ public class SceneGraph
         return action is TreeViewAction.ByKeyboard;
     }
 
-    public void Select(GeoNode node)
+    public void Select(NavMeshStudio studio, GeoNode node)
     {
         bool isNodeSelected = node.DispFacesets.All(i => i.Data.Color == Microsoft.Xna.Framework.Color.Yellow);
         DeselectAll(false);
@@ -55,7 +55,7 @@ public class SceneGraph
             if (node is CLNode clNode)
             {
                 Button bakeNavMeshButton = new() { Text = @"Bake NavMesh", AutoSize = true };
-                bakeNavMeshButton.Click += (_, _) => NavMeshUtils.BakeNavMesh(clNode);
+                bakeNavMeshButton.Click += async (_, _) => await NavMeshUtils.BakeNavMesh(studio, clNode);
                 Studio.navMeshEditingPanel.Invoke(() => Studio.navMeshEditingPanel.Controls.Add(bakeNavMeshButton));
             }
         }
@@ -71,7 +71,7 @@ public class SceneGraph
             if (!IsActionByMouse(e.Action) && !IsActionByKeyboard(e.Action)) return;
             if (e.Node?.Tag == null) return;
             GeoNode node = (GeoNode)e.Node.Tag;
-            Select(node);
+            Select(Studio, node);
         };
     }
 

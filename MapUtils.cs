@@ -8,8 +8,15 @@ public static class MapUtils
 
     public static FLVER2 ReadFLVERFromBND(string bndFilePath)
     {
-        BinderFile? flverBinderFile = BND4.Read(bndFilePath).Files.Find(i => i.Name.EndsWith(".flver"));
-        return flverBinderFile == null ? new FLVER2() : FLVER2.Read(flverBinderFile.Bytes);
+        try
+        {
+            BinderFile? flverBinderFile = BND4.Read(bndFilePath).Files.Find(i => i.Name.EndsWith(".flver"));
+            return flverBinderFile == null ? new FLVER2() : FLVER2.Read(flverBinderFile.Bytes);
+        }
+        catch
+        {
+            return new FLVER2();
+        }
     }
 
     public static bool SetMapDependenciesPath(this NavMeshStudio studio)

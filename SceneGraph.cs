@@ -60,7 +60,11 @@ public class SceneGraph
             }
         }
         Cache.Viewer.RefreshGeometry();
-        View.Invoke(() => View.SelectedNode = isNodeSelected && node.DispFacesets.Count > 0 ? null : node.View);
+        View.Invoke(() =>
+        {
+            View.SelectedNode = isNodeSelected && node.DispFacesets.Count > 0 ? null : node.View;
+            View.Select();
+        });
         if (node.DispFacesets.Count == 0) Cache.Console.Write("The selected node contains no geometry");
     }
 
